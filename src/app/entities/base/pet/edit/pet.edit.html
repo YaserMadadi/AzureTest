@@ -1,0 +1,148 @@
+<!-- Edit Form of [Base].[Pet] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Pet")'
+           (onClosed)='closed(false)'>
+   <form #petEditUI='ngForm'
+         (ngSubmit)='Save(petEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Client -->
+         <div class='mb-3'>
+            <lookup #client
+                    required
+                    name='client'
+                    label='Client : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='clientLinker.list$ | async'
+                    [locked]='clientLinker.locked'
+                    [filterable]='clientLinker.filterable'
+                    [(ngModel)]='currentInstance.client'
+                    [(selectedItem)]='currentInstance.client'
+                    (onSeek)='clientLinker.onSeek($event)'
+                    (onReload)='clientLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Name -->
+         <div class='form-floating mb-3'>
+            <input #name
+                   required
+                   id='name'
+                   name='name'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.name' />
+            <label for='name'>Name</label>
+         </div>
+         <!-- Gender -->
+         <div class='mb-3'>
+            <lookup #gender
+                    required
+                    name='gender'
+                    label='Gender : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='genderLinker.list$ | async'
+                    [locked]='genderLinker.locked'
+                    [filterable]='genderLinker.filterable'
+                    [(ngModel)]='currentInstance.gender'
+                    [(selectedItem)]='currentInstance.gender'
+                    (onSeek)='genderLinker.onSeek($event)'
+                    (onReload)='genderLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Breed -->
+         <div class='form-floating mb-3'>
+            <input #breed
+                   required
+                   id='breed'
+                   name='breed'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.breed' />
+            <label for='breed'>Breed</label>
+         </div>
+         <!-- Weight -->
+         <div class='form-floating mb-3'>
+            <input #weight
+                   required
+                   id='weight'
+                   name='weight'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.weight' />
+            <label for='weight'>Weight</label>
+         </div>
+         <!-- Weight Unit -->
+         <div class='mb-3'>
+            <lookup #weightUnit
+                    required
+                    name='weightUnit'
+                    label='Weight Unit : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='weightUnitLinker.list$ | async'
+                    [locked]='weightUnitLinker.locked'
+                    [filterable]='weightUnitLinker.filterable'
+                    [(ngModel)]='currentInstance.weightUnit'
+                    [(selectedItem)]='currentInstance.weightUnit'
+                    (onSeek)='weightUnitLinker.onSeek($event)'
+                    (onReload)='weightUnitLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Color -->
+         <div class='form-floating mb-3'>
+            <input #color
+                   required
+                   id='color'
+                   name='color'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.color' />
+            <label for='color'>Color</label>
+         </div>
+         <!-- DateOfBirth -->
+         <!-- <div class='form-floating mb-3'>
+                <input #dateOfBirth
+                   required
+                    id='dateOfBirth'
+                   name='dateOfBirth'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.dateOfBirth' />
+                <label for='dateOfBirth'>Date Of Birth</label>
+            </div> -->
+         <!-- ProfilePicture -->
+         <div class='form-floating mb-3'>
+            <input #profilePicture
+                   required
+                   id='profilePicture'
+                   name='profilePicture'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.profilePicture' />
+            <label for='profilePicture'>Profile Picture</label>
+         </div>
+         <!-- IsActive -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsActive'
+                   name='IsActive'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isActive' />
+            <label class='form-check-label'
+                   for='IsActive'>
+               Is Active
+            </label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!petEditUI.valid'
+                 (onSave)='Save(petEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

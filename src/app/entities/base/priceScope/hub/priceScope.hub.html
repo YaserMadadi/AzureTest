@@ -1,0 +1,79 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Price Scope'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(priceScopeEditUI)'
+                              (editButtonClick)='editRecord(priceScopeEditUI)'
+                              (deleteButtonClick)='deleteRecord(priceScopeDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(priceScope of list$ | async; track priceScope; let i = $index) {
+                        <tr (click)='onSelect(priceScope)'
+                            (dblclick)='onDoubleClick(priceScopeEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == priceScope.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ priceScope.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='priceScope.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/priceScope'
+                                             (onEdit)='editRecord(priceScopeEditUI, priceScope)'
+                                             [id]='priceScope.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-priceScope-edit #priceScopeEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-priceScope-delete #priceScopeDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-servicePrice-edit #servicePriceEditUI
+                        [priceScopeLocked]='true' />

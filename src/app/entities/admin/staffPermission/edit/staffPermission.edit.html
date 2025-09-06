@@ -1,0 +1,127 @@
+<!-- Edit Form of [Admin].[StaffPermission] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Staff Permission")'
+           (onClosed)='closed(false)'>
+    <form #staffPermissionEditUI='ngForm'
+          (ngSubmit)='Save(staffPermissionEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Staff -->
+            <div class='mb-3'>
+                <lookup #staff
+                        required
+                        name='staff'
+                        label='Staff : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='staffLinker.list$ | async'
+                        [locked]='staffLinker.locked'
+                        [filterable]='staffLinker.filterable'
+                        [(ngModel)]='currentInstance.staff'
+                        [(selectedItem)]='currentInstance.staff'
+                        (onSeek)='staffLinker.onSeek($event)'
+                        (onReload)='staffLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Entity -->
+            <div class='mb-3'>
+                <lookup #entity
+                        required
+                        name='entity'
+                        label='Entity : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='entityLinker.list$ | async'
+                        [locked]='entityLinker.locked'
+                        [filterable]='entityLinker.filterable'
+                        [(ngModel)]='currentInstance.entity'
+                        [(selectedItem)]='currentInstance.entity'
+                        (onSeek)='entityLinker.onSeek($event)'
+                        (onReload)='entityLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- AddPermission -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='AddPermission'
+                       name='AddPermission'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.addPermission' />
+                <label class='form-check-label'
+                       for='AddPermission'>
+                    Add Permission
+                </label>
+            </div>
+            <!-- EditPermission -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='EditPermission'
+                       name='EditPermission'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.editPermission' />
+                <label class='form-check-label'
+                       for='EditPermission'>
+                    Edit Permission
+                </label>
+            </div>
+            <!-- DeletePermission -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='DeletePermission'
+                       name='DeletePermission'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.deletePermission' />
+                <label class='form-check-label'
+                       for='DeletePermission'>
+                    Delete Permission
+                </label>
+            </div>
+            <!-- ViewPermission -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='ViewPermission'
+                       name='ViewPermission'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.viewPermission' />
+                <label class='form-check-label'
+                       for='ViewPermission'>
+                    View Permission
+                </label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!staffPermissionEditUI.valid'
+                  (onSave)='Save(staffPermissionEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

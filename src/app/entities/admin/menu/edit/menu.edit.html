@@ -1,0 +1,80 @@
+<!-- Edit Form of [Admin].[Menu] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Menu")'
+           (onClosed)='closed(false)'>
+    <form #menuEditUI='ngForm'
+          (ngSubmit)='Save(menuEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- User Type -->
+            <div class='mb-3'>
+                <lookup #userType
+                        required
+                        name='userType'
+                        label='User Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='userTypeLinker.list$ | async'
+                        [locked]='userTypeLinker.locked'
+                        [filterable]='userTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.userType'
+                        [(selectedItem)]='currentInstance.userType'
+                        (onSeek)='userTypeLinker.onSeek($event)'
+                        (onReload)='userTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- Icon -->
+            <div class='form-floating mb-3'>
+                <input #icon
+                       required
+                       id='icon'
+                       name='icon'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.icon' />
+                <label for='icon'>Icon</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!menuEditUI.valid'
+                  (onSave)='Save(menuEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

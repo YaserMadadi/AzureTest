@@ -1,0 +1,104 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Booking Service'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(bookingServiceEditUI)'
+                              (editButtonClick)='editRecord(bookingServiceEditUI)'
+                              (deleteButtonClick)='deleteRecord(bookingServiceDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Booking</th>
+						<th>Provider Service</th>
+						<th>Amount</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='bookingLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='bookingLinker.filterable'
+                                        [(ngModel)]='filterInstance.booking'
+                                        [(selectedItem)]='filterInstance.booking'
+                                        (onSeek)='bookingLinker.onSeek($event)'
+                                        (onInit)='bookingLinker.onInit($event)'
+										(onReload)='bookingLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='providerServiceLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='providerServiceLinker.filterable'
+                                        [(ngModel)]='filterInstance.providerService'
+                                        [(selectedItem)]='filterInstance.providerService'
+                                        (onSeek)='providerServiceLinker.onSeek($event)'
+                                        (onInit)='providerServiceLinker.onInit($event)'
+										(onReload)='providerServiceLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.amount'
+                                       (input)='onSeek()'
+                                       placeholder='Search Amount' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(bookingService of list$ | async; track bookingService; let i = $index) {
+                        <tr (click)='onSelect(bookingService)'
+                            (dblclick)='onDoubleClick(bookingServiceEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == bookingService.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ bookingService.booking?.descriptor }}</td>
+							<td>{{ bookingService.providerService?.descriptor }}</td>
+							<td>{{ bookingService.amount }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='bookingService.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/bookingService'
+                                             (onEdit)='editRecord(bookingServiceEditUI, bookingService)'
+                                             [id]='bookingService.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-bookingService-edit #bookingServiceEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-bookingService-delete #bookingServiceDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

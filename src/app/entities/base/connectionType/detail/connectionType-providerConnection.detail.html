@@ -1,0 +1,87 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Provider</th>
+					<th>Connection Type</th>
+					<th>Value</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='providerLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='providerLinker.filterable'
+                                [(ngModel)]='filterInstance.provider'
+                                [(selectedItem)]='filterInstance.provider'
+                                (onSeek)='providerLinker.onSeek($event)'
+                                (onInit)='providerLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.value'
+                                (input)='onSeek()'
+                                placeholder='Search Value' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(providerConnection of list$ | async; track providerConnection; let i = $index) {
+                <tr (click)='onRowClick(providerConnection)'
+                    (dblclick)='onRowDblClick(providerConnectionEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == providerConnection?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ providerConnection.provider!.descriptor }}</td>
+					<td>{{ providerConnection.connectionType!.descriptor }}</td>
+					<td>{{ providerConnection.value }}</td>
+					<td>{{ providerConnection.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='providerConnection.id'
+                                     route='/base/providerConnection'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(providerConnectionEditUI, providerConnection)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(providerConnectionEditUI)'
+                        (editButtonClick)='onEditButtonClick(providerConnectionEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(providerConnectionDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-providerConnection-edit #providerConnectionEditUI 
+                                [connectionTypeLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-providerConnection-delete #providerConnectionDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

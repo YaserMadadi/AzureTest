@@ -1,0 +1,87 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Pet Behavior'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(petBehaviorEditUI)'
+                              (editButtonClick)='editRecord(petBehaviorEditUI)'
+                              (deleteButtonClick)='deleteRecord(petBehaviorDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Pet</th>
+						<th>Behavior Category</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='petLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='petLinker.filterable'
+                                        [(ngModel)]='filterInstance.pet'
+                                        [(selectedItem)]='filterInstance.pet'
+                                        (onSeek)='petLinker.onSeek($event)'
+                                        (onInit)='petLinker.onInit($event)'
+										(onReload)='petLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='behaviorCategoryLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='behaviorCategoryLinker.filterable'
+                                        [(ngModel)]='filterInstance.behaviorCategory'
+                                        [(selectedItem)]='filterInstance.behaviorCategory'
+                                        (onSeek)='behaviorCategoryLinker.onSeek($event)'
+                                        (onInit)='behaviorCategoryLinker.onInit($event)'
+										(onReload)='behaviorCategoryLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(petBehavior of list$ | async; track petBehavior; let i = $index) {
+                        <tr (click)='onSelect(petBehavior)'
+                            (dblclick)='onDoubleClick(petBehaviorEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == petBehavior.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ petBehavior.pet?.descriptor }}</td>
+							<td>{{ petBehavior.behaviorCategory?.descriptor }}</td>
+                            <td>
+                                <row-buttons route='/base/petBehavior'
+                                             (onEdit)='editRecord(petBehaviorEditUI, petBehavior)'
+                                             [id]='petBehavior.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-petBehavior-edit #petBehaviorEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-petBehavior-delete #petBehaviorDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

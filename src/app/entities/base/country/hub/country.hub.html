@@ -1,0 +1,79 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Country'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(countryEditUI)'
+                              (editButtonClick)='editRecord(countryEditUI)'
+                              (deleteButtonClick)='deleteRecord(countryDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(country of list$ | async; track country; let i = $index) {
+                        <tr (click)='onSelect(country)'
+                            (dblclick)='onDoubleClick(countryEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == country.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ country.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='country.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/country'
+                                             (onEdit)='editRecord(countryEditUI, country)'
+                                             [id]='country.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-country-edit #countryEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-country-delete #countryDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-province-edit #provinceEditUI
+                        [countryLocked]='true' />

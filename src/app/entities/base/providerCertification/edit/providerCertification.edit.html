@@ -1,0 +1,111 @@
+<!-- Edit Form of [Base].[ProviderCertification] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Provider Certification")'
+           (onClosed)='closed(false)'>
+    <form #providerCertificationEditUI='ngForm'
+          (ngSubmit)='Save(providerCertificationEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Certification -->
+            <div class='mb-3'>
+                <lookup #certification
+                        required
+                        name='certification'
+                        label='Certification : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='certificationLinker.list$ | async'
+                        [locked]='certificationLinker.locked'
+                        [filterable]='certificationLinker.filterable'
+                        [(ngModel)]='currentInstance.certification'
+                        [(selectedItem)]='currentInstance.certification'
+                        (onSeek)='certificationLinker.onSeek($event)'
+                        (onReload)='certificationLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- DateIssued -->
+            <!-- <div class='form-floating mb-3'>
+                <input #dateIssued
+                   required
+                    id='dateIssued'
+                   name='dateIssued'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.dateIssued' />
+                <label for='dateIssued'>Date Issued</label>
+            </div> -->
+            <!-- ExpiryDate -->
+            <!-- <div class='form-floating mb-3'>
+                <input #expiryDate
+                   required
+                    id='expiryDate'
+                   name='expiryDate'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.expiryDate' />
+                <label for='expiryDate'>Expiry Date</label>
+            </div> -->
+            <!-- DocumentUrl -->
+            <div class='form-floating mb-3'>
+                <input #documentUrl
+                       required
+                       id='documentUrl'
+                       name='documentUrl'
+                       class='form-control'
+                       type='url'
+                       [(ngModel)]='currentInstance.documentUrl' />
+                <label for='documentUrl'>Document Url</label>
+            </div>
+            <!-- IsApproved -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsApproved'
+                       name='IsApproved'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isApproved' />
+                <label class='form-check-label'
+                       for='IsApproved'>
+                    Is Approved
+                </label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!providerCertificationEditUI.valid'
+                  (onSave)='Save(providerCertificationEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

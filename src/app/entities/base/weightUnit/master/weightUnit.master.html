@@ -1,0 +1,43 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Weight Unit'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Title'>
+                            {{ currentInstance.title  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'pet'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='pet'
+                                (dblclick)='navigateTo("base/pet")'>Pet</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='pet'>
+                            <base-weightUnit-pet-detail [weightUnit]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

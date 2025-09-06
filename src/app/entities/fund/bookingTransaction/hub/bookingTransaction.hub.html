@@ -1,0 +1,134 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Booking Transaction'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(bookingTransactionEditUI)'
+                              (editButtonClick)='editRecord(bookingTransactionEditUI)'
+                              (deleteButtonClick)='deleteRecord(bookingTransactionDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Booking</th>
+						<th>Client Wallet</th>
+						<th>Provider Wallet</th>
+						<th>Amount</th>
+				<!-- Date -->
+						<th>Date</th>
+				<!-- Time -->
+						<th>Time</th>
+						<th>Payment Note</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='bookingLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='bookingLinker.filterable'
+                                        [(ngModel)]='filterInstance.booking'
+                                        [(selectedItem)]='filterInstance.booking'
+                                        (onSeek)='bookingLinker.onSeek($event)'
+                                        (onInit)='bookingLinker.onInit($event)'
+										(onReload)='bookingLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='clientWalletLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='clientWalletLinker.filterable'
+                                        [(ngModel)]='filterInstance.clientWallet'
+                                        [(selectedItem)]='filterInstance.clientWallet'
+                                        (onSeek)='clientWalletLinker.onSeek($event)'
+                                        (onInit)='clientWalletLinker.onInit($event)'
+										(onReload)='clientWalletLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='providerWalletLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='providerWalletLinker.filterable'
+                                        [(ngModel)]='filterInstance.providerWallet'
+                                        [(selectedItem)]='filterInstance.providerWallet'
+                                        (onSeek)='providerWalletLinker.onSeek($event)'
+                                        (onInit)='providerWalletLinker.onInit($event)'
+										(onReload)='providerWalletLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.amount'
+                                       (input)='onSeek()'
+                                       placeholder='Search Amount' /></th>
+							<th><!-- Date --></th>
+							<th><!-- Time --></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.paymentNote'
+                                       (input)='onSeek()'
+                                       placeholder='Search Payment Note' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(bookingTransaction of list$ | async; track bookingTransaction; let i = $index) {
+                        <tr (click)='onSelect(bookingTransaction)'
+                            (dblclick)='onDoubleClick(bookingTransactionEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == bookingTransaction.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ bookingTransaction.booking?.descriptor }}</td>
+							<td>{{ bookingTransaction.clientWallet?.descriptor }}</td>
+							<td>{{ bookingTransaction.providerWallet?.descriptor }}</td>
+							<td>{{ bookingTransaction.amount }}</td>
+							<td>{{ bookingTransaction.date| date:"fullDate" }}</td>
+							<td>{{ bookingTransaction.time }}</td>
+							<td>{{ bookingTransaction.paymentNote }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='bookingTransaction.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/fund/bookingTransaction'
+                                             (onEdit)='editRecord(bookingTransactionEditUI, bookingTransaction)'
+                                             [id]='bookingTransaction.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<fund-bookingTransaction-edit #bookingTransactionEditUI
+                 (onClosed)='onEditClosed($event)' />
+<fund-bookingTransaction-delete #bookingTransactionDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

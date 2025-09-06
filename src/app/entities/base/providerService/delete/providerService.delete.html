@@ -1,0 +1,26 @@
+
+<!-- Delete Form of [Base].[ProviderService] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ProviderService")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #providerServiceDeleteUI='ngForm'
+          (ngSubmit)='onDelete(providerServiceDeleteUI)'>
+        <div class='container'>
+            <presenter name='provider_Id'
+                       title='Provider : '
+                       [value]='currentInstance.provider!.descriptor' />
+			<presenter name='serviceType_Id'
+                       title='Service Type : '
+                       [value]='currentInstance.serviceType!.descriptor' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(providerServiceDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

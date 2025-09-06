@@ -1,0 +1,93 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Provider</th>
+					<th>Week Day</th>
+					<th>From</th>
+					<th>To</th>
+					<th>Note</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='providerLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='providerLinker.filterable'
+                                [(ngModel)]='filterInstance.provider'
+                                [(selectedItem)]='filterInstance.provider'
+                                (onSeek)='providerLinker.onSeek($event)'
+                                (onInit)='providerLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					<th></th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(workTime of list$ | async; track workTime; let i = $index) {
+                <tr (click)='onRowClick(workTime)'
+                    (dblclick)='onRowDblClick(workTimeEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == workTime?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ workTime.provider!.descriptor }}</td>
+					<td>{{ workTime.weekDay!.descriptor }}</td>
+					<td>{{ workTime.from }}</td>
+					<td>{{ workTime.to }}</td>
+					<td>{{ workTime.note }}</td>
+					<td>{{ workTime.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='workTime.id'
+                                     route='/base/workTime'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(workTimeEditUI, workTime)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(workTimeEditUI)'
+                        (editButtonClick)='onEditButtonClick(workTimeEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(workTimeDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-workTime-edit #workTimeEditUI 
+                                [weekDayLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-workTime-delete #workTimeDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

@@ -1,0 +1,33 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Provider Connection'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Provider'>
+                            {{ currentInstance.provider?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Connection Type'>
+                            {{ currentInstance.connectionType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Value'>
+                            {{ currentInstance.value  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

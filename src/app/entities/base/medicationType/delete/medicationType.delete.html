@@ -1,0 +1,23 @@
+
+<!-- Delete Form of [Base].[MedicationType] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("MedicationType")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #medicationTypeDeleteUI='ngForm'
+          (ngSubmit)='onDelete(medicationTypeDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(medicationTypeDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

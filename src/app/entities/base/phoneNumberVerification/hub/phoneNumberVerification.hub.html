@@ -1,0 +1,103 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Phone Number Verification'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(phoneNumberVerificationEditUI)'
+                              (editButtonClick)='editRecord(phoneNumberVerificationEditUI)'
+                              (deleteButtonClick)='deleteRecord(phoneNumberVerificationDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Client</th>
+						<th>Verification Code</th>
+				<!-- GenerateTime -->
+						<th>Generate Time</th>
+				<!-- ExpiryDate -->
+						<th>Expiry Date</th>
+						<th>Verification Status</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='clientLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='clientLinker.filterable'
+                                        [(ngModel)]='filterInstance.client'
+                                        [(selectedItem)]='filterInstance.client'
+                                        (onSeek)='clientLinker.onSeek($event)'
+                                        (onInit)='clientLinker.onInit($event)'
+										(onReload)='clientLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.verificationCode'
+                                       (input)='onSeek()'
+                                       placeholder='Search Verification Code' /></th>
+							<th><!-- GenerateTime --></th>
+							<th><!-- ExpiryDate --></th>
+							<th>
+                                <lookup [items]='verificationStatusLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='verificationStatusLinker.filterable'
+                                        [(ngModel)]='filterInstance.verificationStatus'
+                                        [(selectedItem)]='filterInstance.verificationStatus'
+                                        (onSeek)='verificationStatusLinker.onSeek($event)'
+                                        (onInit)='verificationStatusLinker.onInit($event)'
+										(onReload)='verificationStatusLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(phoneNumberVerification of list$ | async; track phoneNumberVerification; let i = $index) {
+                        <tr (click)='onSelect(phoneNumberVerification)'
+                            (dblclick)='onDoubleClick(phoneNumberVerificationEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == phoneNumberVerification.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ phoneNumberVerification.client?.descriptor }}</td>
+							<td>{{ phoneNumberVerification.verificationCode }}</td>
+							<td>{{ phoneNumberVerification.generateTime| date:"fullDate" }}</td>
+							<td>{{ phoneNumberVerification.expiryDate| date:"fullDate" }}</td>
+							<td>{{ phoneNumberVerification.verificationStatus?.descriptor }}</td>
+                            <td>
+                                <row-buttons route='/base/phoneNumberVerification'
+                                             (onEdit)='editRecord(phoneNumberVerificationEditUI, phoneNumberVerification)'
+                                             [id]='phoneNumberVerification.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-phoneNumberVerification-edit #phoneNumberVerificationEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-phoneNumberVerification-delete #phoneNumberVerificationDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

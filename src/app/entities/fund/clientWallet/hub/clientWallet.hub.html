@@ -1,0 +1,96 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Client Wallet'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(clientWalletEditUI)'
+                              (editButtonClick)='editRecord(clientWalletEditUI)'
+                              (deleteButtonClick)='deleteRecord(clientWalletDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Client</th>
+						<th>Balance</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='clientLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='clientLinker.filterable'
+                                        [(ngModel)]='filterInstance.client'
+                                        [(selectedItem)]='filterInstance.client'
+                                        (onSeek)='clientLinker.onSeek($event)'
+                                        (onInit)='clientLinker.onInit($event)'
+										(onReload)='clientLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.balance'
+                                       (input)='onSeek()'
+                                       placeholder='Search Balance' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(clientWallet of list$ | async; track clientWallet; let i = $index) {
+                        <tr (click)='onSelect(clientWallet)'
+                            (dblclick)='onDoubleClick(clientWalletEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == clientWallet.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ clientWallet.client?.descriptor }}</td>
+							<td>{{ clientWallet.balance }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='clientWallet.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/fund/clientWallet'
+                                             (onEdit)='editRecord(clientWalletEditUI, clientWallet)'
+                                             [id]='clientWallet.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<fund-clientWallet-edit #clientWalletEditUI
+                 (onClosed)='onEditClosed($event)' />
+<fund-clientWallet-delete #clientWalletDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<fund-bookingTransaction-edit #bookingTransactionEditUI
+                        [clientWalletLocked]='true' />
+		<fund-clientWalletTransactionLog-edit #clientWalletTransactionLogEditUI
+                        [clientWalletLocked]='true' />
+		<fund-walletTopUp-edit #walletTopUpEditUI
+                        [clientWalletLocked]='true' />

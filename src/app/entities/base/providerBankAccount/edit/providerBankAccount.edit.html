@@ -1,0 +1,98 @@
+<!-- Edit Form of [Base].[ProviderBankAccount] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Provider Bank Account")'
+           (onClosed)='closed(false)'>
+    <form #providerBankAccountEditUI='ngForm'
+          (ngSubmit)='Save(providerBankAccountEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Bank -->
+            <div class='mb-3'>
+                <lookup #bank
+                        required
+                        name='bank'
+                        label='Bank : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='bankLinker.list$ | async'
+                        [locked]='bankLinker.locked'
+                        [filterable]='bankLinker.filterable'
+                        [(ngModel)]='currentInstance.bank'
+                        [(selectedItem)]='currentInstance.bank'
+                        (onSeek)='bankLinker.onSeek($event)'
+                        (onReload)='bankLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- InstitutionNumber -->
+            <div class='form-floating mb-3'>
+                <input #institutionNumber
+                       required
+                       id='institutionNumber'
+                       name='institutionNumber'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.institutionNumber' />
+                <label for='institutionNumber'>Institution Number</label>
+            </div>
+            <!-- AccountNumber -->
+            <div class='form-floating mb-3'>
+                <input #accountNumber
+                       required
+                       id='accountNumber'
+                       name='accountNumber'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.accountNumber' />
+                <label for='accountNumber'>Account Number</label>
+            </div>
+            <!-- AccountHolderName -->
+            <div class='form-floating mb-3'>
+                <input #accountHolderName
+                       required
+                       id='accountHolderName'
+                       name='accountHolderName'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.accountHolderName' />
+                <label for='accountHolderName'>Account Holder Name</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!providerBankAccountEditUI.valid'
+                  (onSave)='Save(providerBankAccountEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

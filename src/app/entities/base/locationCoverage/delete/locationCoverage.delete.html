@@ -1,0 +1,29 @@
+
+<!-- Delete Form of [Base].[LocationCoverage] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("LocationCoverage")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #locationCoverageDeleteUI='ngForm'
+          (ngSubmit)='onDelete(locationCoverageDeleteUI)'>
+        <div class='container'>
+            <presenter name='provider_Id'
+                       title='Provider : '
+                       [value]='currentInstance.provider!.descriptor' />
+			<presenter name='city_Id'
+                       title='City : '
+                       [value]='currentInstance.city!.descriptor' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(locationCoverageDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

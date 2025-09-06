@@ -1,0 +1,75 @@
+<!-- Edit Form of [Base].[LocationCoverage] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Location Coverage")'
+           (onClosed)='closed(false)'>
+    <form #locationCoverageEditUI='ngForm'
+          (ngSubmit)='Save(locationCoverageEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- City -->
+            <div class='mb-3'>
+                <lookup #city
+                        required
+                        name='city'
+                        label='City : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='cityLinker.list$ | async'
+                        [locked]='cityLinker.locked'
+                        [filterable]='cityLinker.filterable'
+                        [(ngModel)]='currentInstance.city'
+                        [(selectedItem)]='currentInstance.city'
+                        (onSeek)='cityLinker.onSeek($event)'
+                        (onReload)='cityLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!locationCoverageEditUI.valid'
+                  (onSave)='Save(locationCoverageEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

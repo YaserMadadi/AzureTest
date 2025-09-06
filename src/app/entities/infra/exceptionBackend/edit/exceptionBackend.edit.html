@@ -1,0 +1,115 @@
+<!-- Edit Form of [Infra].[ExceptionBackend] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Exception Backend")'
+           (onClosed)='closed(false)'>
+   <form #exceptionBackendEditUI='ngForm'
+         (ngSubmit)='Save(exceptionBackendEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Date -->
+         <!-- <div class='form-floating mb-3'>
+                <input #date
+                   required
+                    id='date'
+                   name='date'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.date' />
+                <label for='date'>Date</label>
+            </div> -->
+         <!-- Time -->
+         <div class='form-floating mb-3'>
+            <input #time
+                   required
+                   id='time'
+                   name='time'
+                   class='form-control'
+                   type='time'
+                   [(ngModel)]='currentInstance.time' />
+            <label for='time'>Time</label>
+         </div>
+         <!-- CommandName -->
+         <div class='form-floating mb-3'>
+            <input #commandName
+                   required
+                   id='commandName'
+                   name='commandName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.commandName' />
+            <label for='commandName'>Command Name</label>
+         </div>
+         <!-- CommandParameters -->
+         <div class='form-floating mb-3'>
+            <textarea #commandParameters
+                      id='commandParameters'
+                      name='commandParameters'
+                      class='form-control'
+                      rows='3'
+                      [(ngModel)]='currentInstance.commandParameters'></textarea>
+            <label for='commandParameters'>Command Parameters</label>
+         </div>
+         <!-- ExceptionType -->
+         <div class='form-floating mb-3'>
+            <input #exceptionType
+                   required
+                   id='exceptionType'
+                   name='exceptionType'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.exceptionType' />
+            <label for='exceptionType'>Exception Type</label>
+         </div>
+         <!-- ErrorMessage -->
+         <div class='form-floating mb-3'>
+            <input #errorMessage
+                   required
+                   id='errorMessage'
+                   name='errorMessage'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.errorMessage' />
+            <label for='errorMessage'>Error Message</label>
+         </div>
+         <!-- ErrorNumber -->
+         <div class='form-floating mb-3'>
+            <input #errorNumber
+                   required
+                   id='errorNumber'
+                   name='errorNumber'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.errorNumber' />
+            <label for='errorNumber'>Error Number</label>
+         </div>
+         <!-- ErrorCode -->
+         <div class='form-floating mb-3'>
+            <input #errorCode
+                   required
+                   id='errorCode'
+                   name='errorCode'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.errorCode' />
+            <label for='errorCode'>Error Code</label>
+         </div>
+         <!-- ExceptionJsonValue -->
+         <div class='form-floating mb-3'>
+            <textarea #exceptionJsonValue
+                      id='exceptionJsonValue'
+                      name='exceptionJsonValue'
+                      class='form-control'
+                      rows='3'
+                      [(ngModel)]='currentInstance.exceptionJsonValue'></textarea>
+            <label for='exceptionJsonValue'>Exception Json Value</label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!exceptionBackendEditUI.valid'
+                 (onSave)='Save(exceptionBackendEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

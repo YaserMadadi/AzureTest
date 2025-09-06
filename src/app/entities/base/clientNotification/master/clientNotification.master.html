@@ -1,0 +1,45 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Client Notification'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Client'>
+                            {{ currentInstance.client?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Sent Time'>
+                            {{ currentInstance.sentTime | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Title'>
+                            {{ currentInstance.title  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Message'>
+                            {{ currentInstance.message  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Notification Type'>
+                            {{ currentInstance.notificationType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Read'>
+                            {{ currentInstance.isRead | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Read Time'>
+                            {{ currentInstance.readTime | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

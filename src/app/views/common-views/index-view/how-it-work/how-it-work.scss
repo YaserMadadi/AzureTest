@@ -1,0 +1,26 @@
+.accordion-button:not(.collapsed) {
+  color: #3b3e41;
+  font-weight: 400;
+  background-color: #96c39b;
+}
+
+.accordion-button.collapsed {
+  background-color: #eff7ef;
+  font-weight: 300;
+  color: #424446;
+}
+
+.accordion-body {
+  background-color: white;
+}
+
+:host {
+  display: block;
+  background-color: #eaeef5;
+  min-height: 100px;
+  /* or height: 100% if parent has height */
+}
+
+.icon {
+  color: #304730;
+}

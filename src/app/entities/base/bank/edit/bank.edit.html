@@ -1,0 +1,52 @@
+<!-- Edit Form of [Base].[Bank] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Bank")'
+           (onClosed)='closed(false)'>
+    <form #bankEditUI='ngForm'
+          (ngSubmit)='Save(bankEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!bankEditUI.valid'
+                  (onSave)='Save(bankEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

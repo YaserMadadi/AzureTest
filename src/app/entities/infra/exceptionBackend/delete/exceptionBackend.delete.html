@@ -1,0 +1,44 @@
+
+<!-- Delete Form of [Infra].[ExceptionBackend] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ExceptionBackend")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #exceptionBackendDeleteUI='ngForm'
+          (ngSubmit)='onDelete(exceptionBackendDeleteUI)'>
+        <div class='container'>
+            <presenter name='date'
+                       title='Date : '
+                       [value]='currentInstance.date | date:"fullDate"' />
+			<presenter name='time'
+                       title='Time : '
+                       [value]='currentInstance.time' />
+			<presenter name='commandName'
+                       title='Command Name : '
+                       [value]='currentInstance.commandName' />
+			<presenter name='commandParameters'
+                       title='Command Parameters : '
+                       [value]='currentInstance.commandParameters' />
+			<presenter name='exceptionType'
+                       title='Exception Type : '
+                       [value]='currentInstance.exceptionType' />
+			<presenter name='errorMessage'
+                       title='Error Message : '
+                       [value]='currentInstance.errorMessage' />
+			<presenter name='errorNumber'
+                       title='Error Number : '
+                       [value]='currentInstance.errorNumber | number' />
+			<presenter name='errorCode'
+                       title='Error Code : '
+                       [value]='currentInstance.errorCode | number' />
+			<presenter name='exceptionJsonValue'
+                       title='Exception Json Value : '
+                       [value]='currentInstance.exceptionJsonValue' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(exceptionBackendDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

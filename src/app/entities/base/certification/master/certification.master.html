@@ -1,0 +1,46 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Certification'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Certification Type'>
+                            {{ currentInstance.certificationType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Cert Issuing Organization'>
+                            {{ currentInstance.certIssuingOrganization?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'providerCertification'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='providerCertification'
+                                (dblclick)='navigateTo("base/providerCertification")'>Provider Certification</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='providerCertification'>
+                            <base-certification-providerCertification-detail [certification]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

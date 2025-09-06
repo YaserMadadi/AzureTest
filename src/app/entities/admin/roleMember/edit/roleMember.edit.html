@@ -1,0 +1,65 @@
+<!-- Edit Form of [Admin].[RoleMember] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Role Member")'
+           (onClosed)='closed(false)'>
+    <form #roleMemberEditUI='ngForm'
+          (ngSubmit)='Save(roleMemberEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Role -->
+            <div class='mb-3'>
+                <lookup #role
+                        required
+                        name='role'
+                        label='Role : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='roleLinker.list$ | async'
+                        [locked]='roleLinker.locked'
+                        [filterable]='roleLinker.filterable'
+                        [(ngModel)]='currentInstance.role'
+                        [(selectedItem)]='currentInstance.role'
+                        (onSeek)='roleLinker.onSeek($event)'
+                        (onReload)='roleLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- User Account -->
+            <div class='mb-3'>
+                <lookup #userAccount
+                        required
+                        name='userAccount'
+                        label='User Account : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='userAccountLinker.list$ | async'
+                        [locked]='userAccountLinker.locked'
+                        [filterable]='userAccountLinker.filterable'
+                        [(ngModel)]='currentInstance.userAccount'
+                        [(selectedItem)]='currentInstance.userAccount'
+                        (onSeek)='userAccountLinker.onSeek($event)'
+                        (onReload)='userAccountLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!roleMemberEditUI.valid'
+                  (onSave)='Save(roleMemberEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

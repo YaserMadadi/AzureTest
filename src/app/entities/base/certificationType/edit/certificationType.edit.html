@@ -1,0 +1,65 @@
+<!-- Edit Form of [Base].[CertificationType] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Certification Type")'
+           (onClosed)='closed(false)'>
+    <form #certificationTypeEditUI='ngForm'
+          (ngSubmit)='Save(certificationTypeEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsIndividual -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsIndividual'
+                       name='IsIndividual'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isIndividual' />
+                <label class='form-check-label'
+                       for='IsIndividual'>
+                    Is Individual
+                </label>
+            </div>
+            <!-- IsEnterprise -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsEnterprise'
+                       name='IsEnterprise'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isEnterprise' />
+                <label class='form-check-label'
+                       for='IsEnterprise'>
+                    Is Enterprise
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!certificationTypeEditUI.valid'
+                  (onSave)='Save(certificationTypeEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

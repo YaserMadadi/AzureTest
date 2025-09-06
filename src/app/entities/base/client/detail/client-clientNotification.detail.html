@@ -1,0 +1,112 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Client</th>
+					<th>Sent Time</th>
+					<th>Title</th>
+					<th>Message</th>
+					<th>Notification Type</th>
+					<th>Is Read</th>
+					<th>Read Time</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.title'
+                                (input)='onSeek()'
+                                placeholder='Search Title' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.message'
+                                (input)='onSeek()'
+                                placeholder='Search Message' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='notificationTypeLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='notificationTypeLinker.filterable'
+                                [(ngModel)]='filterInstance.notificationType'
+                                [(selectedItem)]='filterInstance.notificationType'
+                                (onSeek)='notificationTypeLinker.onSeek($event)'
+                                (onInit)='notificationTypeLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isRead'
+                               (change)='onSeek()'
+                               placeholder='Search Is Read' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(clientNotification of list$ | async; track clientNotification; let i = $index) {
+                <tr (click)='onRowClick(clientNotification)'
+                    (dblclick)='onRowDblClick(clientNotificationEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == clientNotification?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ clientNotification.client!.descriptor }}</td>
+					<td>{{ clientNotification.sentTime| date:"fullDate" }}</td>
+					<td>{{ clientNotification.title }}</td>
+					<td>{{ clientNotification.message }}</td>
+					<td>{{ clientNotification.notificationType!.descriptor }}</td>
+					<td>{{ clientNotification.isRead| isActive }}</td>
+					<td>{{ clientNotification.readTime| date:"fullDate" }}</td>
+					<td>{{ clientNotification.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='clientNotification.id'
+                                     route='/base/clientNotification'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(clientNotificationEditUI, clientNotification)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(clientNotificationEditUI)'
+                        (editButtonClick)='onEditButtonClick(clientNotificationEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(clientNotificationDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-clientNotification-edit #clientNotificationEditUI 
+                                [clientLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-clientNotification-delete #clientNotificationDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

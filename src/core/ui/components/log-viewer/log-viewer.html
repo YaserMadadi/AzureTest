@@ -1,0 +1,14 @@
+<app-modal #modal
+           [(Visible)]='service.modalVisible'
+           [Header]='setHeader()'
+           (onClosed)='closed(false)'>
+  <div *ngIf='service.CurrentInstance'>
+    <p class='text-center'>Log Viewer for {{ service.CurrentInstance.info.schema }}.{{ service.CurrentInstance.info.name
+      }}
+      with Id : {{ service.CurrentInstance.id }}
+    </p>
+    <p class='text-center'>
+      این فرم در حال طراحی است
+    </p>
+  </div>
+</app-modal>

@@ -1,0 +1,74 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Booking'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Pet'>
+                            {{ currentInstance.pet?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Provider'>
+                            {{ currentInstance.provider?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Start Date'>
+                            {{ currentInstance.startDate | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Start Time'>
+                            {{ currentInstance.startTime  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Duration'>
+                            {{ currentInstance.duration | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Duration Unit'>
+                            {{ currentInstance.durationUnit?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Total Amount'>
+                            {{ currentInstance.totalAmount  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Booking Status'>
+                            {{ currentInstance.bookingStatus?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Note'>
+                            {{ currentInstance.note  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'bookingService'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='bookingService'
+                                (dblclick)='navigateTo("base/bookingService")'>Booking Service</button>
+                        <button cTab
+                                itemKey='bookingTransaction'
+                                (dblclick)='navigateTo("fund/bookingTransaction")'>Booking Transaction</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='bookingService'>
+                            <base-booking-bookingService-detail [booking]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='bookingTransaction'>
+                            <base-booking-bookingTransaction-detail [booking]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

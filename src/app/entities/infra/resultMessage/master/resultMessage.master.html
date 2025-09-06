@@ -1,0 +1,36 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Result Message'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Id'>
+                            {{ currentInstance.id | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Code'>
+                            {{ currentInstance.code | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Title'>
+                            {{ currentInstance.title  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Message Body'>
+                            {{ currentInstance.messageBody  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Message Type'>
+                            {{ currentInstance.messageType?.descriptor }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

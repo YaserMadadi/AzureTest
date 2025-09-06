@@ -1,0 +1,120 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Entity'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(entityEditUI)'
+                              (editButtonClick)='editRecord(entityEditUI)'
+                              (deleteButtonClick)='deleteRecord(entityDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Schema</th>
+						<th>Name</th>
+						<th>Synonym</th>
+						<th>Guide Title</th>
+						<th>Index Url</th>
+						<th>Record Per Page</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.schema'
+                                       (input)='onSeek()'
+                                       placeholder='Search Schema' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.name'
+                                       (input)='onSeek()'
+                                       placeholder='Search Name' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.synonym'
+                                       (input)='onSeek()'
+                                       placeholder='Search Synonym' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.guideTitle'
+                                       (input)='onSeek()'
+                                       placeholder='Search Guide Title' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.indexUrl'
+                                       (input)='onSeek()'
+                                       placeholder='Search Index Url' /></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.recordPerPage'
+                                       (input)='onSeek()'
+                                       placeholder='Search Record Per Page' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(entity of list$ | async; track entity; let i = $index) {
+                        <tr (click)='onSelect(entity)'
+                            (dblclick)='onDoubleClick(entityEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == entity.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ entity.schema }}</td>
+							<td>{{ entity.name }}</td>
+							<td>{{ entity.synonym }}</td>
+							<td>{{ entity.guideTitle }}</td>
+							<td>{{ entity.indexUrl }}</td>
+							<td>{{ entity.recordPerPage | number }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='entity.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/infra/entity'
+                                             (onEdit)='editRecord(entityEditUI, entity)'
+                                             [id]='entity.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<infra-entity-edit #entityEditUI
+                 (onClosed)='onEditClosed($event)' />
+<infra-entity-delete #entityDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<admin-rolePermission-edit #rolePermissionEditUI
+                        [entityLocked]='true' />
+		<admin-staffPermission-edit #staffPermissionEditUI
+                        [entityLocked]='true' />

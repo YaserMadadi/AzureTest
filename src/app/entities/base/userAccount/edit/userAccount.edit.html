@@ -1,0 +1,132 @@
+<!-- Edit Form of [Base].[UserAccount] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("User Account")'
+           (onClosed)='closed(false)'>
+    <form #userAccountEditUI='ngForm'
+          (ngSubmit)='Save(userAccountEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Email -->
+            <div class='form-floating mb-3'>
+                <input #email
+                       required
+                       id='email'
+                       name='email'
+                       class='form-control'
+                       type='email'
+                       [(ngModel)]='currentInstance.email' />
+                <label for='email'>Email</label>
+            </div>
+            <!-- Password -->
+            <div class='form-floating mb-3'>
+                <input #password
+                       required
+                       id='password'
+                       name='password'
+                       class='form-control'
+                       type='password'
+                       [(ngModel)]='currentInstance.password' />
+                <label for='password'>Password</label>
+            </div>
+            <!-- Hash -->
+            <div class='form-floating mb-3'>
+                <input #hash
+                       required
+                       id='hash'
+                       name='hash'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.hash' />
+                <label for='hash'>Hash</label>
+            </div>
+            <!-- User Type -->
+            <div class='mb-3'>
+                <lookup #userType
+                        required
+                        name='userType'
+                        label='User Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='userTypeLinker.list$ | async'
+                        [locked]='userTypeLinker.locked'
+                        [filterable]='userTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.userType'
+                        [(selectedItem)]='currentInstance.userType'
+                        (onSeek)='userTypeLinker.onSeek($event)'
+                        (onReload)='userTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Account Status -->
+            <div class='mb-3'>
+                <lookup #accountStatus
+                        required
+                        name='accountStatus'
+                        label='Account Status : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='accountStatusLinker.list$ | async'
+                        [locked]='accountStatusLinker.locked'
+                        [filterable]='accountStatusLinker.filterable'
+                        [(ngModel)]='currentInstance.accountStatus'
+                        [(selectedItem)]='currentInstance.accountStatus'
+                        (onSeek)='accountStatusLinker.onSeek($event)'
+                        (onReload)='accountStatusLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- StatusNote -->
+            <div class='form-floating mb-3'>
+                <input #statusNote
+                       required
+                       id='statusNote'
+                       name='statusNote'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.statusNote' />
+                <label for='statusNote'>Status Note</label>
+            </div>
+            <!-- EmailIsVerified -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='EmailIsVerified'
+                       name='EmailIsVerified'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.emailIsVerified' />
+                <label class='form-check-label'
+                       for='EmailIsVerified'>
+                    Email Is Verified
+                </label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!userAccountEditUI.valid'
+                  (onSave)='Save(userAccountEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

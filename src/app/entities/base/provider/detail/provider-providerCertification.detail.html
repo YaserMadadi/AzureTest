@@ -1,0 +1,102 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Provider</th>
+					<th>Certification</th>
+					<th>Date Issued</th>
+					<th>Expiry Date</th>
+					<th>Document Url</th>
+					<th>Is Approved</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='certificationLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='certificationLinker.filterable'
+                                [(ngModel)]='filterInstance.certification'
+                                [(selectedItem)]='filterInstance.certification'
+                                (onSeek)='certificationLinker.onSeek($event)'
+                                (onInit)='certificationLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.documentUrl'
+                                (input)='onSeek()'
+                                placeholder='Search Document Url' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isApproved'
+                               (change)='onSeek()'
+                               placeholder='Search Is Approved' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(providerCertification of list$ | async; track providerCertification; let i = $index) {
+                <tr (click)='onRowClick(providerCertification)'
+                    (dblclick)='onRowDblClick(providerCertificationEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == providerCertification?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ providerCertification.provider!.descriptor }}</td>
+					<td>{{ providerCertification.certification!.descriptor }}</td>
+					<td>{{ providerCertification.dateIssued| date:"fullDate" }}</td>
+					<td>{{ providerCertification.expiryDate| date:"fullDate" }}</td>
+					<td>{{ providerCertification.documentUrl }}</td>
+					<td>{{ providerCertification.isApproved| isActive }}</td>
+					<td>{{ providerCertification.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='providerCertification.id'
+                                     route='/base/providerCertification'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(providerCertificationEditUI, providerCertification)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(providerCertificationEditUI)'
+                        (editButtonClick)='onEditButtonClick(providerCertificationEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(providerCertificationDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-providerCertification-edit #providerCertificationEditUI 
+                                [providerLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-providerCertification-delete #providerCertificationDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

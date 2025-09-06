@@ -1,0 +1,51 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Exception Procedure'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Schema'>
+                            {{ currentInstance.schema  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Procedure Name'>
+                            {{ currentInstance.procedureName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Line Number'>
+                            {{ currentInstance.lineNumber | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='User Account'>
+                            {{ currentInstance.userAccount_Id | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Date'>
+                            {{ currentInstance.date | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Time'>
+                            {{ currentInstance.time  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Error Number'>
+                            {{ currentInstance.errorNumber | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Error Message'>
+                            {{ currentInstance.errorMessage  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Error Status'>
+                            {{ currentInstance.errorStatus | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Checked'>
+                            {{ currentInstance.isChecked | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

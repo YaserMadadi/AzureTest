@@ -1,0 +1,100 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Client</th>
+					<th>Provider</th>
+					<th>Time</th>
+					<th>Note</th>
+					<th>Rate</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='providerLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='providerLinker.filterable'
+                                [(ngModel)]='filterInstance.provider'
+                                [(selectedItem)]='filterInstance.provider'
+                                (onSeek)='providerLinker.onSeek($event)'
+                                (onInit)='providerLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.rate'
+                               (input)='onSeek()'
+                               placeholder='Search Rate' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(clientReview of list$ | async; track clientReview; let i = $index) {
+                <tr (click)='onRowClick(clientReview)'
+                    (dblclick)='onRowDblClick(clientReviewEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == clientReview?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ clientReview.client!.descriptor }}</td>
+					<td>{{ clientReview.provider!.descriptor }}</td>
+					<td>{{ clientReview.time| date:"fullDate" }}</td>
+					<td>{{ clientReview.note }}</td>
+					<td>{{ clientReview.rate| number }}</td>
+					<td>{{ clientReview.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='clientReview.id'
+                                     route='/base/clientReview'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(clientReviewEditUI, clientReview)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(clientReviewEditUI)'
+                        (editButtonClick)='onEditButtonClick(clientReviewEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(clientReviewDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-clientReview-edit #clientReviewEditUI 
+                                [clientLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-clientReview-delete #clientReviewDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

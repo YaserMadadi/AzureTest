@@ -1,0 +1,32 @@
+
+<!-- Delete Form of [Admin].[Menu] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Menu")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #menuDeleteUI='ngForm'
+          (ngSubmit)='onDelete(menuDeleteUI)'>
+        <div class='container'>
+            <presenter name='userType_Id'
+                       title='User Type : '
+                       [value]='currentInstance.userType!.descriptor' />
+			<presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='icon'
+                       title='Icon : '
+                       [value]='currentInstance.icon' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(menuDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

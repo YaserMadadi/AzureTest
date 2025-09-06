@@ -1,0 +1,86 @@
+<!-- Edit Form of [Infra].[CheckConstraint] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Check Constraint")'
+           (onClosed)='closed(false)'>
+   <form #checkConstraintEditUI='ngForm'
+         (ngSubmit)='Save(checkConstraintEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Name -->
+         <div class='form-floating mb-3'>
+            <input #name
+                   required
+                   id='name'
+                   name='name'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.name' />
+            <label for='name'>Name</label>
+         </div>
+         <!-- SchemaName -->
+         <div class='form-floating mb-3'>
+            <input #schemaName
+                   required
+                   id='schemaName'
+                   name='schemaName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.schemaName' />
+            <label for='schemaName'>Schema Name</label>
+         </div>
+         <!-- EntityName -->
+         <div class='form-floating mb-3'>
+            <input #entityName
+                   required
+                   id='entityName'
+                   name='entityName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.entityName' />
+            <label for='entityName'>Entity Name</label>
+         </div>
+         <!-- Definition -->
+         <div class='form-floating mb-3'>
+            <input #definition
+                   required
+                   id='definition'
+                   name='definition'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.definition' />
+            <label for='definition'>Definition</label>
+         </div>
+         <!-- Message -->
+         <div class='form-floating mb-3'>
+            <input #message
+                   required
+                   id='message'
+                   name='message'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.message' />
+            <label for='message'>Message</label>
+         </div>
+         <!-- IsActive -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsActive'
+                   name='IsActive'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isActive' />
+            <label class='form-check-label'
+                   for='IsActive'>
+               Is Active
+            </label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!checkConstraintEditUI.valid'
+                 (onSave)='Save(checkConstraintEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

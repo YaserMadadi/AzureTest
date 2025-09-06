@@ -1,0 +1,73 @@
+<!-- Edit Form of [Infra].[RecordLog] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Record Log")'
+           (onClosed)='closed(false)'>
+   <form #recordLogEditUI='ngForm'
+         (ngSubmit)='Save(recordLogEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- EntityName -->
+         <div class='form-floating mb-3'>
+            <input #entityName
+                   required
+                   id='entityName'
+                   name='entityName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.entityName' />
+            <label for='entityName'>Entity Name</label>
+         </div>
+         <!-- RecordID -->
+         <div class='form-floating mb-3'>
+            <input #recordID
+                   required
+                   id='recordID'
+                   name='recordID'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.recordID' />
+            <label for='recordID'>Record I D</label>
+         </div>
+         <!-- User_Id -->
+         <div class='form-floating mb-3'>
+            <input #user_Id
+                   required
+                   id='user_Id'
+                   name='user_Id'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.user_Id' />
+            <label for='user_Id'>User</label>
+         </div>
+         <!-- EffectDate -->
+         <!-- <div class='form-floating mb-3'>
+                <input #effectDate
+                   required
+                    id='effectDate'
+                   name='effectDate'
+                   class='form-control'
+                   type='datetime'
+                   [(ngModel)]='currentInstance.effectDate' />
+                <label for='effectDate'>Effect Date</label>
+            </div> -->
+         <!-- ActionMode -->
+         <div class='form-floating mb-3'>
+            <input #actionMode
+                   required
+                   id='actionMode'
+                   name='actionMode'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.actionMode' />
+            <label for='actionMode'>Action Mode</label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!recordLogEditUI.valid'
+                 (onSave)='Save(recordLogEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

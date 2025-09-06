@@ -1,0 +1,47 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Week Day'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Title'>
+                            {{ currentInstance.title  }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'serviceOrientedWorkTime'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='serviceOrientedWorkTime'
+                                (dblclick)='navigateTo("base/serviceOrientedWorkTime")'>Service Oriented Work Time</button>
+                        <button cTab
+                                itemKey='workTime'
+                                (dblclick)='navigateTo("base/workTime")'>Work Time</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='serviceOrientedWorkTime'>
+                            <base-weekDay-serviceOrientedWorkTime-detail [weekDay]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='workTime'>
+                            <base-weekDay-workTime-detail [weekDay]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

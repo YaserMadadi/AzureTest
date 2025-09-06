@@ -1,0 +1,42 @@
+<!-- Edit Form of [Base].[BehaviorCategory] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Behavior Category")'
+           (onClosed)='closed(false)'>
+    <form #behaviorCategoryEditUI='ngForm'
+          (ngSubmit)='Save(behaviorCategoryEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!behaviorCategoryEditUI.valid'
+                  (onSave)='Save(behaviorCategoryEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

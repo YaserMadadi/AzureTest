@@ -1,0 +1,42 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Provider Certification'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Provider'>
+                            {{ currentInstance.provider?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Certification'>
+                            {{ currentInstance.certification?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Date Issued'>
+                            {{ currentInstance.dateIssued | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Expiry Date'>
+                            {{ currentInstance.expiryDate | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Document Url'>
+                            {{ currentInstance.documentUrl  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Approved'>
+                            {{ currentInstance.isApproved | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

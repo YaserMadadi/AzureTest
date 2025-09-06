@@ -1,0 +1,79 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Account Status'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(accountStatusEditUI)'
+                              (editButtonClick)='editRecord(accountStatusEditUI)'
+                              (deleteButtonClick)='deleteRecord(accountStatusDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(accountStatus of list$ | async; track accountStatus; let i = $index) {
+                        <tr (click)='onSelect(accountStatus)'
+                            (dblclick)='onDoubleClick(accountStatusEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == accountStatus.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ accountStatus.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='accountStatus.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/accountStatus'
+                                             (onEdit)='editRecord(accountStatusEditUI, accountStatus)'
+                                             [id]='accountStatus.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-accountStatus-edit #accountStatusEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-accountStatus-delete #accountStatusDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-userAccount-edit #userAccountEditUI
+                        [accountStatusLocked]='true' />

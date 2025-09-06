@@ -1,0 +1,76 @@
+<!-- Edit Form of [Base].[ProviderConnection] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Provider Connection")'
+           (onClosed)='closed(false)'>
+    <form #providerConnectionEditUI='ngForm'
+          (ngSubmit)='Save(providerConnectionEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Connection Type -->
+            <div class='mb-3'>
+                <lookup #connectionType
+                        required
+                        name='connectionType'
+                        label='Connection Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='connectionTypeLinker.list$ | async'
+                        [locked]='connectionTypeLinker.locked'
+                        [filterable]='connectionTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.connectionType'
+                        [(selectedItem)]='currentInstance.connectionType'
+                        (onSeek)='connectionTypeLinker.onSeek($event)'
+                        (onReload)='connectionTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Value -->
+            <div class='form-floating mb-3'>
+                <input #value
+                       required
+                       id='value'
+                       name='value'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.value' />
+                <label for='value'>Value</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!providerConnectionEditUI.valid'
+                  (onSave)='Save(providerConnectionEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

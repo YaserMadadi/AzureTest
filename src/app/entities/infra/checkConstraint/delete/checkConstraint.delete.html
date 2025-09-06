@@ -1,0 +1,35 @@
+
+<!-- Delete Form of [Infra].[CheckConstraint] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("CheckConstraint")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #checkConstraintDeleteUI='ngForm'
+          (ngSubmit)='onDelete(checkConstraintDeleteUI)'>
+        <div class='container'>
+            <presenter name='name'
+                       title='Name : '
+                       [value]='currentInstance.name' />
+			<presenter name='schemaName'
+                       title='Schema Name : '
+                       [value]='currentInstance.schemaName' />
+			<presenter name='entityName'
+                       title='Entity Name : '
+                       [value]='currentInstance.entityName' />
+			<presenter name='definition'
+                       title='Definition : '
+                       [value]='currentInstance.definition' />
+			<presenter name='message'
+                       title='Message : '
+                       [value]='currentInstance.message' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(checkConstraintDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

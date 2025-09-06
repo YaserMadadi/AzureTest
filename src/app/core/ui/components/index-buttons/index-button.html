@@ -1,0 +1,51 @@
+<div class='d-flex justify-content-between'>
+    <div>
+        <button class='btn btn-outline-info mt-2 m-1'
+                (click)='addButtonClick.emit()'
+                *ngIf='addButtonVisibility'>
+            <!-- <i class='cil-medical-cross icon'></i> -->
+            افزودن
+        </button>
+        <button class='btn btn-outline-secondary mt-2 m-1'
+                (click)='editButtonClick.emit()'
+                *ngIf='editButtonVisibility'
+                [disabled]='currentInstance.id === 0'>
+            <!-- <i class='cil-medical-cross icon'></i> -->
+            ویرایش
+        </button>
+        <button class='btn btn-outline-warning mt-2 m-1'
+                (click)='deleteButtonClick.emit()'
+                *ngIf='deleteButtonVisibility'
+                [disabled]='currentInstance.id === 0'>
+            <!-- <i class='cil-medical-cross icon'></i> -->
+            حذف
+        </button>
+    </div>
+    <div>
+        <button class='btn btn-outline-default refresh-btn'
+                (click)='onLogButtonClicked()'
+                [disabled]='currentInstance.id <= 0'
+                *ngIf='logButtonVisibility'>
+            <!-- <i class='cil-medical-cross icon'></i> -->
+            <svg [cIcon]='icons.cilLayers'
+                 size='2xl'></svg>
+        </button>
+        <dropdown-menu [items]='quickAddItems'
+                       [disabled]='quickAddMenuDisabled'
+                       [icon]='icons.cilLibraryAdd'
+                       class='p-2'>
+        </dropdown-menu>
+        <dropdown-menu [items]='linkedEntityItems'
+                       [disabled]='linkedEntityMenuDisabled'
+                       [icon]='icons.cilTags'
+                       class='p-1'>
+        </dropdown-menu>
+        <v-sep />
+        <button class='btn btn-outline-default me-4 refresh-btn'
+                (click)='refreshButtonClick.emit()'
+                *ngIf='refreshButtonVisibility'>
+            <!-- <i class='cil-medical-cross icon'></i> -->
+            بازیابی مجــدد
+        </button>
+    </div>
+</div>

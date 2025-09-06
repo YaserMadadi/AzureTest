@@ -1,0 +1,78 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Pet</th>
+					<th>Behavior Category</th>
+					<th>Note</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='behaviorCategoryLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='behaviorCategoryLinker.filterable'
+                                [(ngModel)]='filterInstance.behaviorCategory'
+                                [(selectedItem)]='filterInstance.behaviorCategory'
+                                (onSeek)='behaviorCategoryLinker.onSeek($event)'
+                                (onInit)='behaviorCategoryLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(petBehavior of list$ | async; track petBehavior; let i = $index) {
+                <tr (click)='onRowClick(petBehavior)'
+                    (dblclick)='onRowDblClick(petBehaviorEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == petBehavior?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ petBehavior.pet!.descriptor }}</td>
+					<td>{{ petBehavior.behaviorCategory!.descriptor }}</td>
+					<td>{{ petBehavior.note }}</td>
+					<td class='action'>
+                        <row-buttons [id]='petBehavior.id'
+                                     route='/base/petBehavior'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(petBehaviorEditUI, petBehavior)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(petBehaviorEditUI)'
+                        (editButtonClick)='onEditButtonClick(petBehaviorEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(petBehaviorDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-petBehavior-edit #petBehaviorEditUI 
+                                [petLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-petBehavior-delete #petBehaviorDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

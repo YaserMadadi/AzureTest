@@ -1,0 +1,69 @@
+<!-- Edit Form of [Fund].[ClientWallet] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Client Wallet")'
+           (onClosed)='closed(false)'>
+    <form #clientWalletEditUI='ngForm'
+          (ngSubmit)='Save(clientWalletEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Client -->
+            <div class='mb-3'>
+                <lookup #client
+                        required
+                        name='client'
+                        label='Client : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='clientLinker.list$ | async'
+                        [locked]='clientLinker.locked'
+                        [filterable]='clientLinker.filterable'
+                        [(ngModel)]='currentInstance.client'
+                        [(selectedItem)]='currentInstance.client'
+                        (onSeek)='clientLinker.onSeek($event)'
+                        (onReload)='clientLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Balance -->
+            <div class='form-floating mb-3'>
+                <input #balance
+                       required
+                       id='balance'
+                       name='balance'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.balance' />
+                <label for='balance'>Balance</label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!clientWalletEditUI.valid'
+                  (onSave)='Save(clientWalletEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

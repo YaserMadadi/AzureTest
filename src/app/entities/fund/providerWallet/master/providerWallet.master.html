@@ -1,0 +1,46 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Provider Wallet'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Provider'>
+                            {{ currentInstance.provider?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Balance'>
+                            {{ currentInstance.balance  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Note'>
+                            {{ currentInstance.note  }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'bookingTransaction'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='bookingTransaction'
+                                (dblclick)='navigateTo("fund/bookingTransaction")'>Booking Transaction</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='bookingTransaction'>
+                            <fund-providerWallet-bookingTransaction-detail [providerWallet]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

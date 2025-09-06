@@ -1,0 +1,35 @@
+
+<!-- Delete Form of [Base].[ProviderBankAccount] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ProviderBankAccount")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #providerBankAccountDeleteUI='ngForm'
+          (ngSubmit)='onDelete(providerBankAccountDeleteUI)'>
+        <div class='container'>
+            <presenter name='provider_Id'
+                       title='Provider : '
+                       [value]='currentInstance.provider!.descriptor' />
+			<presenter name='bank_Id'
+                       title='Bank : '
+                       [value]='currentInstance.bank!.descriptor' />
+			<presenter name='institutionNumber'
+                       title='Institution Number : '
+                       [value]='currentInstance.institutionNumber | number' />
+			<presenter name='accountNumber'
+                       title='Account Number : '
+                       [value]='currentInstance.accountNumber | number' />
+			<presenter name='accountHolderName'
+                       title='Account Holder Name : '
+                       [value]='currentInstance.accountHolderName' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(providerBankAccountDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

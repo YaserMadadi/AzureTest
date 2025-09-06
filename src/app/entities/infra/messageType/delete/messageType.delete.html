@@ -1,0 +1,20 @@
+
+<!-- Delete Form of [Infra].[MessageType] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("MessageType")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #messageTypeDeleteUI='ngForm'
+          (ngSubmit)='onDelete(messageTypeDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(messageTypeDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

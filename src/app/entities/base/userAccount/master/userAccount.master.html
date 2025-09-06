@@ -1,0 +1,92 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='User Account'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Email'>
+                            {{ currentInstance.email  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Password'>
+                            {{ currentInstance.password  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Hash'>
+                            {{ currentInstance.hash  }}
+                        </presenter-textbox>
+						<presenter-textbox title='User Type'>
+                            {{ currentInstance.userType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Account Status'>
+                            {{ currentInstance.accountStatus?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Status Note'>
+                            {{ currentInstance.statusNote  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Email Is Verified'>
+                            {{ currentInstance.emailIsVerified | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Note'>
+                            {{ currentInstance.note  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'roleMember'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='roleMember'
+                                (dblclick)='navigateTo("admin/roleMember")'>Role Member</button>
+                        <button cTab
+                                itemKey='staff'
+                                (dblclick)='navigateTo("admin/staff")'>Staff</button>
+                        <button cTab
+                                itemKey='client'
+                                (dblclick)='navigateTo("base/client")'>Client</button>
+                        <button cTab
+                                itemKey='emailVerification'
+                                (dblclick)='navigateTo("base/emailVerification")'>Email Verification</button>
+                        <button cTab
+                                itemKey='provider'
+                                (dblclick)='navigateTo("base/provider")'>Provider</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='roleMember'>
+                            <base-userAccount-roleMember-detail [userAccount]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='staff'>
+                            <base-userAccount-staff-detail [userAccount]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='client'>
+                            <base-userAccount-client-detail [userAccount]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='emailVerification'>
+                            <base-userAccount-emailVerification-detail [userAccount]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='provider'>
+                            <base-userAccount-provider-detail [userAccount]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

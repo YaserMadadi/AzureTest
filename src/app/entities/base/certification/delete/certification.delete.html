@@ -1,0 +1,26 @@
+
+<!-- Delete Form of [Base].[Certification] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Certification")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #certificationDeleteUI='ngForm'
+          (ngSubmit)='onDelete(certificationDeleteUI)'>
+        <div class='container'>
+            <presenter name='certificationType_Id'
+                       title='Certification Type : '
+                       [value]='currentInstance.certificationType!.descriptor' />
+			<presenter name='certIssuingOrganization_Id'
+                       title='Cert Issuing Organization : '
+                       [value]='currentInstance.certIssuingOrganization!.descriptor' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(certificationDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

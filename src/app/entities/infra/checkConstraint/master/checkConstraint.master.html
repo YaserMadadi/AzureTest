@@ -1,0 +1,39 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Check Constraint'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Name'>
+                            {{ currentInstance.name  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Schema Name'>
+                            {{ currentInstance.schemaName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Entity Name'>
+                            {{ currentInstance.entityName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Definition'>
+                            {{ currentInstance.definition  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Message'>
+                            {{ currentInstance.message  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

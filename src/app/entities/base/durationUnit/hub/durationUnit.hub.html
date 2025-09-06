@@ -1,0 +1,79 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Duration Unit'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(durationUnitEditUI)'
+                              (editButtonClick)='editRecord(durationUnitEditUI)'
+                              (deleteButtonClick)='deleteRecord(durationUnitDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(durationUnit of list$ | async; track durationUnit; let i = $index) {
+                        <tr (click)='onSelect(durationUnit)'
+                            (dblclick)='onDoubleClick(durationUnitEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == durationUnit.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ durationUnit.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='durationUnit.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/durationUnit'
+                                             (onEdit)='editRecord(durationUnitEditUI, durationUnit)'
+                                             [id]='durationUnit.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-durationUnit-edit #durationUnitEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-durationUnit-delete #durationUnitDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-booking-edit #bookingEditUI
+                        [durationUnitLocked]='true' />

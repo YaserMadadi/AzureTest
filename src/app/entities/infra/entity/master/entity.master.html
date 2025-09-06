@@ -1,0 +1,65 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Entity'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Schema'>
+                            {{ currentInstance.schema  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Name'>
+                            {{ currentInstance.name  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Synonym'>
+                            {{ currentInstance.synonym  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Guide Title'>
+                            {{ currentInstance.guideTitle  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Index Url'>
+                            {{ currentInstance.indexUrl  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Record Per Page'>
+                            {{ currentInstance.recordPerPage | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'rolePermission'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='rolePermission'
+                                (dblclick)='navigateTo("admin/rolePermission")'>Role Permission</button>
+                        <button cTab
+                                itemKey='staffPermission'
+                                (dblclick)='navigateTo("admin/staffPermission")'>Staff Permission</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='rolePermission'>
+                            <infra-entity-rolePermission-detail [entity]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='staffPermission'>
+                            <infra-entity-staffPermission-detail [entity]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

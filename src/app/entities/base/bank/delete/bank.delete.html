@@ -1,0 +1,26 @@
+
+<!-- Delete Form of [Base].[Bank] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Bank")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #bankDeleteUI='ngForm'
+          (ngSubmit)='onDelete(bankDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(bankDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

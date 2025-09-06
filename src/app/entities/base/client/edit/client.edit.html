@@ -1,0 +1,187 @@
+<!-- Edit Form of [Base].[Client] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Client")'
+           (onClosed)='closed(false)'>
+   <form #clientEditUI='ngForm'
+         (ngSubmit)='Save(clientEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- FirstName -->
+         <div class='form-floating mb-3'>
+            <input #firstName
+                   required
+                   id='firstName'
+                   name='firstName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.firstName' />
+            <label for='firstName'>First Name</label>
+         </div>
+         <!-- MiddleName -->
+         <div class='form-floating mb-3'>
+            <input #middleName
+                   required
+                   id='middleName'
+                   name='middleName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.middleName' />
+            <label for='middleName'>Middle Name</label>
+         </div>
+         <!-- LastName -->
+         <div class='form-floating mb-3'>
+            <input #lastName
+                   required
+                   id='lastName'
+                   name='lastName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.lastName' />
+            <label for='lastName'>Last Name</label>
+         </div>
+         <!-- NickName -->
+         <div class='form-floating mb-3'>
+            <input #nickName
+                   required
+                   id='nickName'
+                   name='nickName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.nickName' />
+            <label for='nickName'>Nick Name</label>
+         </div>
+         <!-- Gender -->
+         <div class='mb-3'>
+            <lookup #gender
+                    required
+                    name='gender'
+                    label='Gender : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='genderLinker.list$ | async'
+                    [locked]='genderLinker.locked'
+                    [filterable]='genderLinker.filterable'
+                    [(ngModel)]='currentInstance.gender'
+                    [(selectedItem)]='currentInstance.gender'
+                    (onSeek)='genderLinker.onSeek($event)'
+                    (onReload)='genderLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- User Account -->
+         <div class='mb-3'>
+            <lookup #userAccount
+                    required
+                    name='userAccount'
+                    label='User Account : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='userAccountLinker.list$ | async'
+                    [locked]='userAccountLinker.locked'
+                    [filterable]='userAccountLinker.filterable'
+                    [(ngModel)]='currentInstance.userAccount'
+                    [(selectedItem)]='currentInstance.userAccount'
+                    (onSeek)='userAccountLinker.onSeek($event)'
+                    (onReload)='userAccountLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- PhoneNumber -->
+         <div class='form-floating mb-3'>
+            <input #phoneNumber
+                   required
+                   id='phoneNumber'
+                   name='phoneNumber'
+                   class='form-control'
+                   type='tel'
+                   [(ngModel)]='currentInstance.phoneNumber' />
+            <label for='phoneNumber'>Phone Number</label>
+         </div>
+         <!-- Phone Verification Status -->
+         <div class='mb-3'>
+            <lookup #phoneVerificationStatus
+                    required
+                    name='phoneVerificationStatus'
+                    label='Phone Verification Status : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='phoneVerificationStatusLinker.list$ | async'
+                    [locked]='phoneVerificationStatusLinker.locked'
+                    [filterable]='phoneVerificationStatusLinker.filterable'
+                    [(ngModel)]='currentInstance.phoneVerificationStatus'
+                    [(selectedItem)]='currentInstance.phoneVerificationStatus'
+                    (onSeek)='phoneVerificationStatusLinker.onSeek($event)'
+                    (onReload)='phoneVerificationStatusLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- City -->
+         <div class='mb-3'>
+            <lookup #city
+                    required
+                    name='city'
+                    label='City : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='cityLinker.list$ | async'
+                    [locked]='cityLinker.locked'
+                    [filterable]='cityLinker.filterable'
+                    [(ngModel)]='currentInstance.city'
+                    [(selectedItem)]='currentInstance.city'
+                    (onSeek)='cityLinker.onSeek($event)'
+                    (onReload)='cityLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- AddressLine -->
+         <div class='form-floating mb-3'>
+            <input #addressLine
+                   required
+                   id='addressLine'
+                   name='addressLine'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.addressLine' />
+            <label for='addressLine'>Address Line</label>
+         </div>
+         <!-- ExtendedAddressLine -->
+         <div class='form-floating mb-3'>
+            <input #extendedAddressLine
+                   required
+                   id='extendedAddressLine'
+                   name='extendedAddressLine'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.extendedAddressLine' />
+            <label for='extendedAddressLine'>Extended Address Line</label>
+         </div>
+         <!-- PostalCode -->
+         <div class='form-floating mb-3'>
+            <input #postalCode
+                   required
+                   id='postalCode'
+                   name='postalCode'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.postalCode' />
+            <label for='postalCode'>Postal Code</label>
+         </div>
+         <!-- IsActive -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsActive'
+                   name='IsActive'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isActive' />
+            <label class='form-check-label'
+                   for='IsActive'>
+               Is Active
+            </label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!clientEditUI.valid'
+                 (onSave)='Save(clientEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

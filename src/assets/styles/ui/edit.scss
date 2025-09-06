@@ -1,0 +1,31 @@
+ ::ng-deep .p-dialog-content {
+   overflow: visible !important;
+ }
+
+ ::ng-deep .p-dialog {
+   overflow: visible !important;
+ }
+
+ .button-edit {
+   background-color: #edf3ed;
+   color: #7da17d;
+   border-color: rgb(177, 206, 177);
+
+   &:hover {
+     background-color: #d5e9d5;
+     color: #46594b;
+     border-color: #a7bfa7;
+   }
+ }
+
+ .button-cancel {
+   background-color: #f0f4f9;
+   color: rgb(109, 109, 109);
+   border-color: #dfe5ec;
+
+   &:hover {
+     background-color: rgb(227, 231, 235);
+     color: rgb(53, 53, 53);
+     border-color: rgb(211, 217, 223);
+   }
+ }

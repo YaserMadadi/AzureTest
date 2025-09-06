@@ -1,0 +1,97 @@
+<!-- Edit Form of [Base].[ClientReview] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Client Review")'
+           (onClosed)='closed(false)'>
+    <form #clientReviewEditUI='ngForm'
+          (ngSubmit)='Save(clientReviewEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Client -->
+            <div class='mb-3'>
+                <lookup #client
+                        required
+                        name='client'
+                        label='Client : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='clientLinker.list$ | async'
+                        [locked]='clientLinker.locked'
+                        [filterable]='clientLinker.filterable'
+                        [(ngModel)]='currentInstance.client'
+                        [(selectedItem)]='currentInstance.client'
+                        (onSeek)='clientLinker.onSeek($event)'
+                        (onReload)='clientLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Time -->
+            <!-- <div class='form-floating mb-3'>
+                <input #time
+                   required
+                    id='time'
+                   name='time'
+                   class='form-control'
+                   type='datetime'
+                   [(ngModel)]='currentInstance.time' />
+                <label for='time'>Time</label>
+            </div> -->
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- Rate -->
+            <div class='form-floating mb-3'>
+                <input #rate
+                       required
+                       id='rate'
+                       name='rate'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.rate' />
+                <label for='rate'>Rate</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!clientReviewEditUI.valid'
+                  (onSave)='Save(clientReviewEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

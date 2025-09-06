@@ -1,0 +1,26 @@
+/* server-error.component.css */
+.error-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff5f5, #ffeaea);
+  color: #343a40;
+  padding: 20px;
+}
+
+.error-code {
+  font-size: 8rem;
+  font-weight: 800;
+  color: #dc3545;
+  /* chic red tone for error */
+  margin-bottom: 0.5rem;
+}
+
+.error-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.error-message {
+  font-size: 1.1rem;
+  color: #6c757d;
+}

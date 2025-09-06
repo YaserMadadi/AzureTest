@@ -1,0 +1,44 @@
+
+<!-- Delete Form of [Fund].[ClientWalletTransactionLog] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ClientWalletTransactionLog")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #clientWalletTransactionLogDeleteUI='ngForm'
+          (ngSubmit)='onDelete(clientWalletTransactionLogDeleteUI)'>
+        <div class='container'>
+            <presenter name='clientWallet_Id'
+                       title='Client Wallet : '
+                       [value]='currentInstance.clientWallet!.descriptor' />
+			<presenter name='transactionType_Id'
+                       title='Transaction Type : '
+                       [value]='currentInstance.transactionType!.descriptor' />
+			<presenter name='amount'
+                       title='Amount : '
+                       [value]='currentInstance.amount ' />
+			<presenter name='date'
+                       title='Date : '
+                       [value]='currentInstance.date | date:"fullDate"' />
+			<presenter name='time'
+                       title='Time : '
+                       [value]='currentInstance.time' />
+			<presenter name='transactionStatus_Id'
+                       title='Transaction Status : '
+                       [value]='currentInstance.transactionStatus!.descriptor' />
+			<presenter name='balance'
+                       title='Balance : '
+                       [value]='currentInstance.balance ' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(clientWalletTransactionLogDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

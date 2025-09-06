@@ -1,0 +1,39 @@
+
+
+import { Component, Input, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+import { AppModalComponent } from '../../../../../core/ui/modal';
+import { LookupComponent, EditButtons } from '../../../../../core/ui/components';
+import { ForeignkeyLinker } from '../../../../../core/ui/helper';
+import { EditUI } from '../../../../../core/ui/baseUI';
+
+import { Gender, Gender_Service } from '..';
+
+
+
+@Component({
+  selector: 'base-gender-edit',
+  templateUrl: './gender.edit.html',
+  styleUrls: ['./gender.edit.scss'],
+  imports: [
+    FormsModule,
+    CommonModule,
+    AppModalComponent,
+    
+    EditButtons,
+  ]
+})
+export class GenderEditUI extends EditUI<Gender> {
+    
+  constructor(public override service: Gender_Service = inject(Gender_Service )) {
+    super(service); 
+    
+  }
+
+  
+
+  
+
+}

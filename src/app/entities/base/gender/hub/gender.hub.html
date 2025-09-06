@@ -1,0 +1,83 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Gender'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(genderEditUI)'
+                              (editButtonClick)='editRecord(genderEditUI)'
+                              (deleteButtonClick)='deleteRecord(genderDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Pre Fix</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.preFix'
+                                       (input)='onSeek()'
+                                       placeholder='Search Pre Fix' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(gender of list$ | async; track gender; let i = $index) {
+                        <tr (click)='onSelect(gender)'
+                            (dblclick)='onDoubleClick(genderEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == gender.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ gender.title }}</td>
+							<td>{{ gender.preFix }}</td>
+                            <td>
+                                <row-buttons route='/base/gender'
+                                             (onEdit)='editRecord(genderEditUI, gender)'
+                                             [id]='gender.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-gender-edit #genderEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-gender-delete #genderDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<admin-staff-edit #staffEditUI
+                        [genderLocked]='true' />
+		<base-client-edit #clientEditUI
+                        [genderLocked]='true' />
+		<base-individualProvider-edit #individualProviderEditUI
+                        [genderLocked]='true' />
+		<base-pet-edit #petEditUI
+                        [genderLocked]='true' />

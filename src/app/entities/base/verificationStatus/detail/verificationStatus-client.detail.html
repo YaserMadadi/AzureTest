@@ -1,0 +1,185 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>First Name</th>
+					<th>Middle Name</th>
+					<th>Last Name</th>
+					<th>Nick Name</th>
+					<th>Gender</th>
+					<th>User Account</th>
+					<th>Phone Number</th>
+					<th>Phone Verification Status</th>
+					<th>City</th>
+					<th>Address Line</th>
+					<th>Extended Address Line</th>
+					<th>Postal Code</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.firstName'
+                                (input)='onSeek()'
+                                placeholder='Search First Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.middleName'
+                                (input)='onSeek()'
+                                placeholder='Search Middle Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.lastName'
+                                (input)='onSeek()'
+                                placeholder='Search Last Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.nickName'
+                                (input)='onSeek()'
+                                placeholder='Search Nick Name' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='genderLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='genderLinker.filterable'
+                                [(ngModel)]='filterInstance.gender'
+                                [(selectedItem)]='filterInstance.gender'
+                                (onSeek)='genderLinker.onSeek($event)'
+                                (onInit)='genderLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='userAccountLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='userAccountLinker.filterable'
+                                [(ngModel)]='filterInstance.userAccount'
+                                [(selectedItem)]='filterInstance.userAccount'
+                                (onSeek)='userAccountLinker.onSeek($event)'
+                                (onInit)='userAccountLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.phoneNumber'
+                                (input)='onSeek()'
+                                placeholder='Search Phone Number' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='cityLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='cityLinker.filterable'
+                                [(ngModel)]='filterInstance.city'
+                                [(selectedItem)]='filterInstance.city'
+                                (onSeek)='cityLinker.onSeek($event)'
+                                (onInit)='cityLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.addressLine'
+                                (input)='onSeek()'
+                                placeholder='Search Address Line' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.extendedAddressLine'
+                                (input)='onSeek()'
+                                placeholder='Search Extended Address Line' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.postalCode'
+                                (input)='onSeek()'
+                                placeholder='Search Postal Code' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(client of list$ | async; track client; let i = $index) {
+                <tr (click)='onRowClick(client)'
+                    (dblclick)='onRowDblClick(clientEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == client?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ client.firstName }}</td>
+					<td>{{ client.middleName }}</td>
+					<td>{{ client.lastName }}</td>
+					<td>{{ client.nickName }}</td>
+					<td>{{ client.gender!.descriptor }}</td>
+					<td>{{ client.userAccount!.descriptor }}</td>
+					<td>{{ client.phoneNumber }}</td>
+					<td>{{ client.phoneVerificationStatus!.descriptor }}</td>
+					<td>{{ client.city!.descriptor }}</td>
+					<td>{{ client.addressLine }}</td>
+					<td>{{ client.extendedAddressLine }}</td>
+					<td>{{ client.postalCode }}</td>
+					<td>{{ client.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='client.id'
+                                     route='/base/client'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(clientEditUI, client)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(clientEditUI)'
+                        (editButtonClick)='onEditButtonClick(clientEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(clientDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-client-edit #clientEditUI 
+                                [phoneVerificationStatusLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-client-delete #clientDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

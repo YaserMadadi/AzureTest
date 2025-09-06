@@ -1,0 +1,153 @@
+<!-- Edit Form of [Base].[Booking] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Booking")'
+           (onClosed)='closed(false)'>
+   <form #bookingEditUI='ngForm'
+         (ngSubmit)='Save(bookingEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Pet -->
+         <div class='mb-3'>
+            <lookup #pet
+                    required
+                    name='pet'
+                    label='Pet : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='petLinker.list$ | async'
+                    [locked]='petLinker.locked'
+                    [filterable]='petLinker.filterable'
+                    [(ngModel)]='currentInstance.pet'
+                    [(selectedItem)]='currentInstance.pet'
+                    (onSeek)='petLinker.onSeek($event)'
+                    (onReload)='petLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Provider -->
+         <div class='mb-3'>
+            <lookup #provider
+                    required
+                    name='provider'
+                    label='Provider : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='providerLinker.list$ | async'
+                    [locked]='providerLinker.locked'
+                    [filterable]='providerLinker.filterable'
+                    [(ngModel)]='currentInstance.provider'
+                    [(selectedItem)]='currentInstance.provider'
+                    (onSeek)='providerLinker.onSeek($event)'
+                    (onReload)='providerLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- StartDate -->
+         <!-- <div class='form-floating mb-3'>
+                <input #startDate
+                   required
+                    id='startDate'
+                   name='startDate'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.startDate' />
+                <label for='startDate'>Start Date</label>
+            </div> -->
+         <!-- StartTime -->
+         <div class='form-floating mb-3'>
+            <input #startTime
+                   required
+                   id='startTime'
+                   name='startTime'
+                   class='form-control'
+                   type='time'
+                   [(ngModel)]='currentInstance.startTime' />
+            <label for='startTime'>Start Time</label>
+         </div>
+         <!-- Duration -->
+         <div class='form-floating mb-3'>
+            <input #duration
+                   required
+                   id='duration'
+                   name='duration'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.duration' />
+            <label for='duration'>Duration</label>
+         </div>
+         <!-- Duration Unit -->
+         <div class='mb-3'>
+            <lookup #durationUnit
+                    required
+                    name='durationUnit'
+                    label='Duration Unit : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='durationUnitLinker.list$ | async'
+                    [locked]='durationUnitLinker.locked'
+                    [filterable]='durationUnitLinker.filterable'
+                    [(ngModel)]='currentInstance.durationUnit'
+                    [(selectedItem)]='currentInstance.durationUnit'
+                    (onSeek)='durationUnitLinker.onSeek($event)'
+                    (onReload)='durationUnitLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- TotalAmount -->
+         <div class='form-floating mb-3'>
+            <input #totalAmount
+                   required
+                   id='totalAmount'
+                   name='totalAmount'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.totalAmount' />
+            <label for='totalAmount'>Total Amount</label>
+         </div>
+         <!-- Booking Status -->
+         <div class='mb-3'>
+            <lookup #bookingStatus
+                    required
+                    name='bookingStatus'
+                    label='Booking Status : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='bookingStatusLinker.list$ | async'
+                    [locked]='bookingStatusLinker.locked'
+                    [filterable]='bookingStatusLinker.filterable'
+                    [(ngModel)]='currentInstance.bookingStatus'
+                    [(selectedItem)]='currentInstance.bookingStatus'
+                    (onSeek)='bookingStatusLinker.onSeek($event)'
+                    (onReload)='bookingStatusLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Note -->
+         <div class='form-floating mb-3'>
+            <input #note
+                   id='note'
+                   name='note'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.note' />
+            <label for='note'>Note</label>
+         </div>
+         <!-- IsActive -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsActive'
+                   name='IsActive'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isActive' />
+            <label class='form-check-label'
+                   for='IsActive'>
+               Is Active
+            </label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!bookingEditUI.valid'
+                 (onSave)='Save(bookingEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

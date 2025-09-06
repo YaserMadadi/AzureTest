@@ -1,0 +1,20 @@
+
+<!-- Delete Form of [Base].[WeekDay] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("WeekDay")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #weekDayDeleteUI='ngForm'
+          (ngSubmit)='onDelete(weekDayDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(weekDayDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

@@ -1,0 +1,77 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Certification Type</th>
+					<th>Cert Issuing Organization</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='certIssuingOrganizationLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='certIssuingOrganizationLinker.filterable'
+                                [(ngModel)]='filterInstance.certIssuingOrganization'
+                                [(selectedItem)]='filterInstance.certIssuingOrganization'
+                                (onSeek)='certIssuingOrganizationLinker.onSeek($event)'
+                                (onInit)='certIssuingOrganizationLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(certification of list$ | async; track certification; let i = $index) {
+                <tr (click)='onRowClick(certification)'
+                    (dblclick)='onRowDblClick(certificationEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == certification?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ certification.certificationType!.descriptor }}</td>
+					<td>{{ certification.certIssuingOrganization!.descriptor }}</td>
+					<td>{{ certification.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='certification.id'
+                                     route='/base/certification'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(certificationEditUI, certification)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(certificationEditUI)'
+                        (editButtonClick)='onEditButtonClick(certificationEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(certificationDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-certification-edit #certificationEditUI 
+                                [certificationTypeLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-certification-delete #certificationDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

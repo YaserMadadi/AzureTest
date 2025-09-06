@@ -1,0 +1,26 @@
+
+<!-- Delete Form of [Base].[EnterpriseProviderInsurance] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("EnterpriseProviderInsurance")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #enterpriseProviderInsuranceDeleteUI='ngForm'
+          (ngSubmit)='onDelete(enterpriseProviderInsuranceDeleteUI)'>
+        <div class='container'>
+            <presenter name='enterpriseProvider_Id'
+                       title='Enterprise Provider : '
+                       [value]='currentInstance.enterpriseProvider!.descriptor' />
+			<presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(enterpriseProviderInsuranceDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

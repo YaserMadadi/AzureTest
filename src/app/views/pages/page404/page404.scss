@@ -1,0 +1,26 @@
+/* not-found.component.css */
+.not-found-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #343a40;
+  padding: 20px;
+}
+
+.error-code {
+  font-size: 8rem;
+  font-weight: 800;
+  color: #6c63ff;
+  /* nice chic violet */
+  margin-bottom: 0.5rem;
+}
+
+.error-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.error-message {
+  font-size: 1.1rem;
+  color: #6c757d;
+}

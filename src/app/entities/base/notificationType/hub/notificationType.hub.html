@@ -1,0 +1,79 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Notification Type'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(notificationTypeEditUI)'
+                              (editButtonClick)='editRecord(notificationTypeEditUI)'
+                              (deleteButtonClick)='deleteRecord(notificationTypeDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(notificationType of list$ | async; track notificationType; let i = $index) {
+                        <tr (click)='onSelect(notificationType)'
+                            (dblclick)='onDoubleClick(notificationTypeEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == notificationType.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ notificationType.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='notificationType.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/notificationType'
+                                             (onEdit)='editRecord(notificationTypeEditUI, notificationType)'
+                                             [id]='notificationType.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-notificationType-edit #notificationTypeEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-notificationType-delete #notificationTypeDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-clientNotification-edit #clientNotificationEditUI
+                        [notificationTypeLocked]='true' />

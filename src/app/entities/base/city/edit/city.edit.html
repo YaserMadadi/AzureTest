@@ -1,0 +1,59 @@
+<!-- Edit Form of [Base].[City] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("City")'
+           (onClosed)='closed(false)'>
+    <form #cityEditUI='ngForm'
+          (ngSubmit)='Save(cityEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- Province -->
+            <div class='mb-3'>
+                <lookup #province
+                        required
+                        name='province'
+                        label='Province : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='provinceLinker.list$ | async'
+                        [locked]='provinceLinker.locked'
+                        [filterable]='provinceLinker.filterable'
+                        [(ngModel)]='currentInstance.province'
+                        [(selectedItem)]='currentInstance.province'
+                        (onSeek)='provinceLinker.onSeek($event)'
+                        (onReload)='provinceLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!cityEditUI.valid'
+                  (onSave)='Save(cityEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

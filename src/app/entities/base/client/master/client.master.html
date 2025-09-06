@@ -1,0 +1,104 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Client'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='First Name'>
+                            {{ currentInstance.firstName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Middle Name'>
+                            {{ currentInstance.middleName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Last Name'>
+                            {{ currentInstance.lastName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Nick Name'>
+                            {{ currentInstance.nickName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Gender'>
+                            {{ currentInstance.gender?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='User Account'>
+                            {{ currentInstance.userAccount?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Phone Number'>
+                            {{ currentInstance.phoneNumber  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Phone Verification Status'>
+                            {{ currentInstance.phoneVerificationStatus?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='City'>
+                            {{ currentInstance.city?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Address Line'>
+                            {{ currentInstance.addressLine  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Extended Address Line'>
+                            {{ currentInstance.extendedAddressLine  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Postal Code'>
+                            {{ currentInstance.postalCode  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'clientNotification'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='clientNotification'
+                                (dblclick)='navigateTo("base/clientNotification")'>Client Notification</button>
+                        <button cTab
+                                itemKey='clientReview'
+                                (dblclick)='navigateTo("base/clientReview")'>Client Review</button>
+                        <button cTab
+                                itemKey='pet'
+                                (dblclick)='navigateTo("base/pet")'>Pet</button>
+                        <button cTab
+                                itemKey='phoneNumberVerification'
+                                (dblclick)='navigateTo("base/phoneNumberVerification")'>Phone Number Verification</button>
+                        <button cTab
+                                itemKey='clientWallet'
+                                (dblclick)='navigateTo("fund/clientWallet")'>Client Wallet</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='clientNotification'>
+                            <base-client-clientNotification-detail [client]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='clientReview'>
+                            <base-client-clientReview-detail [client]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='pet'>
+                            <base-client-pet-detail [client]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='phoneNumberVerification'>
+                            <base-client-phoneNumberVerification-detail [client]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='clientWallet'>
+                            <base-client-clientWallet-detail [client]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

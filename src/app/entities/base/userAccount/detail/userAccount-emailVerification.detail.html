@@ -1,0 +1,84 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>User Account</th>
+					<th>Verification Code</th>
+					<th>Generate Time</th>
+					<th>Expiry Date</th>
+					<th>Verification Status</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.verificationCode'
+                                (input)='onSeek()'
+                                placeholder='Search Verification Code' />
+                    </th>
+					<th></th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='verificationStatusLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='verificationStatusLinker.filterable'
+                                [(ngModel)]='filterInstance.verificationStatus'
+                                [(selectedItem)]='filterInstance.verificationStatus'
+                                (onSeek)='verificationStatusLinker.onSeek($event)'
+                                (onInit)='verificationStatusLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(emailVerification of list$ | async; track emailVerification; let i = $index) {
+                <tr (click)='onRowClick(emailVerification)'
+                    (dblclick)='onRowDblClick(emailVerificationEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == emailVerification?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ emailVerification.userAccount!.descriptor }}</td>
+					<td>{{ emailVerification.verificationCode }}</td>
+					<td>{{ emailVerification.generateTime| date:"fullDate" }}</td>
+					<td>{{ emailVerification.expiryDate| date:"fullDate" }}</td>
+					<td>{{ emailVerification.verificationStatus!.descriptor }}</td>
+					<td class='action'>
+                        <row-buttons [id]='emailVerification.id'
+                                     route='/base/emailVerification'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(emailVerificationEditUI, emailVerification)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(emailVerificationEditUI)'
+                        (editButtonClick)='onEditButtonClick(emailVerificationEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(emailVerificationDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-emailVerification-edit #emailVerificationEditUI 
+                                [userAccountLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-emailVerification-delete #emailVerificationDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

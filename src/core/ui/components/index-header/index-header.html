@@ -1,0 +1,41 @@
+<div class="d-flex w-100">
+	<strong class='title'>{{ title }}</strong>
+	<button type='button'
+					name='back-button'
+					data-bs-toggle="tooltip"
+					title='رفتن به لیست آبجکت'
+					*ngIf='hubButtonVisible'
+					(click)='onGoToHub()'
+					class='btn ms-auto'>
+		<i class="bi bi-caret-left-square fs-3"></i>
+	</button>
+	<!-- For put on the leftside use ms-auto (margin start = 0)
+	For put on the rightside use me-auto (margin end = 0) -->
+
+</div>
+
+<!-- <button class="btn btn-primary">Left</button>
+	<button class="btn btn-primary me-auto">Left</button>
+	<button class="btn btn-danger ms-auto">Right</button> -->
+
+<!-- <div class='hstack gap-3'>
+	<strong class='me-auto title'>{{ title }}</strong>
+	<button type='button'
+					*ngIf='false'
+					class='btn btn-secondary'>Submit</button>
+	<div class='vr'
+			 *ngIf='false'></div>
+	<button type='button'
+					name='back-button'
+					*ngIf='false'
+					class='btn'>
+		<i class='bi bi-back fs-3'></i>
+	</button>
+	<button type='button'
+					name='back-button'
+					*ngIf='hubButtonVisible'
+					(click)='onGoToHub()'
+					class='btn'>
+		<i class="bi bi-caret-left-square fs-3"></i>
+	</button>
+</div> -->

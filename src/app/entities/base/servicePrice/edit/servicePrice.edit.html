@@ -1,0 +1,86 @@
+<!-- Edit Form of [Base].[ServicePrice] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Service Price")'
+           (onClosed)='closed(false)'>
+    <form #servicePriceEditUI='ngForm'
+          (ngSubmit)='Save(servicePriceEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider Service -->
+            <div class='mb-3'>
+                <lookup #providerService
+                        required
+                        name='providerService'
+                        label='Provider Service : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerServiceLinker.list$ | async'
+                        [locked]='providerServiceLinker.locked'
+                        [filterable]='providerServiceLinker.filterable'
+                        [(ngModel)]='currentInstance.providerService'
+                        [(selectedItem)]='currentInstance.providerService'
+                        (onSeek)='providerServiceLinker.onSeek($event)'
+                        (onReload)='providerServiceLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Price Scope -->
+            <div class='mb-3'>
+                <lookup #priceScope
+                        required
+                        name='priceScope'
+                        label='Price Scope : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='priceScopeLinker.list$ | async'
+                        [locked]='priceScopeLinker.locked'
+                        [filterable]='priceScopeLinker.filterable'
+                        [(ngModel)]='currentInstance.priceScope'
+                        [(selectedItem)]='currentInstance.priceScope'
+                        (onSeek)='priceScopeLinker.onSeek($event)'
+                        (onReload)='priceScopeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- Amount -->
+            <div class='form-floating mb-3'>
+                <input #amount
+                       required
+                       id='amount'
+                       name='amount'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.amount' />
+                <label for='amount'>Amount</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!servicePriceEditUI.valid'
+                  (onSave)='Save(servicePriceEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

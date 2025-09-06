@@ -1,0 +1,130 @@
+<!-- Edit Form of [Admin].[Staff] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Staff")'
+           (onClosed)='closed(false)'>
+   <form #staffEditUI='ngForm'
+         (ngSubmit)='Save(staffEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- FirstName -->
+         <div class='form-floating mb-3'>
+            <input #firstName
+                   required
+                   id='firstName'
+                   name='firstName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.firstName' />
+            <label for='firstName'>First Name</label>
+         </div>
+         <!-- MiddleName -->
+         <div class='form-floating mb-3'>
+            <input #middleName
+                   required
+                   id='middleName'
+                   name='middleName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.middleName' />
+            <label for='middleName'>Middle Name</label>
+         </div>
+         <!-- LastName -->
+         <div class='form-floating mb-3'>
+            <input #lastName
+                   required
+                   id='lastName'
+                   name='lastName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.lastName' />
+            <label for='lastName'>Last Name</label>
+         </div>
+         <!-- NickName -->
+         <div class='form-floating mb-3'>
+            <input #nickName
+                   required
+                   id='nickName'
+                   name='nickName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.nickName' />
+            <label for='nickName'>Nick Name</label>
+         </div>
+         <!-- Gender -->
+         <div class='mb-3'>
+            <lookup #gender
+                    required
+                    name='gender'
+                    label='Gender : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='genderLinker.list$ | async'
+                    [locked]='genderLinker.locked'
+                    [filterable]='genderLinker.filterable'
+                    [(ngModel)]='currentInstance.gender'
+                    [(selectedItem)]='currentInstance.gender'
+                    (onSeek)='genderLinker.onSeek($event)'
+                    (onReload)='genderLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- User Account -->
+         <div class='mb-3'>
+            <lookup #userAccount
+                    required
+                    name='userAccount'
+                    label='User Account : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='userAccountLinker.list$ | async'
+                    [locked]='userAccountLinker.locked'
+                    [filterable]='userAccountLinker.filterable'
+                    [(ngModel)]='currentInstance.userAccount'
+                    [(selectedItem)]='currentInstance.userAccount'
+                    (onSeek)='userAccountLinker.onSeek($event)'
+                    (onReload)='userAccountLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- PhoneNumber -->
+         <div class='form-floating mb-3'>
+            <input #phoneNumber
+                   required
+                   id='phoneNumber'
+                   name='phoneNumber'
+                   class='form-control'
+                   type='tel'
+                   [(ngModel)]='currentInstance.phoneNumber' />
+            <label for='phoneNumber'>Phone Number</label>
+         </div>
+         <!-- IsActive -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsActive'
+                   name='IsActive'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isActive' />
+            <label class='form-check-label'
+                   for='IsActive'>
+               Is Active
+            </label>
+         </div>
+         <!-- Note -->
+         <div class='form-floating mb-3'>
+            <input #note
+                   id='note'
+                   name='note'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.note' />
+            <label for='note'>Note</label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!staffEditUI.valid'
+                 (onSave)='Save(staffEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

@@ -1,0 +1,47 @@
+
+<!-- Delete Form of [Base].[Pet] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Pet")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #petDeleteUI='ngForm'
+          (ngSubmit)='onDelete(petDeleteUI)'>
+        <div class='container'>
+            <presenter name='client_Id'
+                       title='Client : '
+                       [value]='currentInstance.client!.descriptor' />
+			<presenter name='name'
+                       title='Name : '
+                       [value]='currentInstance.name' />
+			<presenter name='gender_Id'
+                       title='Gender : '
+                       [value]='currentInstance.gender!.descriptor' />
+			<presenter name='breed'
+                       title='Breed : '
+                       [value]='currentInstance.breed' />
+			<presenter name='weight'
+                       title='Weight : '
+                       [value]='currentInstance.weight | number' />
+			<presenter name='weightUnit_Id'
+                       title='Weight Unit : '
+                       [value]='currentInstance.weightUnit!.descriptor' />
+			<presenter name='color'
+                       title='Color : '
+                       [value]='currentInstance.color' />
+			<presenter name='dateOfBirth'
+                       title='Date Of Birth : '
+                       [value]='currentInstance.dateOfBirth | date:"fullDate"' />
+			<presenter name='profilePicture'
+                       title='Profile Picture : '
+                       [value]='currentInstance.profilePicture' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(petDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

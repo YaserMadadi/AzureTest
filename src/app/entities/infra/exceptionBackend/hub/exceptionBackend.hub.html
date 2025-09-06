@@ -1,0 +1,121 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Exception Backend'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(exceptionBackendEditUI)'
+                              (editButtonClick)='editRecord(exceptionBackendEditUI)'
+                              (deleteButtonClick)='deleteRecord(exceptionBackendDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+				<!-- Date -->
+						<th>Date</th>
+				<!-- Time -->
+						<th>Time</th>
+						<th>Command Name</th>
+						<th>Command Parameters</th>
+						<th>Exception Type</th>
+						<th>Error Message</th>
+						<th>Error Number</th>
+						<th>Error Code</th>
+						<th>Exception Json Value</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th><!-- Date --></th>
+							<th><!-- Time --></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.commandName'
+                                       (input)='onSeek()'
+                                       placeholder='Search Command Name' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.commandParameters'
+                                       (input)='onSeek()'
+                                       placeholder='Search Command Parameters' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.exceptionType'
+                                       (input)='onSeek()'
+                                       placeholder='Search Exception Type' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.errorMessage'
+                                       (input)='onSeek()'
+                                       placeholder='Search Error Message' /></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.errorNumber'
+                                       (input)='onSeek()'
+                                       placeholder='Search Error Number' /></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.errorCode'
+                                       (input)='onSeek()'
+                                       placeholder='Search Error Code' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.exceptionJsonValue'
+                                       (input)='onSeek()'
+                                       placeholder='Search Exception Json Value' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(exceptionBackend of list$ | async; track exceptionBackend; let i = $index) {
+                        <tr (click)='onSelect(exceptionBackend)'
+                            (dblclick)='onDoubleClick(exceptionBackendEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == exceptionBackend.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ exceptionBackend.date| date:"fullDate" }}</td>
+							<td>{{ exceptionBackend.time }}</td>
+							<td>{{ exceptionBackend.commandName }}</td>
+							<td>{{ exceptionBackend.commandParameters }}</td>
+							<td>{{ exceptionBackend.exceptionType }}</td>
+							<td>{{ exceptionBackend.errorMessage }}</td>
+							<td>{{ exceptionBackend.errorNumber | number }}</td>
+							<td>{{ exceptionBackend.errorCode | number }}</td>
+							<td>{{ exceptionBackend.exceptionJsonValue }}</td>
+                            <td>
+                                <row-buttons route='/infra/exceptionBackend'
+                                             (onEdit)='editRecord(exceptionBackendEditUI, exceptionBackend)'
+                                             [id]='exceptionBackend.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<infra-exceptionBackend-edit #exceptionBackendEditUI
+                 (onClosed)='onEditClosed($event)' />
+<infra-exceptionBackend-delete #exceptionBackendDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

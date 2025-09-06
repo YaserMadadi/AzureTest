@@ -1,0 +1,26 @@
+
+<!-- Delete Form of [Base].[City] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("City")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #cityDeleteUI='ngForm'
+          (ngSubmit)='onDelete(cityDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='province_Id'
+                       title='Province : '
+                       [value]='currentInstance.province!.descriptor' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(cityDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

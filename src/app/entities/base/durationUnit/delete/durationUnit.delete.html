@@ -1,0 +1,23 @@
+
+<!-- Delete Form of [Base].[DurationUnit] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("DurationUnit")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #durationUnitDeleteUI='ngForm'
+          (ngSubmit)='onDelete(durationUnitDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(durationUnitDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

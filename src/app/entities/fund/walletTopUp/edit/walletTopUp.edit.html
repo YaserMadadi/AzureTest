@@ -1,0 +1,136 @@
+<!-- Edit Form of [Fund].[WalletTopUp] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Wallet Top Up")'
+           (onClosed)='closed(false)'>
+   <form #walletTopUpEditUI='ngForm'
+         (ngSubmit)='Save(walletTopUpEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Client Wallet -->
+         <div class='mb-3'>
+            <lookup #clientWallet
+                    required
+                    name='clientWallet'
+                    label='Client Wallet : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='clientWalletLinker.list$ | async'
+                    [locked]='clientWalletLinker.locked'
+                    [filterable]='clientWalletLinker.filterable'
+                    [(ngModel)]='currentInstance.clientWallet'
+                    [(selectedItem)]='currentInstance.clientWallet'
+                    (onSeek)='clientWalletLinker.onSeek($event)'
+                    (onReload)='clientWalletLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Amount -->
+         <div class='form-floating mb-3'>
+            <input #amount
+                   required
+                   id='amount'
+                   name='amount'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.amount' />
+            <label for='amount'>Amount</label>
+         </div>
+         <!-- Date -->
+         <!-- <div class='form-floating mb-3'>
+                <input #date
+                   required
+                    id='date'
+                   name='date'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.date' />
+                <label for='date'>Date</label>
+            </div> -->
+         <!-- Time -->
+         <div class='form-floating mb-3'>
+            <input #time
+                   required
+                   id='time'
+                   name='time'
+                   class='form-control'
+                   type='time'
+                   [(ngModel)]='currentInstance.time' />
+            <label for='time'>Time</label>
+         </div>
+         <!-- Payment Method -->
+         <div class='mb-3'>
+            <lookup #paymentMethod
+                    required
+                    name='paymentMethod'
+                    label='Payment Method : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='paymentMethodLinker.list$ | async'
+                    [locked]='paymentMethodLinker.locked'
+                    [filterable]='paymentMethodLinker.filterable'
+                    [(ngModel)]='currentInstance.paymentMethod'
+                    [(selectedItem)]='currentInstance.paymentMethod'
+                    (onSeek)='paymentMethodLinker.onSeek($event)'
+                    (onReload)='paymentMethodLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- TransactionID -->
+         <div class='form-floating mb-3'>
+            <input #transactionID
+                   required
+                   id='transactionID'
+                   name='transactionID'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.transactionID' />
+            <label for='transactionID'>Transaction I D</label>
+         </div>
+         <!-- Transaction Status -->
+         <div class='mb-3'>
+            <lookup #transactionStatus
+                    required
+                    name='transactionStatus'
+                    label='Transaction Status : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='transactionStatusLinker.list$ | async'
+                    [locked]='transactionStatusLinker.locked'
+                    [filterable]='transactionStatusLinker.filterable'
+                    [(ngModel)]='currentInstance.transactionStatus'
+                    [(selectedItem)]='currentInstance.transactionStatus'
+                    (onSeek)='transactionStatusLinker.onSeek($event)'
+                    (onReload)='transactionStatusLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Note -->
+         <div class='form-floating mb-3'>
+            <input #note
+                   id='note'
+                   name='note'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.note' />
+            <label for='note'>Note</label>
+         </div>
+         <!-- IsActive -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsActive'
+                   name='IsActive'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isActive' />
+            <label class='form-check-label'
+                   for='IsActive'>
+               Is Active
+            </label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!walletTopUpEditUI.valid'
+                 (onSave)='Save(walletTopUpEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

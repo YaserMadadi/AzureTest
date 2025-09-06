@@ -1,0 +1,122 @@
+<!-- Edit Form of [Base].[Provider] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Provider")'
+           (onClosed)='closed(false)'>
+    <form #providerEditUI='ngForm'
+          (ngSubmit)='Save(providerEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider Type -->
+            <div class='mb-3'>
+                <lookup #providerType
+                        required
+                        name='providerType'
+                        label='Provider Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerTypeLinker.list$ | async'
+                        [locked]='providerTypeLinker.locked'
+                        [filterable]='providerTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.providerType'
+                        [(selectedItem)]='currentInstance.providerType'
+                        (onSeek)='providerTypeLinker.onSeek($event)'
+                        (onReload)='providerTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- User Account -->
+            <div class='mb-3'>
+                <lookup #userAccount
+                        required
+                        name='userAccount'
+                        label='User Account : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='userAccountLinker.list$ | async'
+                        [locked]='userAccountLinker.locked'
+                        [filterable]='userAccountLinker.filterable'
+                        [(ngModel)]='currentInstance.userAccount'
+                        [(selectedItem)]='currentInstance.userAccount'
+                        (onSeek)='userAccountLinker.onSeek($event)'
+                        (onReload)='userAccountLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Name -->
+            <div class='form-floating mb-3'>
+                <input #name
+                       required
+                       id='name'
+                       name='name'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.name' />
+                <label for='name'>Name</label>
+            </div>
+            <!-- ProfilePicture -->
+            <div class='form-floating mb-3'>
+                <input #profilePicture
+                       required
+                       id='profilePicture'
+                       name='profilePicture'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.profilePicture' />
+                <label for='profilePicture'>Profile Picture</label>
+            </div>
+            <!-- IsVerified -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsVerified'
+                       name='IsVerified'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isVerified' />
+                <label class='form-check-label'
+                       for='IsVerified'>
+                    Is Verified
+                </label>
+            </div>
+            <!-- ReviewCount -->
+            <div class='form-floating mb-3'>
+                <input #reviewCount
+                       required
+                       id='reviewCount'
+                       name='reviewCount'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.reviewCount' />
+                <label for='reviewCount'>Review Count</label>
+            </div>
+            <!-- Rate -->
+            <div class='form-floating mb-3'>
+                <input #rate
+                       required
+                       id='rate'
+                       name='rate'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.rate' />
+                <label for='rate'>Rate</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!providerEditUI.valid'
+                  (onSave)='Save(providerEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

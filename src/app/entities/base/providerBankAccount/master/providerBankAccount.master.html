@@ -1,0 +1,39 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Provider Bank Account'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Provider'>
+                            {{ currentInstance.provider?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Bank'>
+                            {{ currentInstance.bank?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Institution Number'>
+                            {{ currentInstance.institutionNumber | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Account Number'>
+                            {{ currentInstance.accountNumber | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Account Holder Name'>
+                            {{ currentInstance.accountHolderName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

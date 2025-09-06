@@ -1,0 +1,26 @@
+
+<!-- Delete Form of [Fund].[ProviderWallet] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ProviderWallet")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #providerWalletDeleteUI='ngForm'
+          (ngSubmit)='onDelete(providerWalletDeleteUI)'>
+        <div class='container'>
+            <presenter name='provider_Id'
+                       title='Provider : '
+                       [value]='currentInstance.provider!.descriptor' />
+			<presenter name='balance'
+                       title='Balance : '
+                       [value]='currentInstance.balance ' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(providerWalletDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

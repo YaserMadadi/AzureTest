@@ -1,0 +1,59 @@
+<!-- Edit Form of [Base].[Province] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Province")'
+           (onClosed)='closed(false)'>
+    <form #provinceEditUI='ngForm'
+          (ngSubmit)='Save(provinceEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- Country -->
+            <div class='mb-3'>
+                <lookup #country
+                        required
+                        name='country'
+                        label='Country : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='countryLinker.list$ | async'
+                        [locked]='countryLinker.locked'
+                        [filterable]='countryLinker.filterable'
+                        [(ngModel)]='currentInstance.country'
+                        [(selectedItem)]='currentInstance.country'
+                        (onSeek)='countryLinker.onSeek($event)'
+                        (onReload)='countryLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!provinceEditUI.valid'
+                  (onSave)='Save(provinceEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

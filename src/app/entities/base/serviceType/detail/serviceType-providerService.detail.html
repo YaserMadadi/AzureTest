@@ -1,0 +1,77 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Provider</th>
+					<th>Service Type</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='providerLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='providerLinker.filterable'
+                                [(ngModel)]='filterInstance.provider'
+                                [(selectedItem)]='filterInstance.provider'
+                                (onSeek)='providerLinker.onSeek($event)'
+                                (onInit)='providerLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(providerService of list$ | async; track providerService; let i = $index) {
+                <tr (click)='onRowClick(providerService)'
+                    (dblclick)='onRowDblClick(providerServiceEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == providerService?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ providerService.provider!.descriptor }}</td>
+					<td>{{ providerService.serviceType!.descriptor }}</td>
+					<td>{{ providerService.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='providerService.id'
+                                     route='/base/providerService'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(providerServiceEditUI, providerService)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(providerServiceEditUI)'
+                        (editButtonClick)='onEditButtonClick(providerServiceEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(providerServiceDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-providerService-edit #providerServiceEditUI 
+                                [serviceTypeLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-providerService-delete #providerServiceDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

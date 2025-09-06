@@ -1,0 +1,164 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Provider'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(providerEditUI)'
+                              (editButtonClick)='editRecord(providerEditUI)'
+                              (deleteButtonClick)='deleteRecord(providerDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Provider Type</th>
+						<th>User Account</th>
+						<th>Name</th>
+						<th>Profile Picture</th>
+						<th>Is Verified</th>
+						<th>Review Count</th>
+						<th>Rate</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='providerTypeLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='providerTypeLinker.filterable'
+                                        [(ngModel)]='filterInstance.providerType'
+                                        [(selectedItem)]='filterInstance.providerType'
+                                        (onSeek)='providerTypeLinker.onSeek($event)'
+                                        (onInit)='providerTypeLinker.onInit($event)'
+										(onReload)='providerTypeLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='userAccountLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='userAccountLinker.filterable'
+                                        [(ngModel)]='filterInstance.userAccount'
+                                        [(selectedItem)]='filterInstance.userAccount'
+                                        (onSeek)='userAccountLinker.onSeek($event)'
+                                        (onInit)='userAccountLinker.onInit($event)'
+										(onReload)='userAccountLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.name'
+                                       (input)='onSeek()'
+                                       placeholder='Search Name' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.profilePicture'
+                                       (input)='onSeek()'
+                                       placeholder='Search Profile Picture' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isVerified'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Verified' /></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.reviewCount'
+                                       (input)='onSeek()'
+                                       placeholder='Search Review Count' /></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.rate'
+                                       (input)='onSeek()'
+                                       placeholder='Search Rate' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(provider of list$ | async; track provider; let i = $index) {
+                        <tr (click)='onSelect(provider)'
+                            (dblclick)='onDoubleClick(providerEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == provider.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ provider.providerType?.descriptor }}</td>
+							<td>{{ provider.userAccount?.descriptor }}</td>
+							<td>{{ provider.name }}</td>
+							<td>{{ provider.profilePicture }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='provider.isVerified' 
+                                       disabled />
+                            </td>
+							<td>{{ provider.reviewCount | number }}</td>
+							<td>{{ provider.rate| number }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='provider.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/provider'
+                                             (onEdit)='editRecord(providerEditUI, provider)'
+                                             [id]='provider.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-provider-edit #providerEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-provider-delete #providerDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+<base-enterpriseProvider-edit #enterpriseProviderEditUI
+                         (onClosed)='onEditClosed($event)'/>
+		<base-individualProvider-edit #individualProviderEditUI
+                         (onClosed)='onEditClosed($event)'/>
+		
+		<base-acceptedPetCategory-edit #acceptedPetCategoryEditUI
+                        [providerLocked]='true' />
+		<base-booking-edit #bookingEditUI
+                        [providerLocked]='true' />
+		<base-clientReview-edit #clientReviewEditUI
+                        [providerLocked]='true' />
+		
+		
+		<base-locationCoverage-edit #locationCoverageEditUI
+                        [providerLocked]='true' />
+		<base-providerBankAccount-edit #providerBankAccountEditUI
+                        [providerLocked]='true' />
+		<base-providerCertification-edit #providerCertificationEditUI
+                        [providerLocked]='true' />
+		<base-providerConnection-edit #providerConnectionEditUI
+                        [providerLocked]='true' />
+		<base-providerService-edit #providerServiceEditUI
+                        [providerLocked]='true' />
+		<base-workTime-edit #workTimeEditUI
+                        [providerLocked]='true' />
+		<fund-providerPayOut-edit #providerPayOutEditUI
+                        [providerLocked]='true' />
+		<fund-providerWallet-edit #providerWalletEditUI
+                        [providerLocked]='true' />

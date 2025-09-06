@@ -1,0 +1,137 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Role Permission'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(rolePermissionEditUI)'
+                              (editButtonClick)='editRecord(rolePermissionEditUI)'
+                              (deleteButtonClick)='deleteRecord(rolePermissionDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Role</th>
+						<th>Entity</th>
+						<th>Add Permission</th>
+						<th>Edit Permission</th>
+						<th>Delete Permission</th>
+						<th>View Permission</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='roleLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='roleLinker.filterable'
+                                        [(ngModel)]='filterInstance.role'
+                                        [(selectedItem)]='filterInstance.role'
+                                        (onSeek)='roleLinker.onSeek($event)'
+                                        (onInit)='roleLinker.onInit($event)'
+										(onReload)='roleLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='entityLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='entityLinker.filterable'
+                                        [(ngModel)]='filterInstance.entity'
+                                        [(selectedItem)]='filterInstance.entity'
+                                        (onSeek)='entityLinker.onSeek($event)'
+                                        (onInit)='entityLinker.onInit($event)'
+										(onReload)='entityLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.addPermission'
+                                       (input)='onSeek()'
+                                       placeholder='Search Add Permission' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.editPermission'
+                                       (input)='onSeek()'
+                                       placeholder='Search Edit Permission' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.deletePermission'
+                                       (input)='onSeek()'
+                                       placeholder='Search Delete Permission' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.viewPermission'
+                                       (input)='onSeek()'
+                                       placeholder='Search View Permission' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(rolePermission of list$ | async; track rolePermission; let i = $index) {
+                        <tr (click)='onSelect(rolePermission)'
+                            (dblclick)='onDoubleClick(rolePermissionEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == rolePermission.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ rolePermission.role?.descriptor }}</td>
+							<td>{{ rolePermission.entity?.descriptor }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='rolePermission.addPermission' 
+                                       disabled />
+                            </td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='rolePermission.editPermission' 
+                                       disabled />
+                            </td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='rolePermission.deletePermission' 
+                                       disabled />
+                            </td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='rolePermission.viewPermission' 
+                                       disabled />
+                            </td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='rolePermission.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/admin/rolePermission'
+                                             (onEdit)='editRecord(rolePermissionEditUI, rolePermission)'
+                                             [id]='rolePermission.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<admin-rolePermission-edit #rolePermissionEditUI
+                 (onClosed)='onEditClosed($event)' />
+<admin-rolePermission-delete #rolePermissionDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

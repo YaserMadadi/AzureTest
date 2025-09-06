@@ -1,0 +1,103 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Title</th>
+					<th>Icon</th>
+					<th>Url</th>
+					<th>Menu</th>
+					<th>Is Active</th>
+					<th>Note</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.title'
+                                (input)='onSeek()'
+                                placeholder='Search Title' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.icon'
+                                (input)='onSeek()'
+                                placeholder='Search Icon' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.url'
+                                (input)='onSeek()'
+                                placeholder='Search Url' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(menuItem of list$ | async; track menuItem; let i = $index) {
+                <tr (click)='onRowClick(menuItem)'
+                    (dblclick)='onRowDblClick(menuItemEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == menuItem?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ menuItem.title }}</td>
+					<td>{{ menuItem.icon }}</td>
+					<td>{{ menuItem.url }}</td>
+					<td>{{ menuItem.menu!.descriptor }}</td>
+					<td>{{ menuItem.isActive| isActive }}</td>
+					<td>{{ menuItem.note }}</td>
+					<td class='action'>
+                        <row-buttons [id]='menuItem.id'
+                                     route='/admin/menuItem'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(menuItemEditUI, menuItem)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(menuItemEditUI)'
+                        (editButtonClick)='onEditButtonClick(menuItemEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(menuItemDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<admin-menuItem-edit #menuItemEditUI 
+                                [menuLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<admin-menuItem-delete #menuItemDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

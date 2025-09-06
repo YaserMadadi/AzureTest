@@ -1,0 +1,13 @@
+.card-header {
+  background-color: #2c2e34;
+  color: var(--cui-yellow);
+  padding: 18px 30px;
+}
+
+.action {
+  min-width: 100px;
+}
+
+.table tr.selected {
+  background-color: #ff8800 !important; // your custom color
+}

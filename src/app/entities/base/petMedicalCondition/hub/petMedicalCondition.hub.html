@@ -1,0 +1,97 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Pet Medical Condition'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(petMedicalConditionEditUI)'
+                              (editButtonClick)='editRecord(petMedicalConditionEditUI)'
+                              (deleteButtonClick)='deleteRecord(petMedicalConditionDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Pet</th>
+						<th>Medication Type</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='petLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='petLinker.filterable'
+                                        [(ngModel)]='filterInstance.pet'
+                                        [(selectedItem)]='filterInstance.pet'
+                                        (onSeek)='petLinker.onSeek($event)'
+                                        (onInit)='petLinker.onInit($event)'
+										(onReload)='petLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='medicationTypeLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='medicationTypeLinker.filterable'
+                                        [(ngModel)]='filterInstance.medicationType'
+                                        [(selectedItem)]='filterInstance.medicationType'
+                                        (onSeek)='medicationTypeLinker.onSeek($event)'
+                                        (onInit)='medicationTypeLinker.onInit($event)'
+										(onReload)='medicationTypeLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(petMedicalCondition of list$ | async; track petMedicalCondition; let i = $index) {
+                        <tr (click)='onSelect(petMedicalCondition)'
+                            (dblclick)='onDoubleClick(petMedicalConditionEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == petMedicalCondition.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ petMedicalCondition.pet?.descriptor }}</td>
+							<td>{{ petMedicalCondition.medicationType?.descriptor }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='petMedicalCondition.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/petMedicalCondition'
+                                             (onEdit)='editRecord(petMedicalConditionEditUI, petMedicalCondition)'
+                                             [id]='petMedicalCondition.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-petMedicalCondition-edit #petMedicalConditionEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-petMedicalCondition-delete #petMedicalConditionDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

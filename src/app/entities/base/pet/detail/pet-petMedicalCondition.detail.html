@@ -1,0 +1,87 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Pet</th>
+					<th>Medication Type</th>
+					<th>Note</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='medicationTypeLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='medicationTypeLinker.filterable'
+                                [(ngModel)]='filterInstance.medicationType'
+                                [(selectedItem)]='filterInstance.medicationType'
+                                (onSeek)='medicationTypeLinker.onSeek($event)'
+                                (onInit)='medicationTypeLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(petMedicalCondition of list$ | async; track petMedicalCondition; let i = $index) {
+                <tr (click)='onRowClick(petMedicalCondition)'
+                    (dblclick)='onRowDblClick(petMedicalConditionEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == petMedicalCondition?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ petMedicalCondition.pet!.descriptor }}</td>
+					<td>{{ petMedicalCondition.medicationType!.descriptor }}</td>
+					<td>{{ petMedicalCondition.note }}</td>
+					<td>{{ petMedicalCondition.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='petMedicalCondition.id'
+                                     route='/base/petMedicalCondition'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(petMedicalConditionEditUI, petMedicalCondition)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(petMedicalConditionEditUI)'
+                        (editButtonClick)='onEditButtonClick(petMedicalConditionEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(petMedicalConditionDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-petMedicalCondition-edit #petMedicalConditionEditUI 
+                                [petLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-petMedicalCondition-delete #petMedicalConditionDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

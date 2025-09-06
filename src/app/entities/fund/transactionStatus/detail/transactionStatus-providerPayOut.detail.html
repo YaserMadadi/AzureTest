@@ -1,0 +1,104 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Provider</th>
+					<th>Date</th>
+					<th>Time</th>
+					<th>Amount</th>
+					<th>Transaction I D</th>
+					<th>Transaction Status</th>
+					<th>Note</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='providerLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='providerLinker.filterable'
+                                [(ngModel)]='filterInstance.provider'
+                                [(selectedItem)]='filterInstance.provider'
+                                (onSeek)='providerLinker.onSeek($event)'
+                                (onInit)='providerLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					<th></th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.amount'
+                               (input)='onSeek()'
+                               placeholder='Search Amount' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.transactionID'
+                                (input)='onSeek()'
+                                placeholder='Search Transaction I D' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(providerPayOut of list$ | async; track providerPayOut; let i = $index) {
+                <tr (click)='onRowClick(providerPayOut)'
+                    (dblclick)='onRowDblClick(providerPayOutEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == providerPayOut?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ providerPayOut.provider!.descriptor }}</td>
+					<td>{{ providerPayOut.date| date:"fullDate" }}</td>
+					<td>{{ providerPayOut.time }}</td>
+					<td>{{ providerPayOut.amount }}</td>
+					<td>{{ providerPayOut.transactionID }}</td>
+					<td>{{ providerPayOut.transactionStatus!.descriptor }}</td>
+					<td>{{ providerPayOut.note }}</td>
+					<td class='action'>
+                        <row-buttons [id]='providerPayOut.id'
+                                     route='/fund/providerPayOut'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(providerPayOutEditUI, providerPayOut)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(providerPayOutEditUI)'
+                        (editButtonClick)='onEditButtonClick(providerPayOutEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(providerPayOutDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<fund-providerPayOut-edit #providerPayOutEditUI 
+                                [transactionStatusLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<fund-providerPayOut-delete #providerPayOutDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

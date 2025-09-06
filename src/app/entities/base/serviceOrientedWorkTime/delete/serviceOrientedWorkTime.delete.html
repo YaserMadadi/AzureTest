@@ -1,0 +1,35 @@
+
+<!-- Delete Form of [Base].[ServiceOrientedWorkTime] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ServiceOrientedWorkTime")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #serviceOrientedWorkTimeDeleteUI='ngForm'
+          (ngSubmit)='onDelete(serviceOrientedWorkTimeDeleteUI)'>
+        <div class='container'>
+            <presenter name='providerService_Id'
+                       title='Provider Service : '
+                       [value]='currentInstance.providerService!.descriptor' />
+			<presenter name='weekDay_Id'
+                       title='Week Day : '
+                       [value]='currentInstance.weekDay!.descriptor' />
+			<presenter name='from'
+                       title='From : '
+                       [value]='currentInstance.from' />
+			<presenter name='to'
+                       title='To : '
+                       [value]='currentInstance.to' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(serviceOrientedWorkTimeDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

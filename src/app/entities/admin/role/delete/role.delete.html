@@ -1,0 +1,26 @@
+
+<!-- Delete Form of [Admin].[Role] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Role")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #roleDeleteUI='ngForm'
+          (ngSubmit)='onDelete(roleDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(roleDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

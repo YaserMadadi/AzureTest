@@ -1,0 +1,32 @@
+
+<!-- Delete Form of [Base].[EmailVerification] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("EmailVerification")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #emailVerificationDeleteUI='ngForm'
+          (ngSubmit)='onDelete(emailVerificationDeleteUI)'>
+        <div class='container'>
+            <presenter name='userAccount_Id'
+                       title='User Account : '
+                       [value]='currentInstance.userAccount!.descriptor' />
+			<presenter name='verificationCode'
+                       title='Verification Code : '
+                       [value]='currentInstance.verificationCode' />
+			<presenter name='generateTime'
+                       title='Generate Time : '
+                       [value]='currentInstance.generateTime | date:"fullDate"' />
+			<presenter name='expiryDate'
+                       title='Expiry Date : '
+                       [value]='currentInstance.expiryDate | date:"fullDate"' />
+			<presenter name='verificationStatus_Id'
+                       title='Verification Status : '
+                       [value]='currentInstance.verificationStatus!.descriptor' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(emailVerificationDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

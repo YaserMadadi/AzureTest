@@ -1,0 +1,75 @@
+<!-- Edit Form of [Base].[PetMedicalCondition] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Pet Medical Condition")'
+           (onClosed)='closed(false)'>
+    <form #petMedicalConditionEditUI='ngForm'
+          (ngSubmit)='Save(petMedicalConditionEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Pet -->
+            <div class='mb-3'>
+                <lookup #pet
+                        required
+                        name='pet'
+                        label='Pet : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='petLinker.list$ | async'
+                        [locked]='petLinker.locked'
+                        [filterable]='petLinker.filterable'
+                        [(ngModel)]='currentInstance.pet'
+                        [(selectedItem)]='currentInstance.pet'
+                        (onSeek)='petLinker.onSeek($event)'
+                        (onReload)='petLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Medication Type -->
+            <div class='mb-3'>
+                <lookup #medicationType
+                        required
+                        name='medicationType'
+                        label='Medication Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='medicationTypeLinker.list$ | async'
+                        [locked]='medicationTypeLinker.locked'
+                        [filterable]='medicationTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.medicationType'
+                        [(selectedItem)]='currentInstance.medicationType'
+                        (onSeek)='medicationTypeLinker.onSeek($event)'
+                        (onReload)='medicationTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!petMedicalConditionEditUI.valid'
+                  (onSave)='Save(petMedicalConditionEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

@@ -1,0 +1,26 @@
+
+<!-- Delete Form of [Base].[PetBehavior] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("PetBehavior")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #petBehaviorDeleteUI='ngForm'
+          (ngSubmit)='onDelete(petBehaviorDeleteUI)'>
+        <div class='container'>
+            <presenter name='pet_Id'
+                       title='Pet : '
+                       [value]='currentInstance.pet!.descriptor' />
+			<presenter name='behaviorCategory_Id'
+                       title='Behavior Category : '
+                       [value]='currentInstance.behaviorCategory!.descriptor' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(petBehaviorDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

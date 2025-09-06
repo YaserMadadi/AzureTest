@@ -1,0 +1,38 @@
+
+<!-- Delete Form of [Infra].[Entity] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Entity")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #entityDeleteUI='ngForm'
+          (ngSubmit)='onDelete(entityDeleteUI)'>
+        <div class='container'>
+            <presenter name='schema'
+                       title='Schema : '
+                       [value]='currentInstance.schema' />
+			<presenter name='name'
+                       title='Name : '
+                       [value]='currentInstance.name' />
+			<presenter name='synonym'
+                       title='Synonym : '
+                       [value]='currentInstance.synonym' />
+			<presenter name='guideTitle'
+                       title='Guide Title : '
+                       [value]='currentInstance.guideTitle' />
+			<presenter name='indexUrl'
+                       title='Index Url : '
+                       [value]='currentInstance.indexUrl' />
+			<presenter name='recordPerPage'
+                       title='Record Per Page : '
+                       [value]='currentInstance.recordPerPage | number' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(entityDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

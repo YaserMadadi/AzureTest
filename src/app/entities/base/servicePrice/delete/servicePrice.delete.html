@@ -1,0 +1,32 @@
+
+<!-- Delete Form of [Base].[ServicePrice] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ServicePrice")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #servicePriceDeleteUI='ngForm'
+          (ngSubmit)='onDelete(servicePriceDeleteUI)'>
+        <div class='container'>
+            <presenter name='providerService_Id'
+                       title='Provider Service : '
+                       [value]='currentInstance.providerService!.descriptor' />
+			<presenter name='priceScope_Id'
+                       title='Price Scope : '
+                       [value]='currentInstance.priceScope!.descriptor' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='amount'
+                       title='Amount : '
+                       [value]='currentInstance.amount ' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(servicePriceDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

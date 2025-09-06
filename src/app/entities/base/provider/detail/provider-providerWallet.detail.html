@@ -1,0 +1,74 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Provider</th>
+					<th>Balance</th>
+					<th>Note</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.balance'
+                               (input)='onSeek()'
+                               placeholder='Search Balance' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(providerWallet of list$ | async; track providerWallet; let i = $index) {
+                <tr (click)='onRowClick(providerWallet)'
+                    (dblclick)='onRowDblClick(providerWalletEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == providerWallet?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ providerWallet.provider!.descriptor }}</td>
+					<td>{{ providerWallet.balance }}</td>
+					<td>{{ providerWallet.note }}</td>
+					<td class='action'>
+                        <row-buttons [id]='providerWallet.id'
+                                     route='/fund/providerWallet'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(providerWalletEditUI, providerWallet)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(providerWalletEditUI)'
+                        (editButtonClick)='onEditButtonClick(providerWalletEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(providerWalletDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<fund-providerWallet-edit #providerWalletEditUI 
+                                [providerLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<fund-providerWallet-delete #providerWalletDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

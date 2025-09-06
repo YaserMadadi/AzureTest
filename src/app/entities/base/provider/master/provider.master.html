@@ -1,0 +1,131 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Provider'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Provider Type'>
+                            {{ currentInstance.providerType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='User Account'>
+                            {{ currentInstance.userAccount?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Name'>
+                            {{ currentInstance.name  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Profile Picture'>
+                            {{ currentInstance.profilePicture  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Verified'>
+                            {{ currentInstance.isVerified | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Review Count'>
+                            {{ currentInstance.reviewCount | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Rate'>
+                            {{ currentInstance.rate | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'acceptedPetCategory'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='acceptedPetCategory'
+                                (dblclick)='navigateTo("base/acceptedPetCategory")'>Accepted Pet Category</button>
+                        <button cTab
+                                itemKey='booking'
+                                (dblclick)='navigateTo("base/booking")'>Booking</button>
+                        <button cTab
+                                itemKey='clientReview'
+                                (dblclick)='navigateTo("base/clientReview")'>Client Review</button>
+                        <button cTab
+                                itemKey='locationCoverage'
+                                (dblclick)='navigateTo("base/locationCoverage")'>Location Coverage</button>
+                        <button cTab
+                                itemKey='providerBankAccount'
+                                (dblclick)='navigateTo("base/providerBankAccount")'>Provider Bank Account</button>
+                        <button cTab
+                                itemKey='providerCertification'
+                                (dblclick)='navigateTo("base/providerCertification")'>Provider Certification</button>
+                        <button cTab
+                                itemKey='providerConnection'
+                                (dblclick)='navigateTo("base/providerConnection")'>Provider Connection</button>
+                        <button cTab
+                                itemKey='providerService'
+                                (dblclick)='navigateTo("base/providerService")'>Provider Service</button>
+                        <button cTab
+                                itemKey='workTime'
+                                (dblclick)='navigateTo("base/workTime")'>Work Time</button>
+                        <button cTab
+                                itemKey='providerPayOut'
+                                (dblclick)='navigateTo("fund/providerPayOut")'>Provider Pay Out</button>
+                        <button cTab
+                                itemKey='providerWallet'
+                                (dblclick)='navigateTo("fund/providerWallet")'>Provider Wallet</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='acceptedPetCategory'>
+                            <base-provider-acceptedPetCategory-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='booking'>
+                            <base-provider-booking-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='clientReview'>
+                            <base-provider-clientReview-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='locationCoverage'>
+                            <base-provider-locationCoverage-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='providerBankAccount'>
+                            <base-provider-providerBankAccount-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='providerCertification'>
+                            <base-provider-providerCertification-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='providerConnection'>
+                            <base-provider-providerConnection-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='providerService'>
+                            <base-provider-providerService-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='workTime'>
+                            <base-provider-workTime-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='providerPayOut'>
+                            <base-provider-providerPayOut-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='providerWallet'>
+                            <base-provider-providerWallet-detail [provider]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

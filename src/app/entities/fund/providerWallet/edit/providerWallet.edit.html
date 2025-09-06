@@ -1,0 +1,56 @@
+<!-- Edit Form of [Fund].[ProviderWallet] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Provider Wallet")'
+           (onClosed)='closed(false)'>
+    <form #providerWalletEditUI='ngForm'
+          (ngSubmit)='Save(providerWalletEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Balance -->
+            <div class='form-floating mb-3'>
+                <input #balance
+                       required
+                       id='balance'
+                       name='balance'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.balance' />
+                <label for='balance'>Balance</label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!providerWalletEditUI.valid'
+                  (onSave)='Save(providerWalletEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

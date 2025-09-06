@@ -1,0 +1,86 @@
+<!-- Edit Form of [Base].[BookingService] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Booking Service")'
+           (onClosed)='closed(false)'>
+    <form #bookingServiceEditUI='ngForm'
+          (ngSubmit)='Save(bookingServiceEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Booking -->
+            <div class='mb-3'>
+                <lookup #booking
+                        required
+                        name='booking'
+                        label='Booking : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='bookingLinker.list$ | async'
+                        [locked]='bookingLinker.locked'
+                        [filterable]='bookingLinker.filterable'
+                        [(ngModel)]='currentInstance.booking'
+                        [(selectedItem)]='currentInstance.booking'
+                        (onSeek)='bookingLinker.onSeek($event)'
+                        (onReload)='bookingLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Provider Service -->
+            <div class='mb-3'>
+                <lookup #providerService
+                        required
+                        name='providerService'
+                        label='Provider Service : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerServiceLinker.list$ | async'
+                        [locked]='providerServiceLinker.locked'
+                        [filterable]='providerServiceLinker.filterable'
+                        [(ngModel)]='currentInstance.providerService'
+                        [(selectedItem)]='currentInstance.providerService'
+                        (onSeek)='providerServiceLinker.onSeek($event)'
+                        (onReload)='providerServiceLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Amount -->
+            <div class='form-floating mb-3'>
+                <input #amount
+                       required
+                       id='amount'
+                       name='amount'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.amount' />
+                <label for='amount'>Amount</label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!bookingServiceEditUI.valid'
+                  (onSave)='Save(bookingServiceEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

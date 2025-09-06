@@ -1,0 +1,47 @@
+
+<!-- Delete Form of [Base].[Booking] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Booking")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #bookingDeleteUI='ngForm'
+          (ngSubmit)='onDelete(bookingDeleteUI)'>
+        <div class='container'>
+            <presenter name='pet_Id'
+                       title='Pet : '
+                       [value]='currentInstance.pet!.descriptor' />
+			<presenter name='provider_Id'
+                       title='Provider : '
+                       [value]='currentInstance.provider!.descriptor' />
+			<presenter name='startDate'
+                       title='Start Date : '
+                       [value]='currentInstance.startDate | date:"fullDate"' />
+			<presenter name='startTime'
+                       title='Start Time : '
+                       [value]='currentInstance.startTime' />
+			<presenter name='duration'
+                       title='Duration : '
+                       [value]='currentInstance.duration | number' />
+			<presenter name='durationUnit_Id'
+                       title='Duration Unit : '
+                       [value]='currentInstance.durationUnit!.descriptor' />
+			<presenter name='totalAmount'
+                       title='Total Amount : '
+                       [value]='currentInstance.totalAmount ' />
+			<presenter name='bookingStatus_Id'
+                       title='Booking Status : '
+                       [value]='currentInstance.bookingStatus!.descriptor' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(bookingDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

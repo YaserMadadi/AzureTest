@@ -1,0 +1,121 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>First Name</th>
+					<th>Middle Name</th>
+					<th>Last Name</th>
+					<th>Nick Name</th>
+					<th>Gender</th>
+					<th>Date Of Birth</th>
+					<th>Years Of Experience</th>
+					<th>Background Check Status</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.firstName'
+                                (input)='onSeek()'
+                                placeholder='Search First Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.middleName'
+                                (input)='onSeek()'
+                                placeholder='Search Middle Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.lastName'
+                                (input)='onSeek()'
+                                placeholder='Search Last Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.nickName'
+                                (input)='onSeek()'
+                                placeholder='Search Nick Name' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='genderLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='genderLinker.filterable'
+                                [(ngModel)]='filterInstance.gender'
+                                [(selectedItem)]='filterInstance.gender'
+                                (onSeek)='genderLinker.onSeek($event)'
+                                (onInit)='genderLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.yearsOfExperience'
+                               (input)='onSeek()'
+                               placeholder='Search Years Of Experience' />
+                    </th>
+					<th></th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(individualProvider of list$ | async; track individualProvider; let i = $index) {
+                <tr (click)='onRowClick(individualProvider)'
+                    (dblclick)='onRowDblClick(individualProviderEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == individualProvider?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ individualProvider.firstName }}</td>
+					<td>{{ individualProvider.middleName }}</td>
+					<td>{{ individualProvider.lastName }}</td>
+					<td>{{ individualProvider.nickName }}</td>
+					<td>{{ individualProvider.gender!.descriptor }}</td>
+					<td>{{ individualProvider.dateOfBirth| date:"fullDate" }}</td>
+					<td>{{ individualProvider.yearsOfExperience| number }}</td>
+					<td>{{ individualProvider.backgroundCheckStatus!.descriptor }}</td>
+					<td class='action'>
+                        <row-buttons [id]='individualProvider.id'
+                                     route='/base/individualProvider'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(individualProviderEditUI, individualProvider)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(individualProviderEditUI)'
+                        (editButtonClick)='onEditButtonClick(individualProviderEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(individualProviderDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-individualProvider-edit #individualProviderEditUI 
+                                [backgroundCheckStatusLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-individualProvider-delete #individualProviderDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

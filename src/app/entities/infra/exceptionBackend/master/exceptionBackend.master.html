@@ -1,0 +1,48 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Exception Backend'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Date'>
+                            {{ currentInstance.date | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Time'>
+                            {{ currentInstance.time  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Command Name'>
+                            {{ currentInstance.commandName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Command Parameters'>
+                            {{ currentInstance.commandParameters  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Exception Type'>
+                            {{ currentInstance.exceptionType  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Error Message'>
+                            {{ currentInstance.errorMessage  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Error Number'>
+                            {{ currentInstance.errorNumber | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Error Code'>
+                            {{ currentInstance.errorCode | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Exception Json Value'>
+                            {{ currentInstance.exceptionJsonValue  }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

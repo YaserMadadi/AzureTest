@@ -1,0 +1,23 @@
+
+<!-- Delete Form of [Fund].[PaymentMethod] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("PaymentMethod")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #paymentMethodDeleteUI='ngForm'
+          (ngSubmit)='onDelete(paymentMethodDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(paymentMethodDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

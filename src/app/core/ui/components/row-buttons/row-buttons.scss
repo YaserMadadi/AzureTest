@@ -1,0 +1,33 @@
+.edit-text {
+  color: #4a566d;
+  font-weight: bold;
+  text-decoration: none;
+  padding-left: 5px !important;
+
+  &:hover {
+    color: rgb(228, 157, 26);
+    ;
+  }
+
+  &:active {
+    color: rgb(255, 166, 0);
+    font-weight: bold;
+  }
+}
+
+
+.detail-text {
+  color: #4a566d;
+  font-weight: bold;
+  text-decoration: none;
+
+  //padding-left: 5px !important;
+  &:hover {
+    color: rgb(221, 22, 22);
+  }
+
+  &:active {
+    color: red;
+    font-weight: bold;
+  }
+}

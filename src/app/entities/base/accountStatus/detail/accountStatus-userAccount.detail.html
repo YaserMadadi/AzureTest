@@ -1,0 +1,116 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Email</th>
+					<th>User Type</th>
+					<th>Account Status</th>
+					<th>Status Note</th>
+					<th>Email Is Verified</th>
+					<th>Note</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.email'
+                                (input)='onSeek()'
+                                placeholder='Search Email' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='userTypeLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='userTypeLinker.filterable'
+                                [(ngModel)]='filterInstance.userType'
+                                [(selectedItem)]='filterInstance.userType'
+                                (onSeek)='userTypeLinker.onSeek($event)'
+                                (onInit)='userTypeLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.statusNote'
+                                (input)='onSeek()'
+                                placeholder='Search Status Note' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.emailIsVerified'
+                               (change)='onSeek()'
+                               placeholder='Search Email Is Verified' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(userAccount of list$ | async; track userAccount; let i = $index) {
+                <tr (click)='onRowClick(userAccount)'
+                    (dblclick)='onRowDblClick(userAccountEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == userAccount?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ userAccount.email }}</td>
+					<td>{{ userAccount.userType!.descriptor }}</td>
+					<td>{{ userAccount.accountStatus!.descriptor }}</td>
+					<td>{{ userAccount.statusNote }}</td>
+					<td>{{ userAccount.emailIsVerified| isActive }}</td>
+					<td>{{ userAccount.note }}</td>
+					<td>{{ userAccount.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='userAccount.id'
+                                     route='/base/userAccount'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(userAccountEditUI, userAccount)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(userAccountEditUI)'
+                        (editButtonClick)='onEditButtonClick(userAccountEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(userAccountDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-userAccount-edit #userAccountEditUI 
+                                [accountStatusLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-userAccount-delete #userAccountDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

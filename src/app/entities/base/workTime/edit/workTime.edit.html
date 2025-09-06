@@ -1,0 +1,97 @@
+<!-- Edit Form of [Base].[WorkTime] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Work Time")'
+           (onClosed)='closed(false)'>
+    <form #workTimeEditUI='ngForm'
+          (ngSubmit)='Save(workTimeEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Week Day -->
+            <div class='mb-3'>
+                <lookup #weekDay
+                        required
+                        name='weekDay'
+                        label='Week Day : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='weekDayLinker.list$ | async'
+                        [locked]='weekDayLinker.locked'
+                        [filterable]='weekDayLinker.filterable'
+                        [(ngModel)]='currentInstance.weekDay'
+                        [(selectedItem)]='currentInstance.weekDay'
+                        (onSeek)='weekDayLinker.onSeek($event)'
+                        (onReload)='weekDayLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- From -->
+            <div class='form-floating mb-3'>
+                <input #from
+                       required
+                       id='from'
+                       name='from'
+                       class='form-control'
+                       type='time'
+                       [(ngModel)]='currentInstance.from' />
+                <label for='from'>From</label>
+            </div>
+            <!-- To -->
+            <div class='form-floating mb-3'>
+                <input #to
+                       required
+                       id='to'
+                       name='to'
+                       class='form-control'
+                       type='time'
+                       [(ngModel)]='currentInstance.to' />
+                <label for='to'>To</label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!workTimeEditUI.valid'
+                  (onSave)='Save(workTimeEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

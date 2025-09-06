@@ -1,0 +1,67 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Enterprise Provider'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Provider Type'>
+                            {{ currentInstance.providerType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='User Account'>
+                            {{ currentInstance.userAccount?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Name'>
+                            {{ currentInstance.name  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Profile Picture'>
+                            {{ currentInstance.profilePicture  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Verified'>
+                            {{ currentInstance.isVerified | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Review Count'>
+                            {{ currentInstance.reviewCount | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Rate'>
+                            {{ currentInstance.rate | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Title'>
+                            {{ currentInstance.title  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Business Number'>
+                            {{ currentInstance.businessNumber  }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'enterpriseProviderInsurance'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='enterpriseProviderInsurance'
+                                (dblclick)='navigateTo("base/enterpriseProviderInsurance")'>Enterprise Provider Insurance</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='enterpriseProviderInsurance'>
+                            <base-enterpriseProvider-enterpriseProviderInsurance-detail [enterpriseProvider]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,65 @@
+<!-- Edit Form of [Base].[ProviderService] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Provider Service")'
+           (onClosed)='closed(false)'>
+    <form #providerServiceEditUI='ngForm'
+          (ngSubmit)='Save(providerServiceEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Service Type -->
+            <div class='mb-3'>
+                <lookup #serviceType
+                        required
+                        name='serviceType'
+                        label='Service Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='serviceTypeLinker.list$ | async'
+                        [locked]='serviceTypeLinker.locked'
+                        [filterable]='serviceTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.serviceType'
+                        [(selectedItem)]='currentInstance.serviceType'
+                        (onSeek)='serviceTypeLinker.onSeek($event)'
+                        (onReload)='serviceTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!providerServiceEditUI.valid'
+                  (onSave)='Save(providerServiceEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

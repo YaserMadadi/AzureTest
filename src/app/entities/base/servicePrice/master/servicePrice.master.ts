@@ -1,0 +1,39 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Tabs2Module } from '@coreui/angular';
+
+import { SHARED_PIPES } from '../../../../../core/ui/pipes';
+import { MasterUI, IMasterUI } from '../../../../../core/ui/baseUI';
+import { MasterButtons, PresenterTextBox, IndexHeader } from '../../../../../core/ui/components';
+
+import { ServicePrice, ServicePrice_Service } from '..';
+
+
+
+@Component({
+  selector: 'base-servicePrice-master',
+  templateUrl: './servicePrice.master.html',
+  styleUrls: ['./servicePrice.master.scss'],
+  providers: [
+    ServicePrice_Service,
+  ],
+  imports: [
+    Tabs2Module,
+    CommonModule,
+    SHARED_PIPES,
+    MasterButtons,
+    IndexHeader,
+    PresenterTextBox,
+    //ServicePriceEditUI,        
+    //ServicePriceDeleteUI,
+    // No Item...
+  ]
+})
+export class ServicePriceMasterUI extends MasterUI<ServicePrice> implements IMasterUI<ServicePrice> {
+
+  constructor() {
+    super(inject(ServicePrice_Service))
+  }
+
+
+}

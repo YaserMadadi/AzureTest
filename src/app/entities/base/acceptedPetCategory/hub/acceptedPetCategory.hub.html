@@ -1,0 +1,97 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Accepted Pet Category'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(acceptedPetCategoryEditUI)'
+                              (editButtonClick)='editRecord(acceptedPetCategoryEditUI)'
+                              (deleteButtonClick)='deleteRecord(acceptedPetCategoryDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Provider</th>
+						<th>Pet Category</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='providerLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='providerLinker.filterable'
+                                        [(ngModel)]='filterInstance.provider'
+                                        [(selectedItem)]='filterInstance.provider'
+                                        (onSeek)='providerLinker.onSeek($event)'
+                                        (onInit)='providerLinker.onInit($event)'
+										(onReload)='providerLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='petCategoryLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='petCategoryLinker.filterable'
+                                        [(ngModel)]='filterInstance.petCategory'
+                                        [(selectedItem)]='filterInstance.petCategory'
+                                        (onSeek)='petCategoryLinker.onSeek($event)'
+                                        (onInit)='petCategoryLinker.onInit($event)'
+										(onReload)='petCategoryLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(acceptedPetCategory of list$ | async; track acceptedPetCategory; let i = $index) {
+                        <tr (click)='onSelect(acceptedPetCategory)'
+                            (dblclick)='onDoubleClick(acceptedPetCategoryEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == acceptedPetCategory.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ acceptedPetCategory.provider?.descriptor }}</td>
+							<td>{{ acceptedPetCategory.petCategory?.descriptor }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='acceptedPetCategory.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/acceptedPetCategory'
+                                             (onEdit)='editRecord(acceptedPetCategoryEditUI, acceptedPetCategory)'
+                                             [id]='acceptedPetCategory.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-acceptedPetCategory-edit #acceptedPetCategoryEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-acceptedPetCategory-delete #acceptedPetCategoryDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

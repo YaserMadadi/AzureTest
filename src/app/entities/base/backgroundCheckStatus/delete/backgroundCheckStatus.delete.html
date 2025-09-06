@@ -1,0 +1,23 @@
+
+<!-- Delete Form of [Base].[BackgroundCheckStatus] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("BackgroundCheckStatus")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #backgroundCheckStatusDeleteUI='ngForm'
+          (ngSubmit)='onDelete(backgroundCheckStatusDeleteUI)'>
+        <div class='container'>
+            <presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(backgroundCheckStatusDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

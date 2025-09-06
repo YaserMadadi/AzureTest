@@ -1,0 +1,73 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Enterprise Provider</th>
+					<th>Title</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.title'
+                                (input)='onSeek()'
+                                placeholder='Search Title' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(enterpriseProviderInsurance of list$ | async; track enterpriseProviderInsurance; let i = $index) {
+                <tr (click)='onRowClick(enterpriseProviderInsurance)'
+                    (dblclick)='onRowDblClick(enterpriseProviderInsuranceEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == enterpriseProviderInsurance?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ enterpriseProviderInsurance.enterpriseProvider!.descriptor }}</td>
+					<td>{{ enterpriseProviderInsurance.title }}</td>
+					<td>{{ enterpriseProviderInsurance.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='enterpriseProviderInsurance.id'
+                                     route='/base/enterpriseProviderInsurance'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(enterpriseProviderInsuranceEditUI, enterpriseProviderInsurance)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(enterpriseProviderInsuranceEditUI)'
+                        (editButtonClick)='onEditButtonClick(enterpriseProviderInsuranceEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(enterpriseProviderInsuranceDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-enterpriseProviderInsurance-edit #enterpriseProviderInsuranceEditUI 
+                                [enterpriseProviderLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-enterpriseProviderInsurance-delete #enterpriseProviderInsuranceDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

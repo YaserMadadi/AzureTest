@@ -1,0 +1,110 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Provider Pay Out'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(providerPayOutEditUI)'
+                              (editButtonClick)='editRecord(providerPayOutEditUI)'
+                              (deleteButtonClick)='deleteRecord(providerPayOutDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Provider</th>
+				<!-- Date -->
+						<th>Date</th>
+				<!-- Time -->
+						<th>Time</th>
+						<th>Amount</th>
+						<th>Transaction I D</th>
+						<th>Transaction Status</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='providerLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='providerLinker.filterable'
+                                        [(ngModel)]='filterInstance.provider'
+                                        [(selectedItem)]='filterInstance.provider'
+                                        (onSeek)='providerLinker.onSeek($event)'
+                                        (onInit)='providerLinker.onInit($event)'
+										(onReload)='providerLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><!-- Date --></th>
+							<th><!-- Time --></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.amount'
+                                       (input)='onSeek()'
+                                       placeholder='Search Amount' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.transactionID'
+                                       (input)='onSeek()'
+                                       placeholder='Search Transaction I D' /></th>
+							<th>
+                                <lookup [items]='transactionStatusLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='transactionStatusLinker.filterable'
+                                        [(ngModel)]='filterInstance.transactionStatus'
+                                        [(selectedItem)]='filterInstance.transactionStatus'
+                                        (onSeek)='transactionStatusLinker.onSeek($event)'
+                                        (onInit)='transactionStatusLinker.onInit($event)'
+										(onReload)='transactionStatusLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(providerPayOut of list$ | async; track providerPayOut; let i = $index) {
+                        <tr (click)='onSelect(providerPayOut)'
+                            (dblclick)='onDoubleClick(providerPayOutEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == providerPayOut.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ providerPayOut.provider?.descriptor }}</td>
+							<td>{{ providerPayOut.date| date:"fullDate" }}</td>
+							<td>{{ providerPayOut.time }}</td>
+							<td>{{ providerPayOut.amount }}</td>
+							<td>{{ providerPayOut.transactionID }}</td>
+							<td>{{ providerPayOut.transactionStatus?.descriptor }}</td>
+                            <td>
+                                <row-buttons route='/fund/providerPayOut'
+                                             (onEdit)='editRecord(providerPayOutEditUI, providerPayOut)'
+                                             [id]='providerPayOut.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<fund-providerPayOut-edit #providerPayOutEditUI
+                 (onClosed)='onEditClosed($event)' />
+<fund-providerPayOut-delete #providerPayOutDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

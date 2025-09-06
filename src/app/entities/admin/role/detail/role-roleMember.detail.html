@@ -1,0 +1,77 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Role</th>
+					<th>User Account</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='userAccountLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='userAccountLinker.filterable'
+                                [(ngModel)]='filterInstance.userAccount'
+                                [(selectedItem)]='filterInstance.userAccount'
+                                (onSeek)='userAccountLinker.onSeek($event)'
+                                (onInit)='userAccountLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(roleMember of list$ | async; track roleMember; let i = $index) {
+                <tr (click)='onRowClick(roleMember)'
+                    (dblclick)='onRowDblClick(roleMemberEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == roleMember?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ roleMember.role!.descriptor }}</td>
+					<td>{{ roleMember.userAccount!.descriptor }}</td>
+					<td>{{ roleMember.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='roleMember.id'
+                                     route='/admin/roleMember'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(roleMemberEditUI, roleMember)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(roleMemberEditUI)'
+                        (editButtonClick)='onEditButtonClick(roleMemberEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(roleMemberDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<admin-roleMember-edit #roleMemberEditUI 
+                                [roleLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<admin-roleMember-delete #roleMemberDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

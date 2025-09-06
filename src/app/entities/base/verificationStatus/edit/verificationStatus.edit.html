@@ -1,0 +1,55 @@
+<!-- Edit Form of [Base].[VerificationStatus] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Verification Status")'
+           (onClosed)='closed(false)'>
+    <form #verificationStatusEditUI='ngForm'
+          (ngSubmit)='Save(verificationStatusEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+            <!-- IsVerified -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsVerified'
+                       name='IsVerified'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isVerified' />
+                <label class='form-check-label'
+                       for='IsVerified'>
+                    Is Verified
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!verificationStatusEditUI.valid'
+                  (onSave)='Save(verificationStatusEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

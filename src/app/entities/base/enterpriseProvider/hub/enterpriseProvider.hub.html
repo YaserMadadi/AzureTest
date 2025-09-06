@@ -1,0 +1,155 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Enterprise Provider'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(enterpriseProviderEditUI)'
+                              (editButtonClick)='editRecord(enterpriseProviderEditUI)'
+                              (deleteButtonClick)='deleteRecord(enterpriseProviderDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Provider Type</th>
+						<th>User Account</th>
+						<th>Name</th>
+						<th>Profile Picture</th>
+						<th>Is Verified</th>
+						<th>Review Count</th>
+						<th>Rate</th>
+						<th>Is Active</th>
+						<th>Title</th>
+						<th>Business Number</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='providerTypeLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='providerTypeLinker.filterable'
+                                        [(ngModel)]='filterInstance.providerType'
+                                        [(selectedItem)]='filterInstance.providerType'
+                                        (onSeek)='providerTypeLinker.onSeek($event)'
+                                        (onInit)='providerTypeLinker.onInit($event)'
+										(onReload)='providerTypeLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='userAccountLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='userAccountLinker.filterable'
+                                        [(ngModel)]='filterInstance.userAccount'
+                                        [(selectedItem)]='filterInstance.userAccount'
+                                        (onSeek)='userAccountLinker.onSeek($event)'
+                                        (onInit)='userAccountLinker.onInit($event)'
+										(onReload)='userAccountLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.name'
+                                       (input)='onSeek()'
+                                       placeholder='Search Name' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.profilePicture'
+                                       (input)='onSeek()'
+                                       placeholder='Search Profile Picture' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isVerified'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Verified' /></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.reviewCount'
+                                       (input)='onSeek()'
+                                       placeholder='Search Review Count' /></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.rate'
+                                       (input)='onSeek()'
+                                       placeholder='Search Rate' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.businessNumber'
+                                       (input)='onSeek()'
+                                       placeholder='Search Business Number' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(enterpriseProvider of list$ | async; track enterpriseProvider; let i = $index) {
+                        <tr (click)='onSelect(enterpriseProvider)'
+                            (dblclick)='onDoubleClick(enterpriseProviderEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == enterpriseProvider.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ enterpriseProvider.providerType?.descriptor }}</td>
+							<td>{{ enterpriseProvider.userAccount?.descriptor }}</td>
+							<td>{{ enterpriseProvider.name }}</td>
+							<td>{{ enterpriseProvider.profilePicture }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='enterpriseProvider.isVerified' 
+                                       disabled />
+                            </td>
+							<td>{{ enterpriseProvider.reviewCount | number }}</td>
+							<td>{{ enterpriseProvider.rate| number }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='enterpriseProvider.isActive' 
+                                       disabled />
+                            </td>
+							<td>{{ enterpriseProvider.title }}</td>
+							<td>{{ enterpriseProvider.businessNumber }}</td>
+                            <td>
+                                <row-buttons route='/base/enterpriseProvider'
+                                             (onEdit)='editRecord(enterpriseProviderEditUI, enterpriseProvider)'
+                                             [id]='enterpriseProvider.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-enterpriseProvider-edit #enterpriseProviderEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-enterpriseProvider-delete #enterpriseProviderDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-enterpriseProviderInsurance-edit #enterpriseProviderInsuranceEditUI
+                        [enterpriseProviderLocked]='true' />

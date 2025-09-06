@@ -1,0 +1,60 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Provider Service'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Provider'>
+                            {{ currentInstance.provider?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Service Type'>
+                            {{ currentInstance.serviceType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'bookingService'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='bookingService'
+                                (dblclick)='navigateTo("base/bookingService")'>Booking Service</button>
+                        <button cTab
+                                itemKey='serviceOrientedWorkTime'
+                                (dblclick)='navigateTo("base/serviceOrientedWorkTime")'>Service Oriented Work Time</button>
+                        <button cTab
+                                itemKey='servicePrice'
+                                (dblclick)='navigateTo("base/servicePrice")'>Service Price</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='bookingService'>
+                            <base-providerService-bookingService-detail [providerService]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='serviceOrientedWorkTime'>
+                            <base-providerService-serviceOrientedWorkTime-detail [providerService]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='servicePrice'>
+                            <base-providerService-servicePrice-detail [providerService]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

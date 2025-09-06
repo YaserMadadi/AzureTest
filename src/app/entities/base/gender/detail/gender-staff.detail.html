@@ -1,0 +1,137 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>First Name</th>
+					<th>Middle Name</th>
+					<th>Last Name</th>
+					<th>Nick Name</th>
+					<th>Gender</th>
+					<th>User Account</th>
+					<th>Phone Number</th>
+					<th>Is Active</th>
+					<th>Note</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.firstName'
+                                (input)='onSeek()'
+                                placeholder='Search First Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.middleName'
+                                (input)='onSeek()'
+                                placeholder='Search Middle Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.lastName'
+                                (input)='onSeek()'
+                                placeholder='Search Last Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.nickName'
+                                (input)='onSeek()'
+                                placeholder='Search Nick Name' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='userAccountLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='userAccountLinker.filterable'
+                                [(ngModel)]='filterInstance.userAccount'
+                                [(selectedItem)]='filterInstance.userAccount'
+                                (onSeek)='userAccountLinker.onSeek($event)'
+                                (onInit)='userAccountLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.phoneNumber'
+                                (input)='onSeek()'
+                                placeholder='Search Phone Number' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(staff of list$ | async; track staff; let i = $index) {
+                <tr (click)='onRowClick(staff)'
+                    (dblclick)='onRowDblClick(staffEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == staff?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ staff.firstName }}</td>
+					<td>{{ staff.middleName }}</td>
+					<td>{{ staff.lastName }}</td>
+					<td>{{ staff.nickName }}</td>
+					<td>{{ staff.gender!.descriptor }}</td>
+					<td>{{ staff.userAccount!.descriptor }}</td>
+					<td>{{ staff.phoneNumber }}</td>
+					<td>{{ staff.isActive| isActive }}</td>
+					<td>{{ staff.note }}</td>
+					<td class='action'>
+                        <row-buttons [id]='staff.id'
+                                     route='/admin/staff'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(staffEditUI, staff)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(staffEditUI)'
+                        (editButtonClick)='onEditButtonClick(staffEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(staffDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<admin-staff-edit #staffEditUI 
+                                [genderLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<admin-staff-delete #staffDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

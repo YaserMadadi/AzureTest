@@ -1,0 +1,35 @@
+
+<!-- Delete Form of [Base].[ClientReview] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ClientReview")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #clientReviewDeleteUI='ngForm'
+          (ngSubmit)='onDelete(clientReviewDeleteUI)'>
+        <div class='container'>
+            <presenter name='client_Id'
+                       title='Client : '
+                       [value]='currentInstance.client!.descriptor' />
+			<presenter name='provider_Id'
+                       title='Provider : '
+                       [value]='currentInstance.provider!.descriptor' />
+			<presenter name='time'
+                       title='Time : '
+                       [value]='currentInstance.time | date:"fullDate"' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='rate'
+                       title='Rate : '
+                       [value]='currentInstance.rate | number' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(clientReviewDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

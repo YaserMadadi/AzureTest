@@ -1,0 +1,69 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Individual Provider'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Provider Type'>
+                            {{ currentInstance.providerType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='User Account'>
+                            {{ currentInstance.userAccount?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Name'>
+                            {{ currentInstance.name  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Profile Picture'>
+                            {{ currentInstance.profilePicture  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Verified'>
+                            {{ currentInstance.isVerified | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Review Count'>
+                            {{ currentInstance.reviewCount | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Rate'>
+                            {{ currentInstance.rate | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='First Name'>
+                            {{ currentInstance.firstName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Middle Name'>
+                            {{ currentInstance.middleName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Last Name'>
+                            {{ currentInstance.lastName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Nick Name'>
+                            {{ currentInstance.nickName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Gender'>
+                            {{ currentInstance.gender?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Date Of Birth'>
+                            {{ currentInstance.dateOfBirth | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Years Of Experience'>
+                            {{ currentInstance.yearsOfExperience | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Background Check Status'>
+                            {{ currentInstance.backgroundCheckStatus?.descriptor }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

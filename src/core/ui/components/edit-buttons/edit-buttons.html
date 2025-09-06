@@ -1,0 +1,5 @@
+<button class='m-1 px-5 btn button-edit pt-2'
+        [disabled]='disabled'
+        (click)='onSaveButtonClick()'>{{ saveButtonTitle }}</button>
+<button class='m-1 pe-5 ps-5 btn button-cancel pt-2'
+        (click)='onCancel.emit();'>{{ cancelButtonTitle }}</button>

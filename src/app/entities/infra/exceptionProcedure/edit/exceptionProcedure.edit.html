@@ -1,0 +1,129 @@
+<!-- Edit Form of [Infra].[ExceptionProcedure] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Exception Procedure")'
+           (onClosed)='closed(false)'>
+   <form #exceptionProcedureEditUI='ngForm'
+         (ngSubmit)='Save(exceptionProcedureEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Schema -->
+         <div class='form-floating mb-3'>
+            <input #schema
+                   required
+                   id='schema'
+                   name='schema'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.schema' />
+            <label for='schema'>Schema</label>
+         </div>
+         <!-- ProcedureName -->
+         <div class='form-floating mb-3'>
+            <input #procedureName
+                   required
+                   id='procedureName'
+                   name='procedureName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.procedureName' />
+            <label for='procedureName'>Procedure Name</label>
+         </div>
+         <!-- LineNumber -->
+         <div class='form-floating mb-3'>
+            <input #lineNumber
+                   required
+                   id='lineNumber'
+                   name='lineNumber'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.lineNumber' />
+            <label for='lineNumber'>Line Number</label>
+         </div>
+         <!-- UserAccount_Id -->
+         <div class='form-floating mb-3'>
+            <input #userAccount_Id
+                   required
+                   id='userAccount_Id'
+                   name='userAccount_Id'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.userAccount_Id' />
+            <label for='userAccount_Id'>User Account</label>
+         </div>
+         <!-- Date -->
+         <!-- <div class='form-floating mb-3'>
+                <input #date
+                   required
+                    id='date'
+                   name='date'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.date' />
+                <label for='date'>Date</label>
+            </div> -->
+         <!-- Time -->
+         <div class='form-floating mb-3'>
+            <input #time
+                   required
+                   id='time'
+                   name='time'
+                   class='form-control'
+                   type='time'
+                   [(ngModel)]='currentInstance.time' />
+            <label for='time'>Time</label>
+         </div>
+         <!-- ErrorNumber -->
+         <div class='form-floating mb-3'>
+            <input #errorNumber
+                   required
+                   id='errorNumber'
+                   name='errorNumber'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.errorNumber' />
+            <label for='errorNumber'>Error Number</label>
+         </div>
+         <!-- ErrorMessage -->
+         <div class='form-floating mb-3'>
+            <textarea #errorMessage
+                      id='errorMessage'
+                      name='errorMessage'
+                      class='form-control'
+                      rows='3'
+                      [(ngModel)]='currentInstance.errorMessage'></textarea>
+            <label for='errorMessage'>Error Message</label>
+         </div>
+         <!-- ErrorStatus -->
+         <div class='form-floating mb-3'>
+            <input #errorStatus
+                   required
+                   id='errorStatus'
+                   name='errorStatus'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.errorStatus' />
+            <label for='errorStatus'>Error Status</label>
+         </div>
+         <!-- IsChecked -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsChecked'
+                   name='IsChecked'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isChecked' />
+            <label class='form-check-label'
+                   for='IsChecked'>
+               Is Checked
+            </label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!exceptionProcedureEditUI.valid'
+                 (onSave)='Save(exceptionProcedureEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

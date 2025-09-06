@@ -1,0 +1,134 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Wallet Top Up'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(walletTopUpEditUI)'
+                              (editButtonClick)='editRecord(walletTopUpEditUI)'
+                              (deleteButtonClick)='deleteRecord(walletTopUpDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Client Wallet</th>
+						<th>Amount</th>
+				<!-- Date -->
+						<th>Date</th>
+				<!-- Time -->
+						<th>Time</th>
+						<th>Payment Method</th>
+						<th>Transaction I D</th>
+						<th>Transaction Status</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='clientWalletLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='clientWalletLinker.filterable'
+                                        [(ngModel)]='filterInstance.clientWallet'
+                                        [(selectedItem)]='filterInstance.clientWallet'
+                                        (onSeek)='clientWalletLinker.onSeek($event)'
+                                        (onInit)='clientWalletLinker.onInit($event)'
+										(onReload)='clientWalletLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='number'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.amount'
+                                       (input)='onSeek()'
+                                       placeholder='Search Amount' /></th>
+							<th><!-- Date --></th>
+							<th><!-- Time --></th>
+							<th>
+                                <lookup [items]='paymentMethodLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='paymentMethodLinker.filterable'
+                                        [(ngModel)]='filterInstance.paymentMethod'
+                                        [(selectedItem)]='filterInstance.paymentMethod'
+                                        (onSeek)='paymentMethodLinker.onSeek($event)'
+                                        (onInit)='paymentMethodLinker.onInit($event)'
+										(onReload)='paymentMethodLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.transactionID'
+                                       (input)='onSeek()'
+                                       placeholder='Search Transaction I D' /></th>
+							<th>
+                                <lookup [items]='transactionStatusLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='transactionStatusLinker.filterable'
+                                        [(ngModel)]='filterInstance.transactionStatus'
+                                        [(selectedItem)]='filterInstance.transactionStatus'
+                                        (onSeek)='transactionStatusLinker.onSeek($event)'
+                                        (onInit)='transactionStatusLinker.onInit($event)'
+										(onReload)='transactionStatusLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(walletTopUp of list$ | async; track walletTopUp; let i = $index) {
+                        <tr (click)='onSelect(walletTopUp)'
+                            (dblclick)='onDoubleClick(walletTopUpEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == walletTopUp.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ walletTopUp.clientWallet?.descriptor }}</td>
+							<td>{{ walletTopUp.amount }}</td>
+							<td>{{ walletTopUp.date| date:"fullDate" }}</td>
+							<td>{{ walletTopUp.time }}</td>
+							<td>{{ walletTopUp.paymentMethod?.descriptor }}</td>
+							<td>{{ walletTopUp.transactionID }}</td>
+							<td>{{ walletTopUp.transactionStatus?.descriptor }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='walletTopUp.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/fund/walletTopUp'
+                                             (onEdit)='editRecord(walletTopUpEditUI, walletTopUp)'
+                                             [id]='walletTopUp.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<fund-walletTopUp-edit #walletTopUpEditUI
+                 (onClosed)='onEditClosed($event)' />
+<fund-walletTopUp-delete #walletTopUpDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

@@ -1,0 +1,38 @@
+
+<!-- Delete Form of [Base].[UserAccount] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("UserAccount")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #userAccountDeleteUI='ngForm'
+          (ngSubmit)='onDelete(userAccountDeleteUI)'>
+        <div class='container'>
+            <presenter name='email'
+                       title='Email : '
+                       [value]='currentInstance.email' />
+			<presenter name='userType_Id'
+                       title='User Type : '
+                       [value]='currentInstance.userType!.descriptor' />
+			<presenter name='accountStatus_Id'
+                       title='Account Status : '
+                       [value]='currentInstance.accountStatus!.descriptor' />
+			<presenter name='statusNote'
+                       title='Status Note : '
+                       [value]='currentInstance.statusNote' />
+			<presenter name='emailIsVerified'
+                       title='Email Is Verified : '
+                       [value]='currentInstance.emailIsVerified | isActive' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(userAccountDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

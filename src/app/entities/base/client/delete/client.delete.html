@@ -1,0 +1,56 @@
+
+<!-- Delete Form of [Base].[Client] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Client")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #clientDeleteUI='ngForm'
+          (ngSubmit)='onDelete(clientDeleteUI)'>
+        <div class='container'>
+            <presenter name='firstName'
+                       title='First Name : '
+                       [value]='currentInstance.firstName' />
+			<presenter name='middleName'
+                       title='Middle Name : '
+                       [value]='currentInstance.middleName' />
+			<presenter name='lastName'
+                       title='Last Name : '
+                       [value]='currentInstance.lastName' />
+			<presenter name='nickName'
+                       title='Nick Name : '
+                       [value]='currentInstance.nickName' />
+			<presenter name='gender_Id'
+                       title='Gender : '
+                       [value]='currentInstance.gender!.descriptor' />
+			<presenter name='userAccount_Id'
+                       title='User Account : '
+                       [value]='currentInstance.userAccount!.descriptor' />
+			<presenter name='phoneNumber'
+                       title='Phone Number : '
+                       [value]='currentInstance.phoneNumber' />
+			<presenter name='phoneVerificationStatus_Id'
+                       title='Phone Verification Status : '
+                       [value]='currentInstance.phoneVerificationStatus!.descriptor' />
+			<presenter name='city_Id'
+                       title='City : '
+                       [value]='currentInstance.city!.descriptor' />
+			<presenter name='addressLine'
+                       title='Address Line : '
+                       [value]='currentInstance.addressLine' />
+			<presenter name='extendedAddressLine'
+                       title='Extended Address Line : '
+                       [value]='currentInstance.extendedAddressLine' />
+			<presenter name='postalCode'
+                       title='Postal Code : '
+                       [value]='currentInstance.postalCode' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(clientDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

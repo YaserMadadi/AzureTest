@@ -1,0 +1,44 @@
+
+<!-- Delete Form of [Fund].[WalletTopUp] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("WalletTopUp")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #walletTopUpDeleteUI='ngForm'
+          (ngSubmit)='onDelete(walletTopUpDeleteUI)'>
+        <div class='container'>
+            <presenter name='clientWallet_Id'
+                       title='Client Wallet : '
+                       [value]='currentInstance.clientWallet!.descriptor' />
+			<presenter name='amount'
+                       title='Amount : '
+                       [value]='currentInstance.amount ' />
+			<presenter name='date'
+                       title='Date : '
+                       [value]='currentInstance.date | date:"fullDate"' />
+			<presenter name='time'
+                       title='Time : '
+                       [value]='currentInstance.time' />
+			<presenter name='paymentMethod_Id'
+                       title='Payment Method : '
+                       [value]='currentInstance.paymentMethod!.descriptor' />
+			<presenter name='transactionID'
+                       title='Transaction I D : '
+                       [value]='currentInstance.transactionID' />
+			<presenter name='transactionStatus_Id'
+                       title='Transaction Status : '
+                       [value]='currentInstance.transactionStatus!.descriptor' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(walletTopUpDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

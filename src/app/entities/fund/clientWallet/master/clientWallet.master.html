@@ -1,0 +1,63 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Client Wallet'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Client'>
+                            {{ currentInstance.client?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Balance'>
+                            {{ currentInstance.balance  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Note'>
+                            {{ currentInstance.note  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'bookingTransaction'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='bookingTransaction'
+                                (dblclick)='navigateTo("fund/bookingTransaction")'>Booking Transaction</button>
+                        <button cTab
+                                itemKey='clientWalletTransactionLog'
+                                (dblclick)='navigateTo("fund/clientWalletTransactionLog")'>Client Wallet Transaction Log</button>
+                        <button cTab
+                                itemKey='walletTopUp'
+                                (dblclick)='navigateTo("fund/walletTopUp")'>Wallet Top Up</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='bookingTransaction'>
+                            <fund-clientWallet-bookingTransaction-detail [clientWallet]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='clientWalletTransactionLog'>
+                            <fund-clientWallet-clientWalletTransactionLog-detail [clientWallet]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='walletTopUp'>
+                            <fund-clientWallet-walletTopUp-detail [clientWallet]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

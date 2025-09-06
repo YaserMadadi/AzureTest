@@ -1,0 +1,31 @@
+.card-body {
+  background-color: #d8e7e0;
+  min-height: 180px;
+
+}
+
+.card-footer {
+  background-color: #d8e7e0;
+}
+
+.card {
+  &:hover {
+    border-color: green;
+  }
+}
+
+.btn-seek {
+  background-color: white;
+  color: rgb(48, 48, 49);
+
+  &:hover {
+    background-color: #96c39b;
+    color: white;
+  }
+}
+
+.service-icon {
+  width: 128px;
+  height: 128px;
+  filter: contrast(20%);
+}

@@ -1,0 +1,36 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Record Log'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Entity Name'>
+                            {{ currentInstance.entityName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Record I D'>
+                            {{ currentInstance.recordID | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='User'>
+                            {{ currentInstance.user_Id | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Effect Date'>
+                            {{ currentInstance.effectDate | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Action Mode'>
+                            {{ currentInstance.actionMode  }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

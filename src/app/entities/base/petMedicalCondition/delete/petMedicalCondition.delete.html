@@ -1,0 +1,29 @@
+
+<!-- Delete Form of [Base].[PetMedicalCondition] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("PetMedicalCondition")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #petMedicalConditionDeleteUI='ngForm'
+          (ngSubmit)='onDelete(petMedicalConditionDeleteUI)'>
+        <div class='container'>
+            <presenter name='pet_Id'
+                       title='Pet : '
+                       [value]='currentInstance.pet!.descriptor' />
+			<presenter name='medicationType_Id'
+                       title='Medication Type : '
+                       [value]='currentInstance.medicationType!.descriptor' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(petMedicalConditionDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

@@ -1,0 +1,60 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Verification Status'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Title'>
+                            {{ currentInstance.title  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Verified'>
+                            {{ currentInstance.isVerified | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'client'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='client'
+                                (dblclick)='navigateTo("base/client")'>Client</button>
+                        <button cTab
+                                itemKey='emailVerification'
+                                (dblclick)='navigateTo("base/emailVerification")'>Email Verification</button>
+                        <button cTab
+                                itemKey='phoneNumberVerification'
+                                (dblclick)='navigateTo("base/phoneNumberVerification")'>Phone Number Verification</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='client'>
+                            <base-verificationStatus-client-detail [verificationStatus]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='emailVerification'>
+                            <base-verificationStatus-emailVerification-detail [verificationStatus]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='phoneNumberVerification'>
+                            <base-verificationStatus-phoneNumberVerification-detail [verificationStatus]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

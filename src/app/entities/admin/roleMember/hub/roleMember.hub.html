@@ -1,0 +1,97 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Role Member'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(roleMemberEditUI)'
+                              (editButtonClick)='editRecord(roleMemberEditUI)'
+                              (deleteButtonClick)='deleteRecord(roleMemberDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Role</th>
+						<th>User Account</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='roleLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='roleLinker.filterable'
+                                        [(ngModel)]='filterInstance.role'
+                                        [(selectedItem)]='filterInstance.role'
+                                        (onSeek)='roleLinker.onSeek($event)'
+                                        (onInit)='roleLinker.onInit($event)'
+										(onReload)='roleLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='userAccountLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='userAccountLinker.filterable'
+                                        [(ngModel)]='filterInstance.userAccount'
+                                        [(selectedItem)]='filterInstance.userAccount'
+                                        (onSeek)='userAccountLinker.onSeek($event)'
+                                        (onInit)='userAccountLinker.onInit($event)'
+										(onReload)='userAccountLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(roleMember of list$ | async; track roleMember; let i = $index) {
+                        <tr (click)='onSelect(roleMember)'
+                            (dblclick)='onDoubleClick(roleMemberEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == roleMember.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ roleMember.role?.descriptor }}</td>
+							<td>{{ roleMember.userAccount?.descriptor }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='roleMember.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/admin/roleMember'
+                                             (onEdit)='editRecord(roleMemberEditUI, roleMember)'
+                                             [id]='roleMember.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<admin-roleMember-edit #roleMemberEditUI
+                 (onClosed)='onEditClosed($event)' />
+<admin-roleMember-delete #roleMemberDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

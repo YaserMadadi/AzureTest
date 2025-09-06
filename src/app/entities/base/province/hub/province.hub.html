@@ -1,0 +1,93 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Province'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(provinceEditUI)'
+                              (editButtonClick)='editRecord(provinceEditUI)'
+                              (deleteButtonClick)='deleteRecord(provinceDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Country</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th>
+                                <lookup [items]='countryLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='countryLinker.filterable'
+                                        [(ngModel)]='filterInstance.country'
+                                        [(selectedItem)]='filterInstance.country'
+                                        (onSeek)='countryLinker.onSeek($event)'
+                                        (onInit)='countryLinker.onInit($event)'
+										(onReload)='countryLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(province of list$ | async; track province; let i = $index) {
+                        <tr (click)='onSelect(province)'
+                            (dblclick)='onDoubleClick(provinceEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == province.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ province.title }}</td>
+							<td>{{ province.country?.descriptor }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='province.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/province'
+                                             (onEdit)='editRecord(provinceEditUI, province)'
+                                             [id]='province.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-province-edit #provinceEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-province-delete #provinceDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-city-edit #cityEditUI
+                        [provinceLocked]='true' />

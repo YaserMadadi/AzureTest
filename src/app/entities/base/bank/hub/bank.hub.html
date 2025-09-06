@@ -1,0 +1,79 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Bank'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(bankEditUI)'
+                              (editButtonClick)='editRecord(bankEditUI)'
+                              (deleteButtonClick)='deleteRecord(bankDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(bank of list$ | async; track bank; let i = $index) {
+                        <tr (click)='onSelect(bank)'
+                            (dblclick)='onDoubleClick(bankEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == bank.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ bank.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='bank.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/bank'
+                                             (onEdit)='editRecord(bankEditUI, bank)'
+                                             [id]='bank.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-bank-edit #bankEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-bank-delete #bankDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-providerBankAccount-edit #providerBankAccountEditUI
+                        [bankLocked]='true' />

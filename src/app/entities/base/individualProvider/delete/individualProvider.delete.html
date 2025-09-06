@@ -1,0 +1,65 @@
+
+<!-- Delete Form of [Base].[IndividualProvider] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("IndividualProvider")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #individualProviderDeleteUI='ngForm'
+          (ngSubmit)='onDelete(individualProviderDeleteUI)'>
+        <div class='container'>
+            <presenter name='providerType_Id'
+                       title='Provider Type : '
+                       [value]='currentInstance.providerType!.descriptor' />
+			<presenter name='userAccount_Id'
+                       title='User Account : '
+                       [value]='currentInstance.userAccount!.descriptor' />
+			<presenter name='name'
+                       title='Name : '
+                       [value]='currentInstance.name' />
+			<presenter name='profilePicture'
+                       title='Profile Picture : '
+                       [value]='currentInstance.profilePicture' />
+			<presenter name='isVerified'
+                       title='Is Verified : '
+                       [value]='currentInstance.isVerified | isActive' />
+			<presenter name='reviewCount'
+                       title='Review Count : '
+                       [value]='currentInstance.reviewCount | number' />
+			<presenter name='rate'
+                       title='Rate : '
+                       [value]='currentInstance.rate | number' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+			<presenter name='firstName'
+                       title='First Name : '
+                       [value]='currentInstance.firstName' />
+			<presenter name='middleName'
+                       title='Middle Name : '
+                       [value]='currentInstance.middleName' />
+			<presenter name='lastName'
+                       title='Last Name : '
+                       [value]='currentInstance.lastName' />
+			<presenter name='nickName'
+                       title='Nick Name : '
+                       [value]='currentInstance.nickName' />
+			<presenter name='gender_Id'
+                       title='Gender : '
+                       [value]='currentInstance.gender!.descriptor' />
+			<presenter name='dateOfBirth'
+                       title='Date Of Birth : '
+                       [value]='currentInstance.dateOfBirth | date:"fullDate"' />
+			<presenter name='yearsOfExperience'
+                       title='Years Of Experience : '
+                       [value]='currentInstance.yearsOfExperience | number' />
+			<presenter name='backgroundCheckStatus_Id'
+                       title='Background Check Status : '
+                       [value]='currentInstance.backgroundCheckStatus!.descriptor' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(individualProviderDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

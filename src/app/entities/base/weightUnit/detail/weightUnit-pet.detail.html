@@ -1,0 +1,144 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Client</th>
+					<th>Name</th>
+					<th>Gender</th>
+					<th>Breed</th>
+					<th>Weight</th>
+					<th>Weight Unit</th>
+					<th>Color</th>
+					<th>Date Of Birth</th>
+					<th>Profile Picture</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='clientLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='clientLinker.filterable'
+                                [(ngModel)]='filterInstance.client'
+                                [(selectedItem)]='filterInstance.client'
+                                (onSeek)='clientLinker.onSeek($event)'
+                                (onInit)='clientLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.name'
+                                (input)='onSeek()'
+                                placeholder='Search Name' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='genderLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='genderLinker.filterable'
+                                [(ngModel)]='filterInstance.gender'
+                                [(selectedItem)]='filterInstance.gender'
+                                (onSeek)='genderLinker.onSeek($event)'
+                                (onInit)='genderLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.breed'
+                                (input)='onSeek()'
+                                placeholder='Search Breed' />
+                    </th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.weight'
+                               (input)='onSeek()'
+                               placeholder='Search Weight' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.color'
+                                (input)='onSeek()'
+                                placeholder='Search Color' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.profilePicture'
+                                (input)='onSeek()'
+                                placeholder='Search Profile Picture' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(pet of list$ | async; track pet; let i = $index) {
+                <tr (click)='onRowClick(pet)'
+                    (dblclick)='onRowDblClick(petEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == pet?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ pet.client!.descriptor }}</td>
+					<td>{{ pet.name }}</td>
+					<td>{{ pet.gender!.descriptor }}</td>
+					<td>{{ pet.breed }}</td>
+					<td>{{ pet.weight| number }}</td>
+					<td>{{ pet.weightUnit!.descriptor }}</td>
+					<td>{{ pet.color }}</td>
+					<td>{{ pet.dateOfBirth| date:"fullDate" }}</td>
+					<td>{{ pet.profilePicture }}</td>
+					<td>{{ pet.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='pet.id'
+                                     route='/base/pet'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(petEditUI, pet)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(petEditUI)'
+                        (editButtonClick)='onEditButtonClick(petEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(petDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-pet-edit #petEditUI 
+                                [weightUnitLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-pet-delete #petDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

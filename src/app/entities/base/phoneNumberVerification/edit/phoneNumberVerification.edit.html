@@ -1,0 +1,85 @@
+<!-- Edit Form of [Base].[PhoneNumberVerification] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Phone Number Verification")'
+           (onClosed)='closed(false)'>
+    <form #phoneNumberVerificationEditUI='ngForm'
+          (ngSubmit)='Save(phoneNumberVerificationEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Client -->
+            <div class='mb-3'>
+                <lookup #client
+                        required
+                        name='client'
+                        label='Client : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='clientLinker.list$ | async'
+                        [locked]='clientLinker.locked'
+                        [filterable]='clientLinker.filterable'
+                        [(ngModel)]='currentInstance.client'
+                        [(selectedItem)]='currentInstance.client'
+                        (onSeek)='clientLinker.onSeek($event)'
+                        (onReload)='clientLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- VerificationCode -->
+            <div class='form-floating mb-3'>
+                <input #verificationCode
+                       required
+                       id='verificationCode'
+                       name='verificationCode'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.verificationCode' />
+                <label for='verificationCode'>Verification Code</label>
+            </div>
+            <!-- GenerateTime -->
+            <!-- <div class='form-floating mb-3'>
+                <input #generateTime
+                   required
+                    id='generateTime'
+                   name='generateTime'
+                   class='form-control'
+                   type='datetime'
+                   [(ngModel)]='currentInstance.generateTime' />
+                <label for='generateTime'>Generate Time</label>
+            </div> -->
+            <!-- ExpiryDate -->
+            <!-- <div class='form-floating mb-3'>
+                <input #expiryDate
+                   required
+                    id='expiryDate'
+                   name='expiryDate'
+                   class='form-control'
+                   type='datetime'
+                   [(ngModel)]='currentInstance.expiryDate' />
+                <label for='expiryDate'>Expiry Date</label>
+            </div> -->
+            <!-- Verification Status -->
+            <div class='mb-3'>
+                <lookup #verificationStatus
+                        required
+                        name='verificationStatus'
+                        label='Verification Status : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='verificationStatusLinker.list$ | async'
+                        [locked]='verificationStatusLinker.locked'
+                        [filterable]='verificationStatusLinker.filterable'
+                        [(ngModel)]='currentInstance.verificationStatus'
+                        [(selectedItem)]='currentInstance.verificationStatus'
+                        (onSeek)='verificationStatusLinker.onSeek($event)'
+                        (onReload)='verificationStatusLinker.onReloadList()'>
+                </lookup>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!phoneNumberVerificationEditUI.valid'
+                  (onSave)='Save(phoneNumberVerificationEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

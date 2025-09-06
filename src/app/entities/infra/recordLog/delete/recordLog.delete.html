@@ -1,0 +1,32 @@
+
+<!-- Delete Form of [Infra].[RecordLog] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("RecordLog")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #recordLogDeleteUI='ngForm'
+          (ngSubmit)='onDelete(recordLogDeleteUI)'>
+        <div class='container'>
+            <presenter name='entityName'
+                       title='Entity Name : '
+                       [value]='currentInstance.entityName' />
+			<presenter name='recordID'
+                       title='Record I D : '
+                       [value]='currentInstance.recordID | number' />
+			<presenter name='user_Id'
+                       title='User : '
+                       [value]='currentInstance.user_Id | number' />
+			<presenter name='effectDate'
+                       title='Effect Date : '
+                       [value]='currentInstance.effectDate | date:"fullDate"' />
+			<presenter name='actionMode'
+                       title='Action Mode : '
+                       [value]='currentInstance.actionMode' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(recordLogDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

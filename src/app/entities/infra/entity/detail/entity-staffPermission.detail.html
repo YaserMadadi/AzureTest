@@ -1,0 +1,123 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Staff</th>
+					<th>Entity</th>
+					<th>Add Permission</th>
+					<th>Edit Permission</th>
+					<th>Delete Permission</th>
+					<th>View Permission</th>
+					<th>Is Active</th>
+					<th>Note</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='staffLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='staffLinker.filterable'
+                                [(ngModel)]='filterInstance.staff'
+                                [(selectedItem)]='filterInstance.staff'
+                                (onSeek)='staffLinker.onSeek($event)'
+                                (onInit)='staffLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.addPermission'
+                               (change)='onSeek()'
+                               placeholder='Search Add Permission' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.editPermission'
+                               (change)='onSeek()'
+                               placeholder='Search Edit Permission' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.deletePermission'
+                               (change)='onSeek()'
+                               placeholder='Search Delete Permission' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.viewPermission'
+                               (change)='onSeek()'
+                               placeholder='Search View Permission' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(staffPermission of list$ | async; track staffPermission; let i = $index) {
+                <tr (click)='onRowClick(staffPermission)'
+                    (dblclick)='onRowDblClick(staffPermissionEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == staffPermission?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ staffPermission.staff!.descriptor }}</td>
+					<td>{{ staffPermission.entity!.descriptor }}</td>
+					<td>{{ staffPermission.addPermission| isActive }}</td>
+					<td>{{ staffPermission.editPermission| isActive }}</td>
+					<td>{{ staffPermission.deletePermission| isActive }}</td>
+					<td>{{ staffPermission.viewPermission| isActive }}</td>
+					<td>{{ staffPermission.isActive| isActive }}</td>
+					<td>{{ staffPermission.note }}</td>
+					<td class='action'>
+                        <row-buttons [id]='staffPermission.id'
+                                     route='/admin/staffPermission'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(staffPermissionEditUI, staffPermission)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(staffPermissionEditUI)'
+                        (editButtonClick)='onEditButtonClick(staffPermissionEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(staffPermissionDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<admin-staffPermission-edit #staffPermissionEditUI 
+                                [entityLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<admin-staffPermission-delete #staffPermissionDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

@@ -1,0 +1,222 @@
+<!-- Edit Form of [Base].[IndividualProvider] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Individual Provider")'
+           (onClosed)='closed(false)'>
+   <form #individualProviderEditUI='ngForm'
+         (ngSubmit)='Save(individualProviderEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Provider Type -->
+         <div class='mb-3'>
+            <lookup #providerType
+                    required
+                    name='providerType'
+                    label='Provider Type : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='providerTypeLinker.list$ | async'
+                    [locked]='providerTypeLinker.locked'
+                    [filterable]='providerTypeLinker.filterable'
+                    [(ngModel)]='currentInstance.providerType'
+                    [(selectedItem)]='currentInstance.providerType'
+                    (onSeek)='providerTypeLinker.onSeek($event)'
+                    (onReload)='providerTypeLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- User Account -->
+         <div class='mb-3'>
+            <lookup #userAccount
+                    required
+                    name='userAccount'
+                    label='User Account : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='userAccountLinker.list$ | async'
+                    [locked]='userAccountLinker.locked'
+                    [filterable]='userAccountLinker.filterable'
+                    [(ngModel)]='currentInstance.userAccount'
+                    [(selectedItem)]='currentInstance.userAccount'
+                    (onSeek)='userAccountLinker.onSeek($event)'
+                    (onReload)='userAccountLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Name -->
+         <div class='form-floating mb-3'>
+            <input #name
+                   required
+                   id='name'
+                   name='name'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.name' />
+            <label for='name'>Name</label>
+         </div>
+         <!-- ProfilePicture -->
+         <div class='form-floating mb-3'>
+            <input #profilePicture
+                   required
+                   id='profilePicture'
+                   name='profilePicture'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.profilePicture' />
+            <label for='profilePicture'>Profile Picture</label>
+         </div>
+         <!-- IsVerified -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsVerified'
+                   name='IsVerified'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isVerified' />
+            <label class='form-check-label'
+                   for='IsVerified'>
+               Is Verified
+            </label>
+         </div>
+         <!-- ReviewCount -->
+         <div class='form-floating mb-3'>
+            <input #reviewCount
+                   required
+                   id='reviewCount'
+                   name='reviewCount'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.reviewCount' />
+            <label for='reviewCount'>Review Count</label>
+         </div>
+         <!-- Rate -->
+         <div class='form-floating mb-3'>
+            <input #rate
+                   required
+                   id='rate'
+                   name='rate'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.rate' />
+            <label for='rate'>Rate</label>
+         </div>
+         <!-- IsActive -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsActive'
+                   name='IsActive'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isActive' />
+            <label class='form-check-label'
+                   for='IsActive'>
+               Is Active
+            </label>
+         </div>
+         <!-- FirstName -->
+         <div class='form-floating mb-3'>
+            <input #firstName
+                   required
+                   id='firstName'
+                   name='firstName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.firstName' />
+            <label for='firstName'>First Name</label>
+         </div>
+         <!-- MiddleName -->
+         <div class='form-floating mb-3'>
+            <input #middleName
+                   required
+                   id='middleName'
+                   name='middleName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.middleName' />
+            <label for='middleName'>Middle Name</label>
+         </div>
+         <!-- LastName -->
+         <div class='form-floating mb-3'>
+            <input #lastName
+                   required
+                   id='lastName'
+                   name='lastName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.lastName' />
+            <label for='lastName'>Last Name</label>
+         </div>
+         <!-- NickName -->
+         <div class='form-floating mb-3'>
+            <input #nickName
+                   required
+                   id='nickName'
+                   name='nickName'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.nickName' />
+            <label for='nickName'>Nick Name</label>
+         </div>
+         <!-- Gender -->
+         <div class='mb-3'>
+            <lookup #gender
+                    required
+                    name='gender'
+                    label='Gender : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='genderLinker.list$ | async'
+                    [locked]='genderLinker.locked'
+                    [filterable]='genderLinker.filterable'
+                    [(ngModel)]='currentInstance.gender'
+                    [(selectedItem)]='currentInstance.gender'
+                    (onSeek)='genderLinker.onSeek($event)'
+                    (onReload)='genderLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- DateOfBirth -->
+         <!-- <div class='form-floating mb-3'>
+                <input #dateOfBirth
+                   required
+                    id='dateOfBirth'
+                   name='dateOfBirth'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.dateOfBirth' />
+                <label for='dateOfBirth'>Date Of Birth</label>
+            </div> -->
+         <!-- YearsOfExperience -->
+         <div class='form-floating mb-3'>
+            <input #yearsOfExperience
+                   required
+                   id='yearsOfExperience'
+                   name='yearsOfExperience'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.yearsOfExperience' />
+            <label for='yearsOfExperience'>Years Of Experience</label>
+         </div>
+         <!-- Background Check Status -->
+         <div class='mb-3'>
+            <lookup #backgroundCheckStatus
+                    required
+                    name='backgroundCheckStatus'
+                    label='Background Check Status : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='backgroundCheckStatusLinker.list$ | async'
+                    [locked]='backgroundCheckStatusLinker.locked'
+                    [filterable]='backgroundCheckStatusLinker.filterable'
+                    [(ngModel)]='currentInstance.backgroundCheckStatus'
+                    [(selectedItem)]='currentInstance.backgroundCheckStatus'
+                    (onSeek)='backgroundCheckStatusLinker.onSeek($event)'
+                    (onReload)='backgroundCheckStatusLinker.onReloadList()'>
+            </lookup>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!individualProviderEditUI.valid'
+                 (onSave)='Save(individualProviderEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

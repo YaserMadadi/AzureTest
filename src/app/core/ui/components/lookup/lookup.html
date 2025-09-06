@@ -1,0 +1,63 @@
+<!--  Version 01 -->
+
+<div [class.l-wrapper]='!locked'
+     #lookupWrapper>
+    <label for="lookup-body"
+           [style.display]="hasLabel() ? 'block' : 'none'"
+           class="label">{{ label }}</label>
+
+    <div class="lookup-wrapper"
+         (click)="$event.stopPropagation()">
+        <div id="lookup-body"
+             class="lookup-selected-item-container lookup-wrapper">
+            <button class="btn btn-default  d-flex justify-content-between align-items-center w-100"
+                    type="button"
+                    [disabled]="locked"
+                    (click)="toggleDropdown($event)">
+                <span class="me-auto">{{ displayText }}
+                    <span *ngIf="hasSelectedItem && !locked"
+                          class="clear-button ms-2"
+                          (click)="clearSelection()">✕</span>
+                </span>
+                <i *ngIf='!locked'
+                   class="ms-2 bi bi-chevron-down"></i> <!-- Use your preferred icon here -->
+            </button>
+        </div>
+
+        <div class="dropdown-panel"
+             *ngIf="showDropdown">
+            <input #filterInput
+                   [style.display]="filterable ? 'block' : 'none'"
+                   id="filterInput"
+                   name="filterInput"
+                   type="text"
+                   (keydown)="onKeyDown($event)"
+                   [(ngModel)]="searchTerm"
+                   (ngModelChange)="onFilterInputChanged()"
+                   [placeholder]="filterPlaceHolder"
+                   class="filter-input form-control m-1" />
+
+
+            @if (items && items.length > 0) {
+            <div class="lookup-list">
+                @for (item of items; track i; let i = $index) {
+                <!-- <button class="lookup-item"
+                        [class.lookup-item-hover]="highlightedIndex == i"
+                        (click)="onSelectItem(item)">
+                    {{ item[textField] }}
+                </button> -->
+                <div class="lookup-item"
+                     [class.lookup-item-hover]="items[highlightedIndex]?.id == item.id"
+                     [class.lookup-item-selected]="selectedItem?.id == item.id"
+                     (click)="onSelectItem(item)">
+                    {{ item[textField] }}
+                    <p style="display: none;">{{ i }}</p>
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="dropdown-empty">{{ emptyListMessage }}</div>
+            }
+        </div>
+    </div>
+</div>

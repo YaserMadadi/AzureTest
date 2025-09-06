@@ -1,0 +1,65 @@
+<!-- Edit Form of [Base].[Certification] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Certification")'
+           (onClosed)='closed(false)'>
+    <form #certificationEditUI='ngForm'
+          (ngSubmit)='Save(certificationEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Certification Type -->
+            <div class='mb-3'>
+                <lookup #certificationType
+                        required
+                        name='certificationType'
+                        label='Certification Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='certificationTypeLinker.list$ | async'
+                        [locked]='certificationTypeLinker.locked'
+                        [filterable]='certificationTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.certificationType'
+                        [(selectedItem)]='currentInstance.certificationType'
+                        (onSeek)='certificationTypeLinker.onSeek($event)'
+                        (onReload)='certificationTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Cert Issuing Organization -->
+            <div class='mb-3'>
+                <lookup #certIssuingOrganization
+                        required
+                        name='certIssuingOrganization'
+                        label='Cert Issuing Organization : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='certIssuingOrganizationLinker.list$ | async'
+                        [locked]='certIssuingOrganizationLinker.locked'
+                        [filterable]='certIssuingOrganizationLinker.filterable'
+                        [(ngModel)]='currentInstance.certIssuingOrganization'
+                        [(selectedItem)]='currentInstance.certIssuingOrganization'
+                        (onSeek)='certIssuingOrganizationLinker.onSeek($event)'
+                        (onReload)='certIssuingOrganizationLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!certificationEditUI.valid'
+                  (onSave)='Save(certificationEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

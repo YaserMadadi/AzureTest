@@ -1,0 +1,12 @@
+<div class="card  mb-3">
+  <div class="card-header">
+    <ng-content select="[title]"></ng-content>
+  </div>
+  <div class="card-body">
+    <ng-content></ng-content>
+    <a href="#"
+       *ngIf='!editMode'
+       class="btn btn-outline-success btn-sm px-5">{{ buttonText }}</a>
+
+  </div>
+</div>

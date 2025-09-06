@@ -1,0 +1,64 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Staff'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='First Name'>
+                            {{ currentInstance.firstName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Middle Name'>
+                            {{ currentInstance.middleName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Last Name'>
+                            {{ currentInstance.lastName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Nick Name'>
+                            {{ currentInstance.nickName  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Gender'>
+                            {{ currentInstance.gender?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='User Account'>
+                            {{ currentInstance.userAccount?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Phone Number'>
+                            {{ currentInstance.phoneNumber  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+						<presenter-textbox title='Note'>
+                            {{ currentInstance.note  }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'staffPermission'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='staffPermission'
+                                (dblclick)='navigateTo("admin/staffPermission")'>Staff Permission</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='staffPermission'>
+                            <admin-staff-staffPermission-detail [staff]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

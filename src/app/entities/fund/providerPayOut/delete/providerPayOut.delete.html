@@ -1,0 +1,38 @@
+
+<!-- Delete Form of [Fund].[ProviderPayOut] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ProviderPayOut")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #providerPayOutDeleteUI='ngForm'
+          (ngSubmit)='onDelete(providerPayOutDeleteUI)'>
+        <div class='container'>
+            <presenter name='provider_Id'
+                       title='Provider : '
+                       [value]='currentInstance.provider!.descriptor' />
+			<presenter name='date'
+                       title='Date : '
+                       [value]='currentInstance.date | date:"fullDate"' />
+			<presenter name='time'
+                       title='Time : '
+                       [value]='currentInstance.time' />
+			<presenter name='amount'
+                       title='Amount : '
+                       [value]='currentInstance.amount ' />
+			<presenter name='transactionID'
+                       title='Transaction I D : '
+                       [value]='currentInstance.transactionID' />
+			<presenter name='transactionStatus_Id'
+                       title='Transaction Status : '
+                       [value]='currentInstance.transactionStatus!.descriptor' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(providerPayOutDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

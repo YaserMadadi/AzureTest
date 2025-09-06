@@ -1,0 +1,41 @@
+
+<!-- Delete Form of [Admin].[StaffPermission] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("StaffPermission")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #staffPermissionDeleteUI='ngForm'
+          (ngSubmit)='onDelete(staffPermissionDeleteUI)'>
+        <div class='container'>
+            <presenter name='staff_Id'
+                       title='Staff : '
+                       [value]='currentInstance.staff!.descriptor' />
+			<presenter name='entity_Id'
+                       title='Entity : '
+                       [value]='currentInstance.entity!.descriptor' />
+			<presenter name='addPermission'
+                       title='Add Permission : '
+                       [value]='currentInstance.addPermission | isActive' />
+			<presenter name='editPermission'
+                       title='Edit Permission : '
+                       [value]='currentInstance.editPermission | isActive' />
+			<presenter name='deletePermission'
+                       title='Delete Permission : '
+                       [value]='currentInstance.deletePermission | isActive' />
+			<presenter name='viewPermission'
+                       title='View Permission : '
+                       [value]='currentInstance.viewPermission | isActive' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(staffPermissionDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

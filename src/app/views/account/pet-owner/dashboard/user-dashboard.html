@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-sm-6">
+    <dashboard-item buttonText="update">
+      <div title><i class="bi bi-person"></i> User Info
+
+      </div>
+      <div class='card-body'>
+        <span *ngIf="client.id <= 0"
+              class="badge text-bg-warning">update nededed</span>
+        <p><strong>Name:</strong>{{ client.descriptor }}</p>
+        <p><strong>Phone:</strong>{{ client.phoneNumber }}</p>
+        <p><strong>Address:</strong>{{ client.addressLine + ', ' + client.city?.descriptor }}</p>
+      </div>
+    </dashboard-item>
+  </div>
+  <div class="col-sm-6">
+    <dashboard-item class="dash-item"
+                    buttonText="Topup">
+      <div class='card-body'>
+        <span *ngIf="client.id <= 0"
+              class="badge text-bg-warning">Topup your wallet</span>
+        <p><strong>Current Balance:</strong>{{ client.descriptor }}</p>
+      </div>
+      <div title><i class="bi bi-wallet"></i> Wallet</div>
+    </dashboard-item>
+  </div>
+  <div class="col-sm-12">
+    <dashboard-item buttonText="add / edit pets">
+      <div title><i class="bi bi-bag"></i> Pet Info</div>
+      <div class='card-body'>
+        <span *ngIf="client.id <= 0"
+              class="badge text-bg-warning">Add at least one pet</span>
+        <p><strong>Pet Name:</strong>{{ client.descriptor }}</p>
+        <p><strong>Pet Type:</strong></p>
+        <p><strong>Pet Age:</strong></p>
+      </div>
+    </dashboard-item>
+  </div>
+
+
+</div>

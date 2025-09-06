@@ -1,0 +1,16 @@
+<div class="action-buttons">
+
+	<button class="btn btn-link  btn-sm m-0 p-0 edit-text"
+					[disabled]='!editButtonEnable'
+					*ngIf="editButtonVisible"
+					(click)="onEdit.emit()">{{ editButtonText }}</button>
+	<button class="btn btn-outline-danger btn-sm m-0 p-0"
+					[disabled]='!deleteButtonEnable'
+					*ngIf="deleteButtonVisible"
+					(click)="onDelete.emit()">{{ deleteButtonText }}</button>
+	<button class="btn btn-link btn-sm m-0 p-0 detail-text"
+					[disabled]='!detailButtonEnable'
+					*ngIf="detailButtonVisible"
+					title="مشاهده جزییات بیشتر"
+					(click)='onNavigate()'>{{ detailButtonText }}</button>
+</div>

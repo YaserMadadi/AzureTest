@@ -1,0 +1,81 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Pet'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Client'>
+                            {{ currentInstance.client?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Name'>
+                            {{ currentInstance.name  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Gender'>
+                            {{ currentInstance.gender?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Breed'>
+                            {{ currentInstance.breed  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Weight'>
+                            {{ currentInstance.weight | number }}
+                        </presenter-textbox>
+						<presenter-textbox title='Weight Unit'>
+                            {{ currentInstance.weightUnit?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Color'>
+                            {{ currentInstance.color  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Date Of Birth'>
+                            {{ currentInstance.dateOfBirth | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Profile Picture'>
+                            {{ currentInstance.profilePicture  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                
+                <c-tabs [activeItemKey]="'booking'"
+                        class="m-3 detail-tabs">
+                    <c-tabs-list variant="tabs">
+                        
+                        <button cTab
+                                itemKey='booking'
+                                (dblclick)='navigateTo("base/booking")'>Booking</button>
+                        <button cTab
+                                itemKey='petBehavior'
+                                (dblclick)='navigateTo("base/petBehavior")'>Pet Behavior</button>
+                        <button cTab
+                                itemKey='petMedicalCondition'
+                                (dblclick)='navigateTo("base/petMedicalCondition")'>Pet Medical Condition</button>
+                    </c-tabs-list>
+                    <c-tabs-content>
+                        
+                        <c-tab-panel class='p-3'
+                                     itemKey='booking'>
+                            <base-pet-booking-detail [pet]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='petBehavior'>
+                            <base-pet-petBehavior-detail [pet]='currentInstance' />
+                        </c-tab-panel>
+                        <c-tab-panel class='p-3'
+                                     itemKey='petMedicalCondition'>
+                            <base-pet-petMedicalCondition-detail [pet]='currentInstance' />
+                        </c-tab-panel>
+                    </c-tabs-content>
+                </c-tabs>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,91 @@
+<!-- Edit Form of [Admin].[MenuItem] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Menu Item")'
+           (onClosed)='closed(false)'>
+    <form #menuItemEditUI='ngForm'
+          (ngSubmit)='Save(menuItemEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- Icon -->
+            <div class='form-floating mb-3'>
+                <input #icon
+                       required
+                       id='icon'
+                       name='icon'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.icon' />
+                <label for='icon'>Icon</label>
+            </div>
+            <!-- Url -->
+            <div class='form-floating mb-3'>
+                <input #url
+                       required
+                       id='url'
+                       name='url'
+                       class='form-control'
+                       type='url'
+                       [(ngModel)]='currentInstance.url' />
+                <label for='url'>Url</label>
+            </div>
+            <!-- Menu -->
+            <div class='mb-3'>
+                <lookup #menu
+                        required
+                        name='menu'
+                        label='Menu : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='menuLinker.list$ | async'
+                        [locked]='menuLinker.locked'
+                        [filterable]='menuLinker.filterable'
+                        [(ngModel)]='currentInstance.menu'
+                        [(selectedItem)]='currentInstance.menu'
+                        (onSeek)='menuLinker.onSeek($event)'
+                        (onReload)='menuLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!menuItemEditUI.valid'
+                  (onSave)='Save(menuItemEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

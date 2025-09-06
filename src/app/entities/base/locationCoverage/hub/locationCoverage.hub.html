@@ -1,0 +1,97 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Location Coverage'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(locationCoverageEditUI)'
+                              (editButtonClick)='editRecord(locationCoverageEditUI)'
+                              (deleteButtonClick)='deleteRecord(locationCoverageDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Provider</th>
+						<th>City</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='providerLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='providerLinker.filterable'
+                                        [(ngModel)]='filterInstance.provider'
+                                        [(selectedItem)]='filterInstance.provider'
+                                        (onSeek)='providerLinker.onSeek($event)'
+                                        (onInit)='providerLinker.onInit($event)'
+										(onReload)='providerLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <lookup [items]='cityLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='cityLinker.filterable'
+                                        [(ngModel)]='filterInstance.city'
+                                        [(selectedItem)]='filterInstance.city'
+                                        (onSeek)='cityLinker.onSeek($event)'
+                                        (onInit)='cityLinker.onInit($event)'
+										(onReload)='cityLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(locationCoverage of list$ | async; track locationCoverage; let i = $index) {
+                        <tr (click)='onSelect(locationCoverage)'
+                            (dblclick)='onDoubleClick(locationCoverageEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == locationCoverage.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ locationCoverage.provider?.descriptor }}</td>
+							<td>{{ locationCoverage.city?.descriptor }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='locationCoverage.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/locationCoverage'
+                                             (onEdit)='editRecord(locationCoverageEditUI, locationCoverage)'
+                                             [id]='locationCoverage.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-locationCoverage-edit #locationCoverageEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-locationCoverage-delete #locationCoverageDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

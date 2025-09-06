@@ -1,0 +1,67 @@
+<!-- Edit Form of [Infra].[ResultMessage] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Result Message")'
+           (onClosed)='closed(false)'>
+    <form #resultMessageEditUI='ngForm'
+          (ngSubmit)='Save(resultMessageEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Code -->
+            <div class='form-floating mb-3'>
+                <input #code
+                       required
+                       id='code'
+                       name='code'
+                       class='form-control'
+                       type='number'
+                       [(ngModel)]='currentInstance.code' />
+                <label for='code'>Code</label>
+            </div>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- MessageBody -->
+            <div class='form-floating mb-3'>
+                <textarea #messageBody
+                          id='messageBody'
+                          name='messageBody'
+                          class='form-control'
+                          rows='3'
+                          [(ngModel)]='currentInstance.messageBody'></textarea>
+                <label for='messageBody'>Message Body</label>
+            </div>
+            <!-- Message Type -->
+            <div class='mb-3'>
+                <lookup #messageType
+                        required
+                        name='messageType'
+                        label='Message Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='messageTypeLinker.list$ | async'
+                        [locked]='messageTypeLinker.locked'
+                        [filterable]='messageTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.messageType'
+                        [(selectedItem)]='currentInstance.messageType'
+                        (onSeek)='messageTypeLinker.onSeek($event)'
+                        (onReload)='messageTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!resultMessageEditUI.valid'
+                  (onSave)='Save(resultMessageEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

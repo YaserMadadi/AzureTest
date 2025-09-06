@@ -1,0 +1,29 @@
+
+<!-- Delete Form of [Infra].[ResultMessage] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ResultMessage")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #resultMessageDeleteUI='ngForm'
+          (ngSubmit)='onDelete(resultMessageDeleteUI)'>
+        <div class='container'>
+            <presenter name='code'
+                       title='Code : '
+                       [value]='currentInstance.code | number' />
+			<presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='messageBody'
+                       title='Message Body : '
+                       [value]='currentInstance.messageBody' />
+			<presenter name='messageType_Id'
+                       title='Message Type : '
+                       [value]='currentInstance.messageType!.descriptor' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(resultMessageDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

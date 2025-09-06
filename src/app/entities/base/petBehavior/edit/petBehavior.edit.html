@@ -1,0 +1,62 @@
+<!-- Edit Form of [Base].[PetBehavior] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Pet Behavior")'
+           (onClosed)='closed(false)'>
+    <form #petBehaviorEditUI='ngForm'
+          (ngSubmit)='Save(petBehaviorEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Pet -->
+            <div class='mb-3'>
+                <lookup #pet
+                        required
+                        name='pet'
+                        label='Pet : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='petLinker.list$ | async'
+                        [locked]='petLinker.locked'
+                        [filterable]='petLinker.filterable'
+                        [(ngModel)]='currentInstance.pet'
+                        [(selectedItem)]='currentInstance.pet'
+                        (onSeek)='petLinker.onSeek($event)'
+                        (onReload)='petLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Behavior Category -->
+            <div class='mb-3'>
+                <lookup #behaviorCategory
+                        required
+                        name='behaviorCategory'
+                        label='Behavior Category : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='behaviorCategoryLinker.list$ | async'
+                        [locked]='behaviorCategoryLinker.locked'
+                        [filterable]='behaviorCategoryLinker.filterable'
+                        [(ngModel)]='currentInstance.behaviorCategory'
+                        [(selectedItem)]='currentInstance.behaviorCategory'
+                        (onSeek)='behaviorCategoryLinker.onSeek($event)'
+                        (onReload)='behaviorCategoryLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!petBehaviorEditUI.valid'
+                  (onSave)='Save(petBehaviorEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

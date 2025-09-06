@@ -1,0 +1,18 @@
+.btn {
+  color: #cfd4de;
+
+  &:hover {
+    color: #f5cb00;
+  }
+
+  &:active {
+    border-color: transparent;
+    color: #ffa907;
+  }
+}
+
+.title {
+  padding-top: 9px;
+  padding-right: 20px;
+  color: #ffcc07;
+}

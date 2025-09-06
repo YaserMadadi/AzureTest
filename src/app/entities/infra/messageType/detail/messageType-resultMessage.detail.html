@@ -1,0 +1,84 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Code</th>
+					<th>Title</th>
+					<th>Message Body</th>
+					<th>Message Type</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.code'
+                               (input)='onSeek()'
+                               placeholder='Search Code' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.title'
+                                (input)='onSeek()'
+                                placeholder='Search Title' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.messageBody'
+                                (input)='onSeek()'
+                                placeholder='Search Message Body' />
+                    </th>
+					<th></th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(resultMessage of list$ | async; track resultMessage; let i = $index) {
+                <tr (click)='onRowClick(resultMessage)'
+                    (dblclick)='onRowDblClick(resultMessageEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == resultMessage?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ resultMessage.code| number }}</td>
+					<td>{{ resultMessage.title }}</td>
+					<td>{{ resultMessage.messageBody }}</td>
+					<td>{{ resultMessage.messageType!.descriptor }}</td>
+					<td class='action'>
+                        <row-buttons [id]='resultMessage.id'
+                                     route='/infra/resultMessage'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(resultMessageEditUI, resultMessage)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(resultMessageEditUI)'
+                        (editButtonClick)='onEditButtonClick(resultMessageEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(resultMessageDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<infra-resultMessage-edit #resultMessageEditUI 
+                                [messageTypeLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<infra-resultMessage-delete #resultMessageDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

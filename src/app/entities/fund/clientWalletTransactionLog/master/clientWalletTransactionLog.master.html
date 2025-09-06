@@ -1,0 +1,48 @@
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
+                <index-header class='card-header' 
+                          title='Client Wallet Transaction Log'
+                          [info]='currentInstance.info' />
+                <div class='card-body'>
+                    <div class='container'>
+                        <presenter-textbox title='Client Wallet'>
+                            {{ currentInstance.clientWallet?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Transaction Type'>
+                            {{ currentInstance.transactionType?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Amount'>
+                            {{ currentInstance.amount  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Date'>
+                            {{ currentInstance.date | date:"fullDate" }}
+                        </presenter-textbox>
+						<presenter-textbox title='Time'>
+                            {{ currentInstance.time  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Transaction Status'>
+                            {{ currentInstance.transactionStatus?.descriptor }}
+                        </presenter-textbox>
+						<presenter-textbox title='Balance'>
+                            {{ currentInstance.balance  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Note'>
+                            {{ currentInstance.note  }}
+                        </presenter-textbox>
+						<presenter-textbox title='Is Active'>
+                            {{ currentInstance.isActive | isActive }}
+                        </presenter-textbox>
+                    </div>
+                </div>
+                <div class='card-footer text-end'>
+                    <master-buttons (onRefreshClick)='onLoad()' />
+                </div>
+                <!-- // there is no detail tab -->
+            </div>
+        </div>
+    </div>
+</div>
+

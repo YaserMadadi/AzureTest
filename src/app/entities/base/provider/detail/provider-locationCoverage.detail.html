@@ -1,0 +1,87 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Provider</th>
+					<th>City</th>
+					<th>Note</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <lookup [items]='cityLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='cityLinker.filterable'
+                                [(ngModel)]='filterInstance.city'
+                                [(selectedItem)]='filterInstance.city'
+                                (onSeek)='cityLinker.onSeek($event)'
+                                (onInit)='cityLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(locationCoverage of list$ | async; track locationCoverage; let i = $index) {
+                <tr (click)='onRowClick(locationCoverage)'
+                    (dblclick)='onRowDblClick(locationCoverageEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == locationCoverage?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ locationCoverage.provider!.descriptor }}</td>
+					<td>{{ locationCoverage.city!.descriptor }}</td>
+					<td>{{ locationCoverage.note }}</td>
+					<td>{{ locationCoverage.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='locationCoverage.id'
+                                     route='/base/locationCoverage'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(locationCoverageEditUI, locationCoverage)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(locationCoverageEditUI)'
+                        (editButtonClick)='onEditButtonClick(locationCoverageEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(locationCoverageDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-locationCoverage-edit #locationCoverageEditUI 
+                                [providerLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-locationCoverage-delete #locationCoverageDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

@@ -1,0 +1,122 @@
+<!-- Edit Form of [Base].[ClientNotification] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Client Notification")'
+           (onClosed)='closed(false)'>
+    <form #clientNotificationEditUI='ngForm'
+          (ngSubmit)='Save(clientNotificationEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Client -->
+            <div class='mb-3'>
+                <lookup #client
+                        required
+                        name='client'
+                        label='Client : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='clientLinker.list$ | async'
+                        [locked]='clientLinker.locked'
+                        [filterable]='clientLinker.filterable'
+                        [(ngModel)]='currentInstance.client'
+                        [(selectedItem)]='currentInstance.client'
+                        (onSeek)='clientLinker.onSeek($event)'
+                        (onReload)='clientLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- SentTime -->
+            <!-- <div class='form-floating mb-3'>
+                <input #sentTime
+                   required
+                    id='sentTime'
+                   name='sentTime'
+                   class='form-control'
+                   type='datetime'
+                   [(ngModel)]='currentInstance.sentTime' />
+                <label for='sentTime'>Sent Time</label>
+            </div> -->
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- Message -->
+            <div class='form-floating mb-3'>
+                <input #message
+                       required
+                       id='message'
+                       name='message'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.message' />
+                <label for='message'>Message</label>
+            </div>
+            <!-- Notification Type -->
+            <div class='mb-3'>
+                <lookup #notificationType
+                        required
+                        name='notificationType'
+                        label='Notification Type : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='notificationTypeLinker.list$ | async'
+                        [locked]='notificationTypeLinker.locked'
+                        [filterable]='notificationTypeLinker.filterable'
+                        [(ngModel)]='currentInstance.notificationType'
+                        [(selectedItem)]='currentInstance.notificationType'
+                        (onSeek)='notificationTypeLinker.onSeek($event)'
+                        (onReload)='notificationTypeLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- IsRead -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsRead'
+                       name='IsRead'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isRead' />
+                <label class='form-check-label'
+                       for='IsRead'>
+                    Is Read
+                </label>
+            </div>
+            <!-- ReadTime -->
+            <!-- <div class='form-floating mb-3'>
+                <input #readTime
+                   required
+                    id='readTime'
+                   name='readTime'
+                   class='form-control'
+                   type='datetime'
+                   [(ngModel)]='currentInstance.readTime' />
+                <label for='readTime'>Read Time</label>
+            </div> -->
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!clientNotificationEditUI.valid'
+                  (onSave)='Save(clientNotificationEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

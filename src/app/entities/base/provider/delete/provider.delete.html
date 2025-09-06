@@ -1,0 +1,41 @@
+
+<!-- Delete Form of [Base].[Provider] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Provider")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #providerDeleteUI='ngForm'
+          (ngSubmit)='onDelete(providerDeleteUI)'>
+        <div class='container'>
+            <presenter name='providerType_Id'
+                       title='Provider Type : '
+                       [value]='currentInstance.providerType!.descriptor' />
+			<presenter name='userAccount_Id'
+                       title='User Account : '
+                       [value]='currentInstance.userAccount!.descriptor' />
+			<presenter name='name'
+                       title='Name : '
+                       [value]='currentInstance.name' />
+			<presenter name='profilePicture'
+                       title='Profile Picture : '
+                       [value]='currentInstance.profilePicture' />
+			<presenter name='isVerified'
+                       title='Is Verified : '
+                       [value]='currentInstance.isVerified | isActive' />
+			<presenter name='reviewCount'
+                       title='Review Count : '
+                       [value]='currentInstance.reviewCount | number' />
+			<presenter name='rate'
+                       title='Rate : '
+                       [value]='currentInstance.rate | number' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(providerDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

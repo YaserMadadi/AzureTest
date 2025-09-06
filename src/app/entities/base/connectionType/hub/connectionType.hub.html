@@ -1,0 +1,79 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Connection Type'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(connectionTypeEditUI)'
+                              (editButtonClick)='editRecord(connectionTypeEditUI)'
+                              (deleteButtonClick)='deleteRecord(connectionTypeDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(connectionType of list$ | async; track connectionType; let i = $index) {
+                        <tr (click)='onSelect(connectionType)'
+                            (dblclick)='onDoubleClick(connectionTypeEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == connectionType.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ connectionType.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='connectionType.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/connectionType'
+                                             (onEdit)='editRecord(connectionTypeEditUI, connectionType)'
+                                             [id]='connectionType.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-connectionType-edit #connectionTypeEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-connectionType-delete #connectionTypeDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-providerConnection-edit #providerConnectionEditUI
+                        [connectionTypeLocked]='true' />

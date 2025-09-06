@@ -1,0 +1,88 @@
+<section>
+  <!-- bg-light -->
+  <div class="container py-5">
+    <div class="row text-center py-3">
+      <div class="col-lg-6 m-auto">
+        <h1 class="h1">Take a Look at Nearby</h1>
+        <p>
+          Choose the care your pet needs today
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <!--Dog Walking -->
+      <div class="col-12 col-md-3 mb-4">
+        <item-card [title]="'Dog Walking'"
+                   [description]="'Daily walks to keep your pup happy and healthy.'"
+                   [imageUrl]="'../../../assets/icon/148-walking.png'">
+        </item-card>
+      </div>
+      <!--Dog Walking End-->
+
+      <!--Dog Sitting End-->
+      <div class="col-12 col-md-3 mb-4">
+        <item-card [title]="'Pet Sitting'"
+                   [description]="'Trusted care when you’re away.'"
+                   [imageUrl]="'../../../assets/icon/009-pet-care.png'">
+        </item-card>
+      </div>
+      <!--Pet Sitting End-->
+
+
+      <!-- Grooming -->
+      <div class="col-12 col-md-3 mb-4">
+        <item-card [title]="'Grooming'"
+                   [description]="'Keep your pet looking sharp and clean.'"
+                   [imageUrl]="'../../../assets/icon/021-grooming.png'">
+        </item-card>
+      </div>
+
+
+      <!-- Training -->
+      <div class="col-12 col-md-3 mb-4">
+        <item-card [title]="'Training'"
+                   [description]="'Teach your pet new tricks and good behavior.'"
+                   [imageUrl]="'../../../assets/icon/128-lie-down.png'">
+        </item-card>
+      </div>
+
+      <div class="col-12 col-md-3 mb-4"></div>
+
+      <div class="col-12 col-md-3 mb-4">
+        <item-card [title]="'Emergency Caregiver'"
+                   [description]="'Keep your pet safe and sound in emergencies.'"
+                   [imageUrl]="'../../../assets/icon/052-dog-7.png'">
+        </item-card>
+      </div>
+      <div class="col-12 col-md-3 mb-4">
+        <item-card [title]="'Pet Transportation'"
+                   [description]="'Safe and reliable transport for your pet.'"
+                   [imageUrl]="'../../../assets/icon/230-van.png'">
+        </item-card>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-4 p-5 mt-3"> </div>
+      <div class="col-12 col-md-4 p-5 mt-3">
+        <select id="myDropdown"
+                name="mySelection"
+                class='form-control'>
+          <option class='select-item'
+                  value="option1">Dog Walking</option>
+          <option class='select-item'
+                  value="option2">Pet Sitting</option>
+          <option class='select-item'
+                  value="option3">Grooming</option>
+          <option class='select-item'
+                  value="option4">Training</option>
+          <option class='select-item'
+                  value="option5">Emergency Caregiver</option>
+        </select>
+        <p class="text-center"><button type="button"
+                  class="btn btn-success m-2">Look around</button></p>
+
+      </div>
+    </div>
+  </div>
+</section>

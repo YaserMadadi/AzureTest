@@ -1,0 +1,68 @@
+<div class="container py-5">
+  <div class="row py-5">
+
+
+    <carousel-item imageUrl='../assets/icon/011-pet-house.png'
+                   imageClass='img-class'>
+      <h1 header
+          class="h1 text-success">
+        Join <strong>Pet</strong>Hub Today
+      </h1>
+      <p sub-header
+         class="h2">Trusted Care for Your Furry Friends</p>
+      PetHub connects you with trusted dog walkers, pet sitters, groomers, and more in your neighborhood. Book services
+      easily, track your pets, and manage payments all in one place.
+    </carousel-item>
+    <hr />
+    <form class="col-md-12 m-auto"
+          method="post"
+          autocomplete="off"
+          role="form">
+      <div class="row">
+        <div class="col-md-0 mb-3 text-center"
+             hidden>
+          <i class="bi bi-person-bounding-box"
+             style="font-size: 120px; text-align: center;"></i>
+        </div>
+        <div class="form-group col-md-12 mb-3">
+          <div class="row">
+            <div class="mb-3">
+              <label for="inputemail">Email</label>
+              <input type="email"
+                     class="form-control mt-1"
+                     id="email"
+                     name="email"
+                     [(ngModel)]="userAccount.email"
+                     placeholder="Email">
+            </div>
+            <div class="mb-3">
+              <label for="inputpassword">Password</label>
+              <input type="password"
+                     class="form-control mt-1"
+                     id="password"
+                     name="password"
+                     [(ngModel)]="userAccount.password"
+                     autocomplete="current-password"
+                     placeholder="Password">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button type="button"
+                  (click)="registerUser()"
+                  class="btn btn-outline-success btn-lg px-3 ">Register</button>
+        </div>
+      </div>
+    </form>
+    <hr class="m-4" />
+    <p>
+      If you already have an account, <a routerLink="/login">login here</a>.
+    </p>
+    <p>
+      Prefer to browse more? <a routerLink="/index">Go to Home</a>.
+    </p>
+  </div>
+</div>

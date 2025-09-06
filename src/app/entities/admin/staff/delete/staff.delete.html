@@ -1,0 +1,44 @@
+
+<!-- Delete Form of [Admin].[Staff] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("Staff")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #staffDeleteUI='ngForm'
+          (ngSubmit)='onDelete(staffDeleteUI)'>
+        <div class='container'>
+            <presenter name='firstName'
+                       title='First Name : '
+                       [value]='currentInstance.firstName' />
+			<presenter name='middleName'
+                       title='Middle Name : '
+                       [value]='currentInstance.middleName' />
+			<presenter name='lastName'
+                       title='Last Name : '
+                       [value]='currentInstance.lastName' />
+			<presenter name='nickName'
+                       title='Nick Name : '
+                       [value]='currentInstance.nickName' />
+			<presenter name='gender_Id'
+                       title='Gender : '
+                       [value]='currentInstance.gender!.descriptor' />
+			<presenter name='userAccount_Id'
+                       title='User Account : '
+                       [value]='currentInstance.userAccount!.descriptor' />
+			<presenter name='phoneNumber'
+                       title='Phone Number : '
+                       [value]='currentInstance.phoneNumber' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(staffDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

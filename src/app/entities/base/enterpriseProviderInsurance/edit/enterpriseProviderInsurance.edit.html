@@ -1,0 +1,59 @@
+<!-- Edit Form of [Base].[EnterpriseProviderInsurance] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Enterprise Provider Insurance")'
+           (onClosed)='closed(false)'>
+    <form #enterpriseProviderInsuranceEditUI='ngForm'
+          (ngSubmit)='Save(enterpriseProviderInsuranceEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Enterprise Provider -->
+            <div class='mb-3'>
+                <lookup #enterpriseProvider
+                        required
+                        name='enterpriseProvider'
+                        label='Enterprise Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='enterpriseProviderLinker.list$ | async'
+                        [locked]='enterpriseProviderLinker.locked'
+                        [filterable]='enterpriseProviderLinker.filterable'
+                        [(ngModel)]='currentInstance.enterpriseProvider'
+                        [(selectedItem)]='currentInstance.enterpriseProvider'
+                        (onSeek)='enterpriseProviderLinker.onSeek($event)'
+                        (onReload)='enterpriseProviderLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!enterpriseProviderInsuranceEditUI.valid'
+                  (onSave)='Save(enterpriseProviderInsuranceEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

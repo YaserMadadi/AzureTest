@@ -1,0 +1,79 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Medication Type'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(medicationTypeEditUI)'
+                              (editButtonClick)='editRecord(medicationTypeEditUI)'
+                              (deleteButtonClick)='deleteRecord(medicationTypeDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(medicationType of list$ | async; track medicationType; let i = $index) {
+                        <tr (click)='onSelect(medicationType)'
+                            (dblclick)='onDoubleClick(medicationTypeEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == medicationType.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ medicationType.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='medicationType.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/medicationType'
+                                             (onEdit)='editRecord(medicationTypeEditUI, medicationType)'
+                                             [id]='medicationType.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-medicationType-edit #medicationTypeEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-medicationType-delete #medicationTypeDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		
+		<base-petMedicalCondition-edit #petMedicalConditionEditUI
+                        [medicationTypeLocked]='true' />

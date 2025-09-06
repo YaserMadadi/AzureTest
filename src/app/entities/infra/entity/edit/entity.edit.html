@@ -1,0 +1,97 @@
+<!-- Edit Form of [Infra].[Entity] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Entity")'
+           (onClosed)='closed(false)'>
+   <form #entityEditUI='ngForm'
+         (ngSubmit)='Save(entityEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Schema -->
+         <div class='form-floating mb-3'>
+            <input #schema
+                   required
+                   id='schema'
+                   name='schema'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.schema' />
+            <label for='schema'>Schema</label>
+         </div>
+         <!-- Name -->
+         <div class='form-floating mb-3'>
+            <input #name
+                   required
+                   id='name'
+                   name='name'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.name' />
+            <label for='name'>Name</label>
+         </div>
+         <!-- Synonym -->
+         <div class='form-floating mb-3'>
+            <input #synonym
+                   required
+                   id='synonym'
+                   name='synonym'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.synonym' />
+            <label for='synonym'>Synonym</label>
+         </div>
+         <!-- GuideTitle -->
+         <div class='form-floating mb-3'>
+            <input #guideTitle
+                   required
+                   id='guideTitle'
+                   name='guideTitle'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.guideTitle' />
+            <label for='guideTitle'>Guide Title</label>
+         </div>
+         <!-- IndexUrl -->
+         <div class='form-floating mb-3'>
+            <input #indexUrl
+                   required
+                   id='indexUrl'
+                   name='indexUrl'
+                   class='form-control'
+                   type='url'
+                   [(ngModel)]='currentInstance.indexUrl' />
+            <label for='indexUrl'>Index Url</label>
+         </div>
+         <!-- RecordPerPage -->
+         <div class='form-floating mb-3'>
+            <input #recordPerPage
+                   required
+                   id='recordPerPage'
+                   name='recordPerPage'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.recordPerPage' />
+            <label for='recordPerPage'>Record Per Page</label>
+         </div>
+         <!-- IsActive -->
+         <div class='form-check'>
+            <input class='form-check-input'
+                   id='IsActive'
+                   name='IsActive'
+                   type='checkbox'
+                   value=''
+                   [(ngModel)]='currentInstance.isActive' />
+            <label class='form-check-label'
+                   for='IsActive'>
+               Is Active
+            </label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!entityEditUI.valid'
+                 (onSave)='Save(entityEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

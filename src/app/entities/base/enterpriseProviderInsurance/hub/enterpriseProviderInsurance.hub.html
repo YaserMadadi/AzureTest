@@ -1,0 +1,91 @@
+
+<div class='row'>
+    <div class='col-12'>
+        <div class='card'>
+            <index-header class='card-header' 
+                          title='Enterprise Provider Insurance'
+                          [info]='currentInstance.info' />
+            <div class='card-body'>
+                <index-button [currentInstance]='currentInstance'
+                              (addButtonClick)='addRecord(enterpriseProviderInsuranceEditUI)'
+                              (editButtonClick)='editRecord(enterpriseProviderInsuranceEditUI)'
+                              (deleteButtonClick)='deleteRecord(enterpriseProviderInsuranceDeleteUI)' 
+                              (refreshButtonClick)='onRefresh()'
+                              [quickAddItems]='quickAddItems'
+                              [linkedEntityItems]='linkedEntityItems'/>
+                <hr>
+                <table class='table table-striped table-hover'>
+                    <thead>
+                        <tr>
+                            <th class='row-number'></th>
+						<th>Enterprise Provider</th>
+						<th>Title</th>
+						<th>Is Active</th>
+						<th class='action'>Action</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+							<th>
+                                <lookup [items]='enterpriseProviderLinker.list$ | async'
+                                        [textField]='"descriptor"'
+                                        [valueField]='"id"'
+                                        [filterable]='enterpriseProviderLinker.filterable'
+                                        [(ngModel)]='filterInstance.enterpriseProvider'
+                                        [(selectedItem)]='filterInstance.enterpriseProvider'
+                                        (onSeek)='enterpriseProviderLinker.onSeek($event)'
+                                        (onInit)='enterpriseProviderLinker.onInit($event)'
+										(onReload)='enterpriseProviderLinker.onReloadList()'
+                                        (selectedItemChange)='onSeek()'>
+                                </lookup></th>
+							<th>
+                                <input type='text'
+                                       class='form-control'
+                                       [(ngModel)]='filterInstance.title'
+                                       (input)='onSeek()'
+                                       placeholder='Search Title' /></th>
+							<th><input type='checkbox'
+                                       [(ngModel)]='filterInstance.isActive'
+                                       (input)='onSeek()'
+                                       placeholder='Search Is Active' /></th>
+							<th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(enterpriseProviderInsurance of list$ | async; track enterpriseProviderInsurance; let i = $index) {
+                        <tr (click)='onSelect(enterpriseProviderInsurance)'
+                            (dblclick)='onDoubleClick(enterpriseProviderInsuranceEditUI, $event)'
+                            [class.table-primary]='currentInstance.id == enterpriseProviderInsurance.id'
+                            (mouseenter)='setIndex(i)'
+                            (mouseleave)='setIndex(-1)'
+                            class='table-row-hover'>
+                            <td class='row-number'>{{ i+1 }}</td>
+							<td>{{ enterpriseProviderInsurance.enterpriseProvider?.descriptor }}</td>
+							<td>{{ enterpriseProviderInsurance.title }}</td>
+							<td width='100px'>
+                                <input type='checkbox' 
+                                       [checked]='enterpriseProviderInsurance.isActive' 
+                                       disabled />
+                            </td>
+                            <td>
+                                <row-buttons route='/base/enterpriseProviderInsurance'
+                                             (onEdit)='editRecord(enterpriseProviderInsuranceEditUI, enterpriseProviderInsurance)'
+                                             [id]='enterpriseProviderInsurance.id'  
+                                             *ngIf='checkIndex(i)'/>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<base-enterpriseProviderInsurance-edit #enterpriseProviderInsuranceEditUI
+                 (onClosed)='onEditClosed($event)' />
+<base-enterpriseProviderInsurance-delete #enterpriseProviderInsuranceDeleteUI
+                   (onClosed)='onDeleteClosed($event)' />
+
+
+		

@@ -1,0 +1,35 @@
+
+<!-- Delete Form of [Base].[WorkTime] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("WorkTime")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #workTimeDeleteUI='ngForm'
+          (ngSubmit)='onDelete(workTimeDeleteUI)'>
+        <div class='container'>
+            <presenter name='provider_Id'
+                       title='Provider : '
+                       [value]='currentInstance.provider!.descriptor' />
+			<presenter name='weekDay_Id'
+                       title='Week Day : '
+                       [value]='currentInstance.weekDay!.descriptor' />
+			<presenter name='from'
+                       title='From : '
+                       [value]='currentInstance.from' />
+			<presenter name='to'
+                       title='To : '
+                       [value]='currentInstance.to' />
+			<presenter name='note'
+                       title='Note : '
+                       [value]='currentInstance.note' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(workTimeDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

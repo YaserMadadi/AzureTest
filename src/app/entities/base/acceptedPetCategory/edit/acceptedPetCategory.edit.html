@@ -1,0 +1,75 @@
+<!-- Edit Form of [Base].[AcceptedPetCategory] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Accepted Pet Category")'
+           (onClosed)='closed(false)'>
+    <form #acceptedPetCategoryEditUI='ngForm'
+          (ngSubmit)='Save(acceptedPetCategoryEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Provider -->
+            <div class='mb-3'>
+                <lookup #provider
+                        required
+                        name='provider'
+                        label='Provider : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='providerLinker.list$ | async'
+                        [locked]='providerLinker.locked'
+                        [filterable]='providerLinker.filterable'
+                        [(ngModel)]='currentInstance.provider'
+                        [(selectedItem)]='currentInstance.provider'
+                        (onSeek)='providerLinker.onSeek($event)'
+                        (onReload)='providerLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Pet Category -->
+            <div class='mb-3'>
+                <lookup #petCategory
+                        required
+                        name='petCategory'
+                        label='Pet Category : '
+                        textField='descriptor'
+                        valueField='id'
+                        [items]='petCategoryLinker.list$ | async'
+                        [locked]='petCategoryLinker.locked'
+                        [filterable]='petCategoryLinker.filterable'
+                        [(ngModel)]='currentInstance.petCategory'
+                        [(selectedItem)]='currentInstance.petCategory'
+                        (onSeek)='petCategoryLinker.onSeek($event)'
+                        (onReload)='petCategoryLinker.onReloadList()'>
+                </lookup>
+            </div>
+            <!-- Note -->
+            <div class='form-floating mb-3'>
+                <input #note
+                       id='note'
+                       name='note'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.note' />
+                <label for='note'>Note</label>
+            </div>
+            <!-- IsActive -->
+            <div class='form-check'>
+                <input class='form-check-input'
+                       id='IsActive'
+                       name='IsActive'
+                       type='checkbox'
+                       value=''
+                       [(ngModel)]='currentInstance.isActive' />
+                <label class='form-check-label'
+                       for='IsActive'>
+                    Is Active
+                </label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!acceptedPetCategoryEditUI.valid'
+                  (onSave)='Save(acceptedPetCategoryEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

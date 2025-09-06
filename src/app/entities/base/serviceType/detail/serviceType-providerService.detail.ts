@@ -1,0 +1,53 @@
+
+import { Component, inject, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { DetailUI } from '../../../../../core/ui/baseUI';
+import { SHARED_PIPES } from '../../../../../core/ui/pipes/sharedPipes';
+import { LookupComponent, RowButtons, DetailButton } from '../../../../../core/ui/components';
+import { ForeignkeyLinker } from '../../../../../core/ui/helper';
+
+
+import { ServiceType, ServiceType_ServiceCollection } from '../../serviceType';
+import { ProviderService, ProviderService_Builder } from '../../providerService';
+import { ProviderServiceEditUI } from '../../providerService/edit/providerService.edit'
+import { ProviderServiceDeleteUI } from '../../providerService/delete/providerService.delete'
+import { Provider, Provider_Service } from '../../provider';
+
+
+
+@Component({
+  selector: 'base-serviceType-providerService-detail',
+  templateUrl: './serviceType-providerService.detail.html',
+  styleUrls: ['./serviceType-providerService.detail.scss'],
+  imports: [
+    FormsModule,
+    CommonModule,
+    SHARED_PIPES,
+    DetailButton,
+    RowButtons,
+    LookupComponent,
+    ProviderServiceEditUI,        
+    ProviderServiceDeleteUI,
+  ]
+}) 
+export class ServiceType_ProviderService_DetailUI extends DetailUI<ServiceType, ProviderService> {
+
+  constructor(private serviceCollection: ServiceType_ServiceCollection = inject(ServiceType_ServiceCollection)) {
+    super(serviceCollection.CollectionOfProviderService.bind(serviceCollection), inject(ProviderService_Builder));
+    this.currentInstance = new ProviderService();
+  }
+
+  @Input()
+  public set serviceType(value: ServiceType) {
+    this.masterInstance = { ...value };
+    //this.currentInstance.serviceType = { ...value };
+    this.sourceInstance.serviceType = { ...value };
+  }
+
+  public providerLinker: ForeignkeyLinker<Provider> = new ForeignkeyLinker<Provider>(inject(Provider_Service), true);
+
+		
+
+}

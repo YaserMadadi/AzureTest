@@ -1,0 +1,83 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Client</th>
+					<th>Balance</th>
+					<th>Note</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					<th></th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.balance'
+                               (input)='onSeek()'
+                               placeholder='Search Balance' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(clientWallet of list$ | async; track clientWallet; let i = $index) {
+                <tr (click)='onRowClick(clientWallet)'
+                    (dblclick)='onRowDblClick(clientWalletEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == clientWallet?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ clientWallet.client!.descriptor }}</td>
+					<td>{{ clientWallet.balance }}</td>
+					<td>{{ clientWallet.note }}</td>
+					<td>{{ clientWallet.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='clientWallet.id'
+                                     route='/fund/clientWallet'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(clientWalletEditUI, clientWallet)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(clientWalletEditUI)'
+                        (editButtonClick)='onEditButtonClick(clientWalletEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(clientWalletDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<fund-clientWallet-edit #clientWalletEditUI 
+                                [clientLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<fund-clientWallet-delete #clientWalletDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

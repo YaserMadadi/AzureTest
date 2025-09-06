@@ -1,0 +1,106 @@
+<!-- Edit Form of [Fund].[ProviderPayOut] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Provider Pay Out")'
+           (onClosed)='closed(false)'>
+   <form #providerPayOutEditUI='ngForm'
+         (ngSubmit)='Save(providerPayOutEditUI)'
+         autocomplete='off'>
+      <div class='form-margin'>
+         <!-- Provider -->
+         <div class='mb-3'>
+            <lookup #provider
+                    required
+                    name='provider'
+                    label='Provider : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='providerLinker.list$ | async'
+                    [locked]='providerLinker.locked'
+                    [filterable]='providerLinker.filterable'
+                    [(ngModel)]='currentInstance.provider'
+                    [(selectedItem)]='currentInstance.provider'
+                    (onSeek)='providerLinker.onSeek($event)'
+                    (onReload)='providerLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Date -->
+         <!-- <div class='form-floating mb-3'>
+                <input #date
+                   required
+                    id='date'
+                   name='date'
+                   class='form-control'
+                   type='date'
+                   [(ngModel)]='currentInstance.date' />
+                <label for='date'>Date</label>
+            </div> -->
+         <!-- Time -->
+         <div class='form-floating mb-3'>
+            <input #time
+                   required
+                   id='time'
+                   name='time'
+                   class='form-control'
+                   type='time'
+                   [(ngModel)]='currentInstance.time' />
+            <label for='time'>Time</label>
+         </div>
+         <!-- Amount -->
+         <div class='form-floating mb-3'>
+            <input #amount
+                   required
+                   id='amount'
+                   name='amount'
+                   class='form-control'
+                   type='number'
+                   [(ngModel)]='currentInstance.amount' />
+            <label for='amount'>Amount</label>
+         </div>
+         <!-- TransactionID -->
+         <div class='form-floating mb-3'>
+            <input #transactionID
+                   required
+                   id='transactionID'
+                   name='transactionID'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.transactionID' />
+            <label for='transactionID'>Transaction I D</label>
+         </div>
+         <!-- Transaction Status -->
+         <div class='mb-3'>
+            <lookup #transactionStatus
+                    required
+                    name='transactionStatus'
+                    label='Transaction Status : '
+                    textField='descriptor'
+                    valueField='id'
+                    [items]='transactionStatusLinker.list$ | async'
+                    [locked]='transactionStatusLinker.locked'
+                    [filterable]='transactionStatusLinker.filterable'
+                    [(ngModel)]='currentInstance.transactionStatus'
+                    [(selectedItem)]='currentInstance.transactionStatus'
+                    (onSeek)='transactionStatusLinker.onSeek($event)'
+                    (onReload)='transactionStatusLinker.onReloadList()'>
+            </lookup>
+         </div>
+         <!-- Note -->
+         <div class='form-floating mb-3'>
+            <input #note
+                   id='note'
+                   name='note'
+                   class='form-control'
+                   type='text'
+                   [(ngModel)]='currentInstance.note' />
+            <label for='note'>Note</label>
+         </div>
+
+      </div>
+   </form>
+   <edit-buttons actions
+                 [disabled]='!providerPayOutEditUI.valid'
+                 (onSave)='Save(providerPayOutEditUI)'
+                 (onCancel)='onClose(false)'>
+   </edit-buttons>
+</app-modal>

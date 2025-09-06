@@ -1,0 +1,41 @@
+
+<!-- Delete Form of [Base].[ClientNotification] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ClientNotification")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #clientNotificationDeleteUI='ngForm'
+          (ngSubmit)='onDelete(clientNotificationDeleteUI)'>
+        <div class='container'>
+            <presenter name='client_Id'
+                       title='Client : '
+                       [value]='currentInstance.client!.descriptor' />
+			<presenter name='sentTime'
+                       title='Sent Time : '
+                       [value]='currentInstance.sentTime | date:"fullDate"' />
+			<presenter name='title'
+                       title='Title : '
+                       [value]='currentInstance.title' />
+			<presenter name='message'
+                       title='Message : '
+                       [value]='currentInstance.message' />
+			<presenter name='notificationType_Id'
+                       title='Notification Type : '
+                       [value]='currentInstance.notificationType!.descriptor' />
+			<presenter name='isRead'
+                       title='Is Read : '
+                       [value]='currentInstance.isRead | isActive' />
+			<presenter name='readTime'
+                       title='Read Time : '
+                       [value]='currentInstance.readTime | date:"fullDate"' />
+			<presenter name='isActive'
+                       title='Is Active : '
+                       [value]='currentInstance.isActive | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(clientNotificationDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

@@ -1,0 +1,29 @@
+<!-- Edit Form of [Base].[WeekDay] -->
+<app-modal #modal
+           [(Visible)]='modalVisible'
+           [Header]='header("Week Day")'
+           (onClosed)='closed(false)'>
+    <form #weekDayEditUI='ngForm'
+          (ngSubmit)='Save(weekDayEditUI)'
+          autocomplete='off'>
+        <div class='form-margin'>
+            <!-- Title -->
+            <div class='form-floating mb-3'>
+                <input #title
+                       required
+                       id='title'
+                       name='title'
+                       class='form-control'
+                       type='text'
+                       [(ngModel)]='currentInstance.title' />
+                <label for='title'>Title</label>
+            </div>
+
+        </div>
+    </form>
+    <edit-buttons actions
+                  [disabled]='!weekDayEditUI.valid'
+                  (onSave)='Save(weekDayEditUI)'
+                  (onCancel)='onClose(false)'>
+    </edit-buttons>
+</app-modal>

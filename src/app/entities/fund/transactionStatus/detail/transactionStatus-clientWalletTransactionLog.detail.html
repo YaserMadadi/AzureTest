@@ -1,0 +1,127 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Client Wallet</th>
+					<th>Transaction Type</th>
+					<th>Amount</th>
+					<th>Date</th>
+					<th>Time</th>
+					<th>Transaction Status</th>
+					<th>Balance</th>
+					<th>Note</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='clientWalletLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='clientWalletLinker.filterable'
+                                [(ngModel)]='filterInstance.clientWallet'
+                                [(selectedItem)]='filterInstance.clientWallet'
+                                (onSeek)='clientWalletLinker.onSeek($event)'
+                                (onInit)='clientWalletLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='transactionTypeLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='transactionTypeLinker.filterable'
+                                [(ngModel)]='filterInstance.transactionType'
+                                [(selectedItem)]='filterInstance.transactionType'
+                                (onSeek)='transactionTypeLinker.onSeek($event)'
+                                (onInit)='transactionTypeLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.amount'
+                               (input)='onSeek()'
+                               placeholder='Search Amount' />
+                    </th>
+					<th></th>
+					<th></th>
+					<th></th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.balance'
+                               (input)='onSeek()'
+                               placeholder='Search Balance' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(clientWalletTransactionLog of list$ | async; track clientWalletTransactionLog; let i = $index) {
+                <tr (click)='onRowClick(clientWalletTransactionLog)'
+                    (dblclick)='onRowDblClick(clientWalletTransactionLogEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == clientWalletTransactionLog?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ clientWalletTransactionLog.clientWallet!.descriptor }}</td>
+					<td>{{ clientWalletTransactionLog.transactionType!.descriptor }}</td>
+					<td>{{ clientWalletTransactionLog.amount }}</td>
+					<td>{{ clientWalletTransactionLog.date| date:"fullDate" }}</td>
+					<td>{{ clientWalletTransactionLog.time }}</td>
+					<td>{{ clientWalletTransactionLog.transactionStatus!.descriptor }}</td>
+					<td>{{ clientWalletTransactionLog.balance }}</td>
+					<td>{{ clientWalletTransactionLog.note }}</td>
+					<td>{{ clientWalletTransactionLog.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='clientWalletTransactionLog.id'
+                                     route='/fund/clientWalletTransactionLog'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(clientWalletTransactionLogEditUI, clientWalletTransactionLog)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(clientWalletTransactionLogEditUI)'
+                        (editButtonClick)='onEditButtonClick(clientWalletTransactionLogEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(clientWalletTransactionLogDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<fund-clientWalletTransactionLog-edit #clientWalletTransactionLogEditUI 
+                                [transactionStatusLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<fund-clientWalletTransactionLog-delete #clientWalletTransactionLogDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

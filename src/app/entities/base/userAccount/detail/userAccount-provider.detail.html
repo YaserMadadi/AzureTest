@@ -1,0 +1,126 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Provider Type</th>
+					<th>User Account</th>
+					<th>Name</th>
+					<th>Profile Picture</th>
+					<th>Is Verified</th>
+					<th>Review Count</th>
+					<th>Rate</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='providerTypeLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='providerTypeLinker.filterable'
+                                [(ngModel)]='filterInstance.providerType'
+                                [(selectedItem)]='filterInstance.providerType'
+                                (onSeek)='providerTypeLinker.onSeek($event)'
+                                (onInit)='providerTypeLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.name'
+                                (input)='onSeek()'
+                                placeholder='Search Name' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.profilePicture'
+                                (input)='onSeek()'
+                                placeholder='Search Profile Picture' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isVerified'
+                               (change)='onSeek()'
+                               placeholder='Search Is Verified' />
+                    </th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.reviewCount'
+                               (input)='onSeek()'
+                               placeholder='Search Review Count' />
+                    </th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.rate'
+                               (input)='onSeek()'
+                               placeholder='Search Rate' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(provider of list$ | async; track provider; let i = $index) {
+                <tr (click)='onRowClick(provider)'
+                    (dblclick)='onRowDblClick(providerEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == provider?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ provider.providerType!.descriptor }}</td>
+					<td>{{ provider.userAccount!.descriptor }}</td>
+					<td>{{ provider.name }}</td>
+					<td>{{ provider.profilePicture }}</td>
+					<td>{{ provider.isVerified| isActive }}</td>
+					<td>{{ provider.reviewCount| number }}</td>
+					<td>{{ provider.rate| number }}</td>
+					<td>{{ provider.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='provider.id'
+                                     route='/base/provider'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(providerEditUI, provider)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(providerEditUI)'
+                        (editButtonClick)='onEditButtonClick(providerEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(providerDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-provider-edit #providerEditUI 
+                                [userAccountLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-provider-delete #providerDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

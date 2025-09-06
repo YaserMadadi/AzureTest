@@ -1,0 +1,141 @@
+
+<div class="card text-center">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+					<th>Pet</th>
+					<th>Provider</th>
+					<th>Start Date</th>
+					<th>Start Time</th>
+					<th>Duration</th>
+					<th>Duration Unit</th>
+					<th>Total Amount</th>
+					<th>Booking Status</th>
+					<th>Note</th>
+					<th>Is Active</th>
+					<th></th>
+                </tr>
+                <tr> 
+                    <th></th>
+					
+					<th>
+                        <lookup [items]='petLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='petLinker.filterable'
+                                [(ngModel)]='filterInstance.pet'
+                                [(selectedItem)]='filterInstance.pet'
+                                (onSeek)='petLinker.onSeek($event)'
+                                (onInit)='petLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					<th></th>
+					<th></th>
+					<th></th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.duration'
+                               (input)='onSeek()'
+                               placeholder='Search Duration' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='durationUnitLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='durationUnitLinker.filterable'
+                                [(ngModel)]='filterInstance.durationUnit'
+                                [(selectedItem)]='filterInstance.durationUnit'
+                                (onSeek)='durationUnitLinker.onSeek($event)'
+                                (onInit)='durationUnitLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='number'
+                               class='form-control'
+                               [(ngModel)]='filterInstance.totalAmount'
+                               (input)='onSeek()'
+                               placeholder='Search Total Amount' />
+                    </th>
+					
+					<th>
+                        <lookup [items]='bookingStatusLinker.list$ | async'
+                                textField='descriptor'
+                                valueField='id'
+                                [filterable]='bookingStatusLinker.filterable'
+                                [(ngModel)]='filterInstance.bookingStatus'
+                                [(selectedItem)]='filterInstance.bookingStatus'
+                                (onSeek)='bookingStatusLinker.onSeek($event)'
+                                (onInit)='bookingStatusLinker.onInit($event)'
+                                (selectedItemChange)='onSeek()' />
+                    </th>
+					
+					<th>
+                        <input type='text'
+                                class='form-control'
+                                [(ngModel)]='filterInstance.note'
+                                (input)='onSeek()'
+                                placeholder='Search Note' />
+                    </th>
+					
+					<th>
+                        <input type='checkbox'
+                               [(ngModel)]='filterInstance.isActive'
+                               (change)='onSeek()'
+                               placeholder='Search Is Active' />
+                    </th>
+					
+					<th class='action'></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(booking of list$ | async; track booking; let i = $index) {
+                <tr (click)='onRowClick(booking)'
+                    (dblclick)='onRowDblClick(bookingEditUI, $event)'
+                    [class.table-primary]='currentInstance.id == booking?.id'
+                    (mouseenter)='setIndex(i)'
+                    (mouseleave)='setIndex(-1)'>
+                    <td>{{ i + 1 }}</td>
+					<td>{{ booking.pet!.descriptor }}</td>
+					<td>{{ booking.provider!.descriptor }}</td>
+					<td>{{ booking.startDate| date:"fullDate" }}</td>
+					<td>{{ booking.startTime }}</td>
+					<td>{{ booking.duration| number }}</td>
+					<td>{{ booking.durationUnit!.descriptor }}</td>
+					<td>{{ booking.totalAmount }}</td>
+					<td>{{ booking.bookingStatus!.descriptor }}</td>
+					<td>{{ booking.note }}</td>
+					<td>{{ booking.isActive| isActive }}</td>
+					<td class='action'>
+                        <row-buttons [id]='booking.id'
+                                     route='/base/booking'
+                                     *ngIf='checkIndex(i)'
+                                     (onEdit)='onEditButtonClick(bookingEditUI, booking)' />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class='card-footer text-body-secondary'>
+        <detail-buttons class='text-end'
+                        [currentInstance_Id]='currentInstance.id'
+                        (addButtonClick)='onAddButtonClick(bookingEditUI)'
+                        (editButtonClick)='onEditButtonClick(bookingEditUI)'
+                        (deleteButtonClick)='onDeleteButtonClick(bookingDeleteUI)'
+                        (refreshButtonClick)='onReload()'>
+        </detail-buttons>
+    </div>
+</div>
+
+<base-booking-edit #bookingEditUI 
+                                [providerLocked]='true'
+                                (onClosed)='onEditUIClosed($event)'/>
+<base-booking-delete #bookingDeleteUI 
+                                (onClosed)='onDeleteUIClosed($event)'/>
+

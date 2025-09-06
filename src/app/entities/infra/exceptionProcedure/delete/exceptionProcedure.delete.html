@@ -1,0 +1,47 @@
+
+<!-- Delete Form of [Infra].[ExceptionProcedure] -->
+
+<app-modal #deleteModal
+           [(Visible)]='modalVisible'
+           [Header]='header("ExceptionProcedure")'
+           (onClosed)='onClosed.emit(false)'>
+    <form #exceptionProcedureDeleteUI='ngForm'
+          (ngSubmit)='onDelete(exceptionProcedureDeleteUI)'>
+        <div class='container'>
+            <presenter name='schema'
+                       title='Schema : '
+                       [value]='currentInstance.schema' />
+			<presenter name='procedureName'
+                       title='Procedure Name : '
+                       [value]='currentInstance.procedureName' />
+			<presenter name='lineNumber'
+                       title='Line Number : '
+                       [value]='currentInstance.lineNumber | number' />
+			<presenter name='userAccount_Id'
+                       title='User Account : '
+                       [value]='currentInstance.userAccount_Id | number' />
+			<presenter name='date'
+                       title='Date : '
+                       [value]='currentInstance.date | date:"fullDate"' />
+			<presenter name='time'
+                       title='Time : '
+                       [value]='currentInstance.time' />
+			<presenter name='errorNumber'
+                       title='Error Number : '
+                       [value]='currentInstance.errorNumber | number' />
+			<presenter name='errorMessage'
+                       title='Error Message : '
+                       [value]='currentInstance.errorMessage' />
+			<presenter name='errorStatus'
+                       title='Error Status : '
+                       [value]='currentInstance.errorStatus | number' />
+			<presenter name='isChecked'
+                       title='Is Checked : '
+                       [value]='currentInstance.isChecked | isActive' />
+        </div>
+    </form>
+    <delete-buttons actions
+                    (onDelete)='onDelete(exceptionProcedureDeleteUI)'
+                    (onCancle)='onClose(false)'>
+    </delete-buttons>
+</app-modal>

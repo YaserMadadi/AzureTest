@@ -11,8 +11,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     RouterOutlet,
     AppHeader,
     TopBar,
-    Footer,
-    HttpClientModule
+    Footer
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

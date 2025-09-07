@@ -9,9 +9,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    AppHeader,
     TopBar,
-    Footer
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

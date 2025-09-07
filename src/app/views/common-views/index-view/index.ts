@@ -12,7 +12,6 @@ import { AppHeader } from "./header/header";
   styleUrls: ["./index.scss"],
   imports: [
     BannerHero,
-    FeaturedProduct,
     HowItWorkComponent,
     ServiceSeekComponent,
     Footer,

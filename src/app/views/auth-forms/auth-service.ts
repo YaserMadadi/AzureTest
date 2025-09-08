@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { EndPointController, Result, ResultData } from "../../core/tools";
-import { environment } from "../../../environment/environment";
+import { environment } from "../../../environments/environment";
 import { UserAccount as CoreUserAccount } from "./userAccount";
 import { UserAccount } from "../../entities/base/userAccount";
 

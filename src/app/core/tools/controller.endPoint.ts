@@ -5,7 +5,7 @@ import { Info } from "../info";
 import { Actions } from "./enum";
 import { Result } from "./Result";
 import { StorageController } from "./controller.storage";
-import { environment } from '../../../environment/environment';
+import { environment } from '../../../environments/environment';
 import { basePlacements } from "@popperjs/core";
 
 // export enum CompileMode {

@@ -2,7 +2,7 @@ import { lastValueFrom, map, Observable } from "rxjs";
 import { EndPointController, ResultData } from "../../core/tools";
 import { Menu, Menu_Service } from "../../entities/admin/menu";
 import { Injectable } from "@angular/core";
-import { environment } from "../../../environment/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class Menu_ExtendedService extends Menu_Service {

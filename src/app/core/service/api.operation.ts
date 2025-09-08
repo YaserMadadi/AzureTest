@@ -8,7 +8,7 @@ import { map, Observable } from "rxjs";
 import { EndPointController } from "../tools/controller.endPoint";
 import { HttpClient } from '@angular/common/http';
 import { Result } from '../../core/tools/Result';
-import { environment } from '../../../environment/environment';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({ providedIn: 'root' })

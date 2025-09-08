@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   debugMode: false,
-  apiUrl: 'https://pethub-d8fxfdcpb8dgccbd.canadacentral-01.azurewebsites.net/api',
+  baseUrl: 'https://pethub-d8fxfdcpb8dgccbd.canadacentral-01.azurewebsites.net/api',
   withCredential: true
 };
